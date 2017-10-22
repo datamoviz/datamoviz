@@ -28,5 +28,5 @@ const vizDiv = document.getElementById("viz");
 const chartWidth = vizDiv.clientWidth;
 const chartHeight = vizDiv.clientHeight;
 // d3.select('#viz').remove();
-window.addEventListener('resize', makeBarChart('viz', d3.range(10), chartWidth, chartHeight));
+// window.addEventListener('resize', makeBarChart('viz', d3.range(10), chartWidth, chartHeight));
 // buildCircleChart(chartWidth, chartHeight);
