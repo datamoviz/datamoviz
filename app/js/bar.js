@@ -23,7 +23,7 @@ class BarChart {
 
     // If empty create element
     if (this.svg.empty()) {
-      this.svg = d3.select('body')
+      this.svg = d3.select(`#${this.id}`)
                .insert('div')
                  .attr('id', this.id)
                .append('svg')

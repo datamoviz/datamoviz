@@ -1,13 +1,7 @@
-@import 'colors';
-
-html,
-body {
-    padding: 0;
-    margin: 0;
-}
+// File to be deleted
 
 .bars {
-  fill: $color-primary-2;
+  fill: red;
   opacity: 0.8;
 }
 
@@ -31,12 +25,4 @@ body {
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges;
-}
-
-#viz {
-  position: fixed;
-  left: 0px;
-  right: 0px;
-  top: 0px;
-  bottom: 0px;
 }

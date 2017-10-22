@@ -1,7 +1,7 @@
 {
   "name": "charts",
   "version": "1.0.0",
-  "description": "D3 charts es6 example",
+  "description": "BlockViz data visualization",
   "main": "app/main.js",
   "scripts": {
     "lint": "eslint 'app/**/*.@(js|jsx)'",
@@ -35,7 +35,9 @@
     "sass-loader": "^2.0.0",
     "style-loader": "^0.13.1",
     "webpack": "^2.1.0-beta.22",
-    "webpack-dev-server": "^2.1.0-beta.8"
+    "webpack-dev-server": "^2.1.0-beta.8",
+    "bootstrap-4-grid": "^2.0.0",
+    "bootstrap-reboot": "^0.1.1"
   },
   "keywords": [
     "es6",

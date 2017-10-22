@@ -2,13 +2,30 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>D3 test charts</title>
-  <link rel="stylesheet" type="text/css" href="main.css">
+  <meta name="description" content="BlockViz is a data visualization website about blockchains.">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BlockViz</title>
+  <link rel="stylesheet" type="text/css" href="main.css" />
 </head>
   <body>
-    <div id="viz" class="svg-container"></div>
+    <div class="container">
+      <header class="row">
+        <div class="col">
+          <h1>BlockViz: blockchain data visualization</h1>          
+        </div>
+      </header>
+      <main>
+        <section class="row">
+          <div class="col">
+            <h2>Map</h2>
+          </div>
+        </section>
+        <section>
+          <h2>Bar chart</h2>
+          <div id="viz" class="svg-container"></div>
+        </section>
+      </main>
+    </div>
     <script type="text/javascript" src="bundle.js"></script>
   </body>
 </html>
