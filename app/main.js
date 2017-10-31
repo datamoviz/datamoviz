@@ -18,3 +18,9 @@ const chartWidth = 800;
 const chartHeight = 400;
 
 window.addEventListener('resize', makeBarChart('viz', d3.range(10), chartWidth, chartHeight));
+
+// Homework
+
+import ColorHistogram from './js/color.js'
+
+new ColorHistogram('#colors', 'https://upload.wikimedia.org/wikipedia/commons/0/05/Odd-eyed_cat_by_ihasb33r.jpg?' + Math.random())

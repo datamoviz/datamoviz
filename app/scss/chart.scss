@@ -1,0 +1,19 @@
+svg {
+  g.axis {
+    line, path {
+      stroke: white;
+    }
+
+    text {
+      fill: white;
+    }
+  }
+
+  rect {
+    opacity: 0.3;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
