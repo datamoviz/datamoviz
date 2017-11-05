@@ -3,13 +3,19 @@ This repo contains boilerplate code for a d3 viz.
 First, install the packages:
 
 ```bash
-$ npm install
+cd client/
+npm install
+cd ../server
+npm install
 ```
 
 To start developing run:
 
 ```bash
-$ npm start
+cd client/
+npm start &
+cd ../server
+npm start &
 ```
 
 You should see a new browser tap opening and a title of "D3 Boilerplate" in http://127.0.0.1:8080.
