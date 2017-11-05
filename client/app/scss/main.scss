@@ -12,11 +12,21 @@ body {
     color: white;
     font-weight: normal;
     font-family: Arial, Helvetica, sans-serif;
+    font-size: #{3 - $i*0.5}em;
   }
 }
 
 header h1 {
+  padding: 20px 0;
   text-align: center;
-}
+  color: $global-color-light;
+  font-weight: bold;
 
-@import 'chart'
+  .name {
+    animation: 1s fade-in;
+    color: $global-color-primary;
+    font-weight: normal;
+  }
+}
+@import 'chart';
+@import 'animations';
