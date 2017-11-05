@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "babel-runtime": "latest",
+    "c3": "^0.4.18",
     "d3": "latest",
     "lodash": "latest"
   },
@@ -22,6 +23,8 @@
     "babel-preset-es2015": "latest",
     "babel-preset-react": "latest",
     "babel-preset-stage-0": "latest",
+    "bootstrap-4-grid": "^2.0.0",
+    "bootstrap-reboot": "^0.1.1",
     "copy-webpack-plugin": "latest",
     "css-loader": "^0.26.1",
     "eslint": "latest",
@@ -30,14 +33,14 @@
     "eslint-plugin-jsx-a11y": "latest",
     "eslint-plugin-react": "latest",
     "extract-text-webpack-plugin": "^2.0.0",
+    "file-loader": "^1.1.5",
     "node-sass": "^3.0.0",
     "open-browser-webpack-plugin": "latest",
     "sass-loader": "^2.0.0",
     "style-loader": "^0.13.1",
+    "url-loader": "^0.6.2",
     "webpack": "^2.1.0-beta.22",
-    "webpack-dev-server": "^2.1.0-beta.8",
-    "bootstrap-4-grid": "^2.0.0",
-    "bootstrap-reboot": "^0.1.1"
+    "webpack-dev-server": "^2.1.0-beta.8"
   },
   "keywords": [
     "es6",
