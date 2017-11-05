@@ -8,27 +8,75 @@
   <link rel="stylesheet" type="text/css" href="main.css" />
 </head>
   <body>
-    <div class="container">
-      <header class="row">
-        <div class="col">
-          <h1>
-            Data<span class="name">Moviz</span>
-          </h1>
-        </div>
-      </header>
-      <main>
-        <section id="movies"></section>
-        <section class="row">
-          <div class="col">
-            <h2>Map</h2>
+    <header>
+      <h1>
+        Data<span class="name">Moviz</span>
+      </h1>
+    </header>
+    <main>
+      <section id="filters" class="highlight">
+        <div class="container">
+          <div class="row">
+            <div class="col-12"><h2>Filters</h2></div>
+            <div class="col-md-6">
+              <h3>Genres</h4>
+              <div class="row">
+                <div class="col-sm-6 col-md-4">
+                  <input type="checkbox" id="genre-action" checked /> <label for="genre-action">Action</label>
+                </div>
+                <div class="col-sm-6 col-md-4">
+                  <input type="checkbox" id="genre-horror" checked /> <label for="genre-horror">Horror</label>
+                </div>
+                <div class="col-sm-6 col-md-4">
+                  <input type="checkbox" id="genre-crime" checked /> <label for="genre-crime">Crime</label>
+                </div>
+                <div class="col-sm-6 col-md-4">
+                  <input type="checkbox" id="genre-thriller" checked /> <label for="genre-thriller">Thriller</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <h3>Countries</h3>
+              <div class="row">
+                <div class="col-sm-6 col-md-4">
+                  <input type="checkbox" id="country-france" checked /> <label for="country-france">France</label>
+                </div>
+                <div class="col-sm-6 col-md-4">
+                  <input type="checkbox" id="country-canada" checked /> <label for="country-canada">Canada</label>
+                </div>
+              </div>
+            </div>
           </div>
-        </section>
-        <section>
-          <h2>Color</h2>
+        </div>
+      </section>
+      <section id="overview">
+        <div class="container">
+          <div class="row">
+            <div class="col-12"><h2>Overview</h2></div>
+            <div class="col-sm-3 col-md-2">
+              <input type="radio" id="overview-budget" /> <label for="overview-budget">Budget</label>
+            </div>
+            <div class="col-sm-3 col-md-2">
+              <input type="radio" id="overview-duration" /> <label for="overview-duration">Duration</label>
+            </div>
+            <div class="col-sm-3 col-md-2">
+              <input type="radio" id="overview-entries" /> <label for="overview-entries">Entries</label>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section>
+        <div class="container">
+          <div class="col-12"><h2>Map</h2></div>
+        </div>
+      </section>
+      <section>
+        <div class="container">
+          <div class="col-12"><h2>Homework (example)</h2></div>
           <div id="colors"></div>
-        </section>
-      </main>
-    </div>
+        </div>
+      </section>
+    </main>
     <script type="text/javascript" src="bundle.js"></script>
   </body>
 </html>

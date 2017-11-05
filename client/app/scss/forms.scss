@@ -1,0 +1,11 @@
+label {
+  display: inline-block;
+  height: 20px;
+  cursor: pointer;
+}
+
+input {
+  &[type=checkbox] {
+    margin: 0 5px 0 0;
+  }
+}
