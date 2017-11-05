@@ -1,19 +1,13 @@
-svg {
-  g.axis {
-    line, path {
-      stroke: white;
-    }
-
-    text {
-      fill: white;
-    }
+.c3 {
+  .c3-axis, .c3-legend-item {
+    fill: white;
   }
 
-  rect {
-    opacity: 0.3;
+  .c3-chart-line path {
+    stroke-width: 2px;
+  }
 
-    &:hover {
-      opacity: 1;
-    }
+  path, line {
+    stroke: white;
   }
 }
