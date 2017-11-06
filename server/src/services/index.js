@@ -4,4 +4,6 @@ module.exports = function () {
   const app = this; // eslint-disable-line no-unused-vars
   app.configure(movies);
   app.configure(credits);
+
+  require('./customs')(app);
 };
