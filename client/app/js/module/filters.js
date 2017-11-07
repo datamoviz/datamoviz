@@ -8,29 +8,25 @@ export default class FiltersModule {
 
   loadGenres() {
     return fetch('http://localhost:3030/genres')
-      .then(response => {
-        return response.json();
-      })
-      .then(json => {
-        return json;
-      });
+      .then(response => response.json())
+      .then(json => json);
   }
 
   showGenres() {
     const div = this.section.querySelector('#filters-genres');
 
-    this.loadGenres().then(genres => {
+    this.loadGenres().then((genres) => {
       div.innerHTML = '';
-      genres.forEach(genre => {
-        let genreDiv = document.createElement('div');
+      genres.forEach((genre) => {
+        const genreDiv = document.createElement('div');
         genreDiv.classList.add('col-sm-6', 'col-md-4');
 
-        let genreInput = document.createElement('input');
+        const genreInput = document.createElement('input');
         genreInput.setAttribute('type', 'checkbox');
         genreInput.setAttribute('id', `genre-${genre.name}`);
         genreInput.setAttribute('checked', true);
 
-        let genreLabel = document.createElement('label');
+        const genreLabel = document.createElement('label');
         genreLabel.setAttribute('for', `genre-${genre.name}`);
         genreLabel.innerHTML = genre.name;
 
@@ -39,7 +35,7 @@ export default class FiltersModule {
 
         div.append(genreDiv);
       });
-    })
+    });
   }
 
   render() {

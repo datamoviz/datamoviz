@@ -15,6 +15,6 @@ const modules = [
   new OverviewModule('#overview-chart')
 ];
 
-modules.forEach(module => {
+modules.forEach((module) => {
   module.render();
-})
+});

@@ -10,7 +10,7 @@ export default class BaseChart {
       .attr('width', width)
       .attr('height', height)
       .append('g')
-        .attr('transform', `translate(${padding.left}, ${padding.top})`);
+      .attr('transform', `translate(${padding.left}, ${padding.top})`);
   }
 
   renderAxis(scaleX, scaleY) {
