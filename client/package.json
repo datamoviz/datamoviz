@@ -13,6 +13,7 @@
     "babel-runtime": "latest",
     "c3": "^0.4.18",
     "d3": "latest",
+    "font-awesome": "^4.7.0",
     "lodash": "latest"
   },
   "devDependencies": {
