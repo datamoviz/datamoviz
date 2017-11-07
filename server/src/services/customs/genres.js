@@ -1,8 +1,10 @@
 module.exports = function (app) {
-  const moviesService = app.service('movies');
+
   app.use('/genres', {
     find() {
-      return moviesService.find();
+      return app.get('mongoClient').then(db => {
+        return db.collection('movies').distinct( 'genres' );
+      });
     },
   });
 };
