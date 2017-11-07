@@ -19,16 +19,28 @@ p {
   margin-bottom: 5px;
 }
 
-header h1 {
-  padding: 20px 0;
-  text-align: center;
-  margin: 0;
-  font-family: Pacifico, sans-serif;
+header {
+  h1 {
+    padding: 20px 0;
+    text-align: center;
+    margin: 0;
+    font-family: Pacifico, sans-serif;
 
-  .name {
-    animation: 2s fade-in;
+    .name {
+      animation: 2s fade-in;
+      color: $global-color-primary;
+      font-weight: normal;
+    }
+  }
+
+  .movies-count {
+    font-family: Pacifico, sans-serif;
+    font-size: 1.5em;
+    text-align: right;
+
+    span {
     color: $global-color-primary;
-    font-weight: normal;
+    }
   }
 }
 

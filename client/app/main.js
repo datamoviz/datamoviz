@@ -5,13 +5,16 @@ import 'font-awesome/scss/font-awesome.scss';
 import './scss/main.scss';
 
 import HomeworkModule from './js/module/homework';
-import ActorNetworkModule from './js/module/actor-network';
+
+import HeaderModule from './js/module/header'
 import FiltersModule from './js/module/filters';
 import OverviewModule from './js/module/overview';
+import ActorNetworkModule from './js/module/actor-network';
 
 const modules = [
   new HomeworkModule('#colors', 'https://upload.wikimedia.org/wikipedia/commons/0/05/Odd-eyed_cat_by_ihasb33r.jpg'),
 
+  new HeaderModule('header-movies-count'),
   new FiltersModule('#filters'),
   new OverviewModule('#overview-chart'),
   new ActorNetworkModule('#actor-network')

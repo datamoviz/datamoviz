@@ -22,6 +22,11 @@ input {
     background: $global-color-primary;
     border: 0;
 
+    &.is-highlighted {
+      background: darken($global-color-primary, 5);
+      border: 0;
+    }
+
     .choices__button {
       border-left-color: rgba(255, 255, 255, 0.5);
     }
