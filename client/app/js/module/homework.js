@@ -6,11 +6,11 @@ import ColorHistogram from '../color';
 export default class HomeworkModule {
   constructor(selector, image) {
     this.selector = selector;
-    this.image = image + '?' + Math.random()
+    this.image = `${image}?${Math.random()}`;
   }
 
   render() {
-    let histogram = new ColorHistogram(this.selector);
+    const histogram = new ColorHistogram(this.selector);
     histogram.render(this.image);
   }
 }
