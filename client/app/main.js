@@ -6,13 +6,16 @@ import 'c3/src/scss/main.scss';
 import './scss/main.scss';
 
 import HomeworkModule from './js/module/homework';
+import ActorNetworkModule from './js/module/actor-network';
 import FiltersModule from './js/module/filters';
 import OverviewModule from './js/module/overview';
 
 const modules = [
   new HomeworkModule('#colors', 'https://upload.wikimedia.org/wikipedia/commons/0/05/Odd-eyed_cat_by_ihasb33r.jpg'),
+  new ActorNetworkModule('#actor-network'),
   new FiltersModule('#filters'),
   new OverviewModule('#overview-chart')
+
 ];
 
 modules.forEach((module) => {
