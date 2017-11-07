@@ -1,10 +1,8 @@
 module.exports = function (app) {
   const moviesService = app.service('movies');
-  app.use('/genres', {
+  app.use('/movies/count', {
     find() {
-      return moviesService.find({query:{
-        budget:0
-      }});
+      return moviesService.count()
     },
   });
 };
