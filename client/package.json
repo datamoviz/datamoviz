@@ -12,6 +12,8 @@
   "dependencies": {
     "babel-runtime": "latest",
     "c3": "^0.4.18",
+    "choices.js": "^3.0.2",
+    "countup.js": "^1.9.3",
     "d3": "latest",
     "font-awesome": "^4.7.0",
     "lodash": "latest"

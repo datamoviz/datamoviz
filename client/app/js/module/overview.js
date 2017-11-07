@@ -1,4 +1,5 @@
 import c3 from 'c3';
+import 'c3/src/scss/main.scss';
 
 /**
  * This module is in charge to handle the rendering of the overall movies
