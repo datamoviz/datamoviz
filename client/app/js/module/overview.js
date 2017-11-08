@@ -1,5 +1,7 @@
-import c3 from 'c3';
 import 'c3/src/scss/main.scss';
+
+import c3 from 'c3';
+import { filtersStore } from '../store';
 
 /**
  * This module is in charge to handle the rendering of the overall movies
@@ -21,6 +23,10 @@ export default class OverviewModule {
           'Evolution of movies budget': '#009946'
         }
       }
+    });
+
+    document.addEventListener('filtersUpdate', function() {
+      console.log(filtersStore.getFilters());
     });
   }
 }

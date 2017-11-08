@@ -1,5 +1,8 @@
-import Choices from 'choices.js';
 import 'choices.js/assets/styles/scss/choices.scss';
+
+import Choices from 'choices.js';
+import { filtersStore } from '../store';
+import $ from 'jquery';
 
 /**
  * This module is in charge to handle the filters.
@@ -7,6 +10,8 @@ import 'choices.js/assets/styles/scss/choices.scss';
 export default class FiltersModule {
   constructor(selector) {
     this.section = document.querySelector(selector);
+
+    filtersStore.reset();
   }
 
   loadGenres() {
@@ -65,11 +70,21 @@ export default class FiltersModule {
       })
 
       div.append(select);
-      new Choices(select, {
+      const choices = new Choices(select, {
         renderChoiceLimit: 10,
         removeItemButton: true
       });
+
+      select.addEventListener('change', function() {
+        let filters = filtersStore.getFilters();
+        filters.only_countries = $(this).val();
+        filtersStore.setFilters(filters);
+      });
     })
+  }
+
+  updateFilters(genres, countries) {
+
   }
 
   render() {

@@ -16,6 +16,7 @@
     "countup.js": "^1.9.3",
     "d3": "latest",
     "font-awesome": "^4.7.0",
+    "jquery": "^3.2.1",
     "lodash": "latest"
   },
   "devDependencies": {
