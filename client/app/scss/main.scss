@@ -26,6 +26,15 @@ header {
     margin: 0;
     font-family: Pacifico, sans-serif;
 
+    a {
+      color: white;
+
+      &:hover {
+        text-decoration: none;
+        color: white;
+      }
+    }
+
     .name {
       animation: 2s fade-in;
       color: $global-color-primary;
