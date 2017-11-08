@@ -46,40 +46,45 @@ export default class FiltersModule {
     filtersStore.setFilters(filters);
   }
 
+  appendGenre(genre, div) {
+    const genreDiv = document.createElement('div');
+    genreDiv.classList.add('col-sm-6', 'col-md-4');
+
+    const genreInput = document.createElement('input');
+    genreInput.setAttribute('type', 'checkbox');
+    genreInput.setAttribute('id', `filters-genre-${genre.name}`);
+    genreInput.setAttribute('checked', true);
+    genreInput.setAttribute('value', genre.value);
+    $(genreInput).on('click', this.toggleGenre);
+
+    const genreLabel = document.createElement('label');
+    genreLabel.setAttribute('for', `filters-genre-${genre.name}`);
+    genreLabel.innerHTML = genre.name;
+
+    genreDiv.append(genreInput);
+    genreDiv.append(genreLabel);
+    div.append(genreDiv);
+  }
+
   showGenres() {
     const div = this.section.querySelector('#filters-genres');
 
     this.loadGenres().then(genres => {
       div.innerHTML = '';
       this.addToggleAll(div);
+      this.appendGenre({
+        name: 'None (wip)',
+        value: ''
+      }, div);
 
       genres.forEach(genre => {
-        const genreDiv = document.createElement('div');
-        genreDiv.classList.add('col-sm-6', 'col-md-4');
-
-        const genreInput = document.createElement('input');
-        genreInput.setAttribute('type', 'checkbox');
-        genreInput.setAttribute('id', `filters-genre-${genre.name}`);
-        genreInput.setAttribute('checked', true);
-        genreInput.setAttribute('value', genre.name);
-        $(genreInput).on('click', this.toggleGenre);
-
-        const genreLabel = document.createElement('label');
-        genreLabel.setAttribute('for', `filters-genre-${genre.name}`);
-        genreLabel.innerHTML = genre.name;
-
-        genreDiv.append(genreInput);
-        genreDiv.append(genreLabel);
-
-        div.append(genreDiv);
+        genre.value = genre.name;
+        this.appendGenre(genre, div);
       });
     });
   }
 
   addToggleAll(div) {
-    const toggleDiv = document.createElement('div');
-    toggleDiv.classList.add('col-sm-6', 'col-md-4');
-
     const toggleAll = document.createElement('input');
     toggleAll.setAttribute('type', 'checkbox');
     toggleAll.setAttribute('checked', true);
@@ -94,9 +99,7 @@ export default class FiltersModule {
     toggleAllLabel.classList.add('toggle-all');
     toggleAllLabel.innerHTML = 'Toggle all';
 
-    toggleDiv.append(toggleAll);
-    toggleDiv.append(toggleAllLabel);
-    div.append(toggleDiv);
+    $(this.section).find('h3:first').append(toggleAll).append(toggleAllLabel);
   }
 
   loadCountries() {

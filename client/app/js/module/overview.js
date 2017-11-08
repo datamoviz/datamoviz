@@ -2,6 +2,7 @@ import 'c3/src/scss/main.scss';
 
 import c3 from 'c3';
 import { filtersStore } from '../store';
+import $ from 'jquery';
 
 /**
  * This module is in charge to handle the rendering of the overall movies
@@ -24,5 +25,17 @@ export default class OverviewModule {
         }
       }
     });
+
+    document.addEventListener('filtersUpdate', function() {
+      const section = document.querySelector(this.selector);
+
+      fetch('http://localhost:3030/filtered/movies?' + $.param(filtersStore.getFilters()))
+        .then(response => response.json())
+        .then(json => {
+          json.forEach(function(movie) {
+            console.log(movie.original_title);
+          })
+        });
+    })
   }
 }

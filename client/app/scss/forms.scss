@@ -8,15 +8,24 @@ label {
   cursor: pointer;
 
   &.toggle-all {
-    font-weight: bold;
     color: $global-color-background;
+    font-size: 0.8em;
   }
+}
+
+div.filters div:first-child label {
+  color: $global-color-background;
+  font-weight: bold;
 }
 
 input {
   &[type=checkbox] {
     margin: 0 5px 0 0;
   }
+}
+
+h3 input[type=checkbox] {
+  margin-left: 15px;
 }
 
 .choices {
