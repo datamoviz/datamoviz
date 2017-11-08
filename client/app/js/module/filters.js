@@ -77,7 +77,7 @@ export default class FiltersModule {
 
       select.addEventListener('change', function() {
         let filters = filtersStore.getFilters();
-        filters.only_countries = $(this).val();
+        filters['production_countries.iso_3166_1'] = { $in: $(this).val() };
         filtersStore.setFilters(filters);
       });
     })

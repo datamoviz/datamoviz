@@ -1,8 +1,8 @@
 class FiltersStore {
   reset() {
     this.filters = {
-      only_countries: [],
-      genres: []
+      'production_countries.iso_3166_1': { $in: [] },
+      'genres': []
     }
   }
 
