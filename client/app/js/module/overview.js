@@ -24,9 +24,5 @@ export default class OverviewModule {
         }
       }
     });
-
-    document.addEventListener('filtersUpdate', function() {
-      console.log(filtersStore.getFilters());
-    });
   }
 }

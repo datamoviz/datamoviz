@@ -20,22 +20,52 @@ export default class FiltersModule {
       .then(json => json);
   }
 
+  toggleGenre() {
+    let filters = filtersStore.getFilters();
+    const val = $(this).val();
+    const i = filters['genres.name'].$nin.indexOf(val);
+    if (i === -1) {
+      filters['genres.name'].$nin.push(val);
+    } else {
+      filters['genres.name'].$nin.splice(i, 1);
+    }
+
+    filtersStore.setFilters(filters);
+  }
+
+  toggleAllGenres($genres) {
+    let filters = filtersStore.getFilters();
+    let filteredGenres = [];
+    $genres.each(function(element) {
+      if (!this.checked) {
+        filteredGenres.push($(this).val());
+      }
+    });
+
+    filters['genres.name'].$nin = filteredGenres;
+    filtersStore.setFilters(filters);
+  }
+
   showGenres() {
     const div = this.section.querySelector('#filters-genres');
 
     this.loadGenres().then(genres => {
       div.innerHTML = '';
+      this.addToggleAll(div);
+
       genres.forEach(genre => {
         const genreDiv = document.createElement('div');
         genreDiv.classList.add('col-sm-6', 'col-md-4');
 
         const genreInput = document.createElement('input');
         genreInput.setAttribute('type', 'checkbox');
-        genreInput.setAttribute('id', `genre-${genre.name}`);
+        genreInput.setAttribute('id', `filters-genre-${genre.name}`);
         genreInput.setAttribute('checked', true);
+        genreInput.setAttribute('value', genre.name);
+        $(genreInput).on('click', this.toggleGenre);
 
         const genreLabel = document.createElement('label');
-        genreLabel.setAttribute('for', `genre-${genre.name}`);
+        genreLabel.setAttribute('for', `filters-genre-${genre.name}`);
         genreLabel.innerHTML = genre.name;
 
         genreDiv.append(genreInput);
@@ -44,6 +74,29 @@ export default class FiltersModule {
         div.append(genreDiv);
       });
     });
+  }
+
+  addToggleAll(div) {
+    const toggleDiv = document.createElement('div');
+    toggleDiv.classList.add('col-sm-6', 'col-md-4');
+
+    const toggleAll = document.createElement('input');
+    toggleAll.setAttribute('type', 'checkbox');
+    toggleAll.setAttribute('checked', true);
+    toggleAll.setAttribute('id', 'filters-genres-toggle-all');
+    toggleAll.addEventListener('change', () => {
+      const $genres = $(div).find('[id^=filters-genre-]');
+      $genres.prop('checked', toggleAll.checked);
+      this.toggleAllGenres($genres);
+    })
+    const toggleAllLabel = document.createElement('label');
+    toggleAllLabel.setAttribute('for', 'filters-genres-toggle-all');
+    toggleAllLabel.classList.add('toggle-all');
+    toggleAllLabel.innerHTML = 'Toggle all';
+
+    toggleDiv.append(toggleAll);
+    toggleDiv.append(toggleAllLabel);
+    div.append(toggleDiv);
   }
 
   loadCountries() {
@@ -71,7 +124,6 @@ export default class FiltersModule {
 
       div.append(select);
       const choices = new Choices(select, {
-        renderChoiceLimit: 10,
         removeItemButton: true
       });
 
