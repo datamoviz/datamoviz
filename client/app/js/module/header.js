@@ -16,11 +16,11 @@ export default class HeaderModule extends BaseModule {
   countMovies(filters) {
     filters = filters || {};
 
-    return fetch('http://localhost:3030/count/movies?' + $.param(filters))
+    return fetch(`http://localhost:3030/count/movies?${$.param(filters)}`)
       .then(response => response.json())
       .then(json => json)
-      .then(total => {
-        const counter = new CountUp(this.section.id, this.currentTotal, total, null, 2, {separator: ' '});
+      .then((total) => {
+        const counter = new CountUp(this.section.id, this.currentTotal, total, null, 2, { separator: ' ' });
         counter.start();
         this.currentTotal = total;
       });
