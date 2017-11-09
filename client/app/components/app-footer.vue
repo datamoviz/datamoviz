@@ -13,13 +13,9 @@
 </template>
 
 <script>
-  import $ from 'jquery';
-  import CountUp from 'countup.js';
-  import { FILTERS_UPDATE } from '../event-bus';
-
   export default {
     name: 'app-footer'
-  }
+  };
 </script>
 
 <style scoped lang="scss" ref="stylesheet/scss">

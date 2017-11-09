@@ -22,8 +22,8 @@
     name: 'app-header',
     data() {
       return {
-        currentTotal: 0,
-      }
+        currentTotal: 0
+      };
     },
     methods: {
       countMovies(filters) {
@@ -36,13 +36,6 @@
             new CountUp(this.$refs.moviesCount, this.currentTotal, total, null, 2, { separator: ' ' }).start();
             this.currentTotal = total;
           });
-      },
-      render() {
-        this.countMovies();
-
-        document.addEventListener('filtersUpdate', () => {
-          this.countMovies(filtersStore.getFilters());
-        });
       }
     },
     mounted() {
@@ -50,7 +43,7 @@
 
       this.$bus.$on(FILTERS_UPDATE, this.countMovies);
     }
-  }
+  };
 </script>
 
 <style scoped lang="scss" ref="stylesheet/scss">

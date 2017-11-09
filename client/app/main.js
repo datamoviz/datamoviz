@@ -5,8 +5,8 @@ import { EventBus } from './event-bus';
 
 Object.defineProperties(Vue.prototype, {
   $bus: {
-    get: function () {
-      return EventBus
+    get () {
+      return EventBus;
     }
   }
 });

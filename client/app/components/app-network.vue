@@ -427,5 +427,5 @@
       simulation.force('link')
         .links(graph.links);
     }
-  }
+  };
 </script>

@@ -6,7 +6,7 @@
           <i class="fa fa-spinner fa-spin"></i> Loading...
         </div>
         <template v-else>
-            <genre :name="'None'"></genre>
+            <genre :name="'None (WIP)'"></genre>
             <genre v-for="genre in genres" :name="genre.name" :key="genre.id"></genre>
         </template>
       </div>
@@ -14,7 +14,6 @@
 </template>
 
 <script>
-  import { FILTERS_UPDATE } from '../event-bus';
   import Genre from './genre.vue';
 
   export default {
@@ -25,23 +24,16 @@
     data() {
       return {
         genres: []
-      }
-    },
-    methods: {
-      test() {
-        let filters = this.$bus.filters;
-
-        this.$bus.$emit(FILTERS_UPDATE, filters);
-      }
+      };
     },
     mounted() {
       return fetch('http://localhost:3030/genres')
         .then(response => response.json())
-        .then(json => {
+        .then((json) => {
           this.genres = json;
         });
     }
-  }
+  };
 </script>
 
 <style lang="scss" ref="stylesheet/scss">

@@ -1,8 +1,8 @@
-var webpack = require('webpack');
-var path = require('path');
-var uglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
-var CopyWebpackPlugin = require('copy-webpack-plugin');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
+let webpack = require('webpack');
+let path = require('path');
+let uglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
+let CopyWebpackPlugin = require('copy-webpack-plugin');
+let ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
   devtool: 'cheap-source-map',

@@ -38,7 +38,7 @@
         }
       });
     }
-  }
+  };
 </script>
 
 <style lang="scss" ref="stylesheet/scss">

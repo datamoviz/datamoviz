@@ -24,7 +24,7 @@
       AppNetwork,
       AppFooter
     }
-  }
+  };
 </script>
 
 <style lang="scss" ref="stylesheet/scss">

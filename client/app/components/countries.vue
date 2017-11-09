@@ -22,7 +22,6 @@
 <script>
   import Multiselect from 'vue-multiselect';
   import { FILTERS_UPDATE } from '../event-bus';
-  import Genre from './genre.vue';
 
   export default {
     name: 'countries',
@@ -31,9 +30,9 @@
     },
     methods: {
       refreshFilters() {
-        const filters = this.$bus.filters;
+        const { filters } = this.$bus;
 
-        filters['production_countries'].$in = this.selected;
+        filters.production_countries.$in = this.selected;
 
         this.$bus.$emit(FILTERS_UPDATE, filters);
       }
@@ -42,16 +41,16 @@
       return {
         selected: [],
         countries: []
-      }
+      };
     },
     mounted() {
       return fetch('http://localhost:3030/countries')
         .then(response => response.json())
-        .then(json => {
+        .then((json) => {
           this.countries = json;
         });
     }
-  }
+  };
 </script>
 
 <style lang="scss" ref="stylesheet/scss">

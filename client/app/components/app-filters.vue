@@ -20,5 +20,5 @@
       Genres,
       Countries
     }
-  }
+  };
 </script>

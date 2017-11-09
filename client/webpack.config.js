@@ -1,7 +1,7 @@
-var webpack = require('webpack');
-var path = require('path');
-var OpenBrowserPlugin = require('open-browser-webpack-plugin');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
+let webpack = require('webpack');
+let path = require('path');
+let OpenBrowserPlugin = require('open-browser-webpack-plugin');
+let ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
   devServer: {

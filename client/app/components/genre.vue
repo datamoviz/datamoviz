@@ -13,7 +13,7 @@
     props: ['name'],
     methods: {
       refreshFilters() {
-        const filters = this.$bus.filters;
+        const { filters } = this.$bus;
 
         const i = filters['genres.name'].$nin.indexOf(this.name);
         if (i === -1) {
@@ -25,5 +25,5 @@
         this.$bus.$emit(FILTERS_UPDATE, filters);
       }
     }
-  }
+  };
 </script>
