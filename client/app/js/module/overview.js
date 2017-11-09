@@ -16,7 +16,7 @@ export default class OverviewModule extends BaseModule {
 
   render() {
     c3.generate({
-      bindto: this.section.id,
+      bindto: `#${this.section.id}`,
       data: {
         columns: [
           ['Evolution of movies budget', 30, 200, 100, 400, 150, 250]

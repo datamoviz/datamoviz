@@ -3,9 +3,9 @@ import * as d3 from 'd3';
 import BaseModule from './base';
 
 /**
- * TODO : Actor network
+ * TODO : Actors network
  */
-export default class ActorNetworkModule extends BaseModule {
+export default class ActorsNetworkModule extends BaseModule {
   constructor(section) {
     super(section);
   }

@@ -7,7 +7,7 @@ import './scss/main.scss';
 import HeaderModule from './js/module/header';
 import FiltersModule from './js/module/filters';
 import OverviewModule from './js/module/overview';
-import ActorNetworkModule from './js/module/actor-network';
+import ActorsNetworkModule from './js/module/actors-network';
 
 // To be removed
 import HomeworkModule from './js/module/homework';
@@ -16,7 +16,7 @@ const modules = [
   new HeaderModule(document.querySelector('#header-movies-count')),
   new FiltersModule(document.querySelector('#filters')),
   new OverviewModule(document.querySelector('#overview-chart')),
-  new ActorNetworkModule(document.querySelector('#actor-network')),
+  new ActorsNetworkModule(document.querySelector('#actor-network')),
 
   // To be removed
   new HomeworkModule('#colors', 'https://upload.wikimedia.org/wikipedia/commons/0/05/Odd-eyed_cat_by_ihasb33r.jpg')
