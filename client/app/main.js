@@ -13,10 +13,10 @@ import ActorNetworkModule from './js/module/actor-network';
 import HomeworkModule from './js/module/homework';
 
 const modules = [
-  new HeaderModule('header-movies-count'),
-  new FiltersModule('#filters'),
-  new OverviewModule('#overview-chart'),
-  new ActorNetworkModule('#actor-network'),
+  new HeaderModule(document.querySelector('#header-movies-count')),
+  new FiltersModule(document.querySelector('#filters')),
+  new OverviewModule(document.querySelector('#overview-chart')),
+  new ActorNetworkModule(document.querySelector('#actor-network')),
 
   // To be removed
   new HomeworkModule('#colors', 'https://upload.wikimedia.org/wikipedia/commons/0/05/Odd-eyed_cat_by_ihasb33r.jpg')

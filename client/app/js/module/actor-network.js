@@ -1,9 +1,11 @@
+import BaseModule from './base'
+
 /**
  * TODO : Actor network
  */
-export default class ActorNetworkModule {
-  constructor(selector) {
-    this.section = document.querySelector(selector);
+export default class ActorNetworkModule extends BaseModule {
+  constructor(section) {
+    super(section);
   }
 
   render() {

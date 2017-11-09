@@ -3,13 +3,14 @@ import 'choices.js/assets/styles/scss/choices.scss';
 import Choices from 'choices.js';
 import { filtersStore } from '../store';
 import $ from 'jquery';
+import BaseModule from './base';
 
 /**
  * This module is in charge to handle the filters.
  */
-export default class FiltersModule {
-  constructor(selector) {
-    this.section = document.querySelector(selector);
+export default class FiltersModule extends BaseModule {
+  constructor(section) {
+    super(section);
 
     filtersStore.reset();
   }
@@ -136,10 +137,6 @@ export default class FiltersModule {
         filtersStore.setFilters(filters);
       });
     })
-  }
-
-  updateFilters(genres, countries) {
-
   }
 
   render() {

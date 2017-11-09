@@ -1,13 +1,15 @@
 import CountUp from 'countup.js';
 import { filtersStore } from '../store';
 import $ from 'jquery';
+import BaseModule from './base';
 
 /**
  * This module is in charge to animate header.
  */
-export default class HeaderModule {
-  constructor(selector) {
-    this.selector = selector;
+export default class HeaderModule extends BaseModule {
+  constructor(section) {
+    super(section);
+
     this.currentTotal = 0;
   }
 
@@ -18,7 +20,7 @@ export default class HeaderModule {
       .then(response => response.json())
       .then(json => json)
       .then(total => {
-        const counter = new CountUp(this.selector, this.currentTotal, total, null, 2, {separator: ' '});
+        const counter = new CountUp(this.section.id, this.currentTotal, total, null, 2, {separator: ' '});
         counter.start();
         this.currentTotal = total;
       });
