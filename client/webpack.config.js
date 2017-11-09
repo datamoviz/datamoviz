@@ -24,14 +24,15 @@ module.exports = {
   },
   module: {
     loaders:[
-      { test: /\.jsx?$/,
+      { test: /\.js$/,
         include: path.resolve(__dirname, 'app'),
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
-          presets: ['es2015', 'stage-0', 'react']
+          presets: ['es2015', 'stage-0']
         }
       },
+      { test: /\.vue/, loader: 'vue-loader' },
       { test: /\.css$/, include: path.resolve(__dirname, 'app'), loader: 'style-loader!css-loader' },
       { test: /\.scss$/, loader: ExtractTextPlugin.extract({fallback: 'style-loader', use: 'css-loader?sourceMap!sass-loader?sourceMap'})},
       { test: /\.(png|jpe?g|gif|svg|ttf|woff2?|eot|ico)(\?.*)?$/, loader: 'url-loader', query: { limit: 10000, name: 'assets/[name].[ext]'}}

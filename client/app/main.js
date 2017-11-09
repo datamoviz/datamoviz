@@ -1,19 +1,16 @@
+import Vue from 'vue';
 import * as d3 from 'd3';
-import 'bootstrap-reboot/bootstrap-reboot.scss';
-import 'bootstrap-4-grid/scss/grid.scss';
 import 'font-awesome/scss/font-awesome.scss';
-import './scss/main.scss';
+import AppMain from './modules/app-main.vue';
 
-import HeaderModule from './js/module/header';
 import FiltersModule from './js/module/filters';
 import OverviewModule from './js/module/overview';
 import ActorsNetworkModule from './js/module/actors-network';
-
+new Vue(AppMain).$mount('#app-main');
 // To be removed
 import HomeworkModule from './js/module/homework';
 
 const modules = [
-  new HeaderModule(document.querySelector('#header-movies-count')),
   new FiltersModule(document.querySelector('#filters')),
   new OverviewModule(document.querySelector('#overview-chart')),
   new ActorsNetworkModule(document.querySelector('#actor-network')),

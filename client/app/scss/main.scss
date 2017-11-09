@@ -1,3 +1,6 @@
+@import '~bootstrap-reboot/bootstrap-reboot.scss';
+@import '~bootstrap-4-grid/scss/grid.scss';
+
 @import 'vars';
 @import 'boilerplate';
 
@@ -19,47 +22,13 @@ p {
   margin-bottom: 5px;
 }
 
-header {
-  h1 {
-    padding: 20px 0;
-    text-align: center;
-    margin: 0;
-    font-family: Pacifico, sans-serif;
-
-    a {
-      color: white;
-
-      &:hover {
-        text-decoration: none;
-        color: white;
-      }
-    }
-
-    .name {
-      animation: 2s fade-in;
-      color: $global-color-primary;
-      font-weight: normal;
-    }
-  }
-
-  .movies-count {
-    font-family: Pacifico, sans-serif;
-    font-size: 1.5em;
-    text-align: right;
-
-    span {
-    color: $global-color-primary;
-    }
-  }
-}
-
 section {
   margin-bottom: 20px;
   padding: 20px 0;
 
   &.highlight {
     background: $global-color-primary;
-    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.20);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.20);
   }
 
   &.filters {
