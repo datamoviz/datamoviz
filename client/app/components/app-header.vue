@@ -16,6 +16,7 @@
 <script>
   import $ from 'jquery';
   import CountUp from 'countup.js';
+  import { FILTERS_UPDATE } from '../event-bus';
 
   export default {
     name: 'app-header',
@@ -36,7 +37,6 @@
             this.currentTotal = total;
           });
       },
-
       render() {
         this.countMovies();
 
@@ -47,6 +47,8 @@
     },
     mounted() {
       this.countMovies();
+
+      this.$bus.$on(FILTERS_UPDATE, this.countMovies);
     }
   }
 </script>
@@ -60,6 +62,7 @@
       text-align: center;
       margin: 0;
       font-family: Pacifico, sans-serif;
+      font-size: 3em;
 
       a {
         color: white;

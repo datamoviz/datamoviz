@@ -2,7 +2,6 @@
 @import '~bootstrap-4-grid/scss/grid.scss';
 
 @import 'vars';
-@import 'boilerplate';
 
 body {
   background: $global-color-background;
@@ -14,7 +13,7 @@ body {
   h#{$i} {
     font-weight: normal;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: #{3 - ($i - 1)*0.7}em;
+    font-size: #{2.5 - ($i - 1)*0.6}em;
   }
 }
 
