@@ -4,7 +4,7 @@ import 'bootstrap-4-grid/scss/grid.scss';
 import 'font-awesome/scss/font-awesome.scss';
 import './scss/main.scss';
 
-import HeaderModule from './js/module/header'
+import HeaderModule from './js/module/header';
 import FiltersModule from './js/module/filters';
 import OverviewModule from './js/module/overview';
 import ActorNetworkModule from './js/module/actor-network';

@@ -1,8 +1,8 @@
-import 'choices.js/assets/styles/scss/choices.scss';
-
-import Choices from 'choices.js';
-import { filtersStore } from '../store';
 import $ from 'jquery';
+import Choices from 'choices.js';
+
+import 'choices.js/assets/styles/scss/choices.scss';
+import { filtersStore } from '../store';
 import BaseModule from './base';
 
 /**
@@ -22,7 +22,7 @@ export default class FiltersModule extends BaseModule {
   }
 
   toggleGenre() {
-    let filters = filtersStore.getFilters();
+    const filters = filtersStore.getFilters();
     const val = $(this).val();
     const i = filters['genres.name'].$nin.indexOf(val);
     if (i === -1) {
@@ -35,8 +35,8 @@ export default class FiltersModule extends BaseModule {
   }
 
   toggleAllGenres($genres) {
-    let filters = filtersStore.getFilters();
-    let filteredGenres = [];
+    const filters = filtersStore.getFilters();
+    const filteredGenres = [];
     $genres.each(function(element) {
       if (!this.checked) {
         filteredGenres.push($(this).val());
@@ -70,7 +70,7 @@ export default class FiltersModule extends BaseModule {
   showGenres() {
     const div = this.section.querySelector('#filters-genres');
 
-    this.loadGenres().then(genres => {
+    this.loadGenres().then((genres) => {
       div.innerHTML = '';
       this.addToggleAll(div);
       this.appendGenre({
@@ -78,7 +78,7 @@ export default class FiltersModule extends BaseModule {
         value: ''
       }, div);
 
-      genres.forEach(genre => {
+      genres.forEach((genre) => {
         genre.value = genre.name;
         this.appendGenre(genre, div);
       });
@@ -94,7 +94,7 @@ export default class FiltersModule extends BaseModule {
       const $genres = $(div).find('[id^=filters-genre-]');
       $genres.prop('checked', toggleAll.checked);
       this.toggleAllGenres($genres);
-    })
+    });
     const toggleAllLabel = document.createElement('label');
     toggleAllLabel.setAttribute('for', 'filters-genres-toggle-all');
     toggleAllLabel.classList.add('toggle-all');
@@ -112,19 +112,19 @@ export default class FiltersModule extends BaseModule {
   showCountries() {
     const div = this.section.querySelector('#filters-countries');
 
-    this.loadCountries().then(countries => {
+    this.loadCountries().then((countries) => {
       div.innerHTML = '';
 
       const select = document.createElement('select');
       select.setAttribute('multiple', true);
-      countries.forEach(country => {
+      countries.forEach((country) => {
         const option = document.createElement('option');
 
         option.setAttribute('value', country.iso_3166_1);
         option.innerHTML = country.name;
 
         select.append(option);
-      })
+      });
 
       div.append(select);
       const choices = new Choices(select, {
@@ -132,11 +132,11 @@ export default class FiltersModule extends BaseModule {
       });
 
       select.addEventListener('change', function() {
-        let filters = filtersStore.getFilters();
+        const filters = filtersStore.getFilters();
         filters['production_countries.iso_3166_1'] = { $in: $(this).val() };
         filtersStore.setFilters(filters);
       });
-    })
+    });
   }
 
   render() {

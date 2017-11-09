@@ -1,4 +1,4 @@
-import BaseModule from './base'
+import BaseModule from './base';
 
 /**
  * TODO : Actor network

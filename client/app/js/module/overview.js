@@ -1,8 +1,8 @@
-import 'c3/src/scss/main.scss';
-
-import c3 from 'c3';
-import { filtersStore } from '../store';
 import $ from 'jquery';
+import c3 from 'c3';
+
+import 'c3/src/scss/main.scss';
+import { filtersStore } from '../store';
 import BaseModule from './base';
 
 /**
@@ -27,14 +27,14 @@ export default class OverviewModule extends BaseModule {
       }
     });
 
-    document.addEventListener('filtersUpdate', function() {
-      fetch('http://localhost:3030/filtered/movies?' + $.param(filtersStore.getFilters()))
+    document.addEventListener('filtersUpdate', () => {
+      fetch(`http://localhost:3030/filtered/movies?${$.param(filtersStore.getFilters())}`)
         .then(response => response.json())
-        .then(json => {
-          json.forEach(function(movie) {
+        .then((json) => {
+          json.forEach((movie) => {
             console.log(movie.original_title);
-          })
+          });
         });
-    })
+    });
   }
 }
