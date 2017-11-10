@@ -9,9 +9,16 @@ module.exports = function (app) {
         filters = JSON.parse(decodeURI(request.query.filters));
       }
 
-      return app.get('mongoClient').then(db => {
-        return db.collection('movies').find(filters).count();
-      });
+      return app.get('mongoClient')
+        .then(db => {
+          return db.collection('movies').find(filters).count();
+        })
+        .then((count) => {
+          if(count ===0) {
+            return -1;
+          }
+          return count;
+        });
     }
   });
 };
