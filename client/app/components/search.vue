@@ -39,7 +39,7 @@
       border: 0;
       height: 40px;
       width: 100%;
-      max-width: 1000px;
+      max-width: 1100px;
       font-size: 18px;
       padding: 2px 10px;
       border-radius: 3px;
