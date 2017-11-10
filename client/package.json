@@ -21,7 +21,8 @@
     "jquery": "^3.2.1",
     "lodash": "latest",
     "vue": "^2.5.3",
-    "vue-multiselect": "^2.0.6"
+    "vue-multiselect": "^2.0.6",
+    "vue2-filters": "^0.2.2"
   },
   "devDependencies": {
     "babel-core": "latest",

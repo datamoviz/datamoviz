@@ -1,13 +1,18 @@
 <template>
-  <header class="container">
-    <div class="row align-items-center">
-      <div class="col-6 ml-auto">
-        <h1>
-          <a href="/">Data<span class="name">Mo</span>viz</a>
-        </h1>
-      </div>
-      <div class="col-3 movies-count">
-        <span ref="moviesCount">0</span> movies
+  <header>
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-6 ml-auto">
+          <h1>
+            <a href="/">Data<span class="name">Mo</span>viz</a>
+          </h1>
+        </div>
+        <div class="col-3 movies-count">
+          <span ref="moviesCount">0</span> {{ currentTotal|pluralize('movie') }}
+          <span class="title" v-if="currentMovie !== ''">
+            <br />{{ currentMovie }}
+          </span>
+        </div>
       </div>
     </div>
   </header>
@@ -15,13 +20,14 @@
 
 <script>
   import CountUp from 'countup.js';
-  import { FILTERS_UPDATE } from '../event-bus';
+  import { FILTERS_UPDATE, MOVIE_SELECTED } from '../event-bus';
 
   export default {
     name: 'app-header',
     data() {
       return {
-        currentTotal: 0
+        currentTotal: 0,
+        currentMovie: ''
       };
     },
     methods: {
@@ -34,6 +40,10 @@
           .then((total) => {
             new CountUp(this.$refs.moviesCount, this.currentTotal, total, null, 2, { separator: ' ' }).start();
             this.currentTotal = total;
+
+            if (!filters.hasOwnProperty('$text') || this.currentMovie !== filters['$text'].$search.replace(/"/g, '')) {
+              this.currentMovie = '';
+            }
           });
       }
     },
@@ -41,6 +51,9 @@
       this.countMovies();
 
       this.$bus.$on(FILTERS_UPDATE, this.countMovies);
+      this.$bus.$on(MOVIE_SELECTED, (filters) => {
+        this.currentMovie = filters['$text'].$search;
+      })
     }
   };
 </script>
@@ -49,12 +62,18 @@
   @import '../scss/vars';
 
   header {
+    background-color: $global-color-darker;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10000;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.30);
+
     h1 {
-      padding: 20px 0;
       text-align: center;
       margin: 0;
       font-family: Pacifico, sans-serif;
-      font-size: 3em;
+      font-size: 2.7em;
 
       a {
         color: white;
@@ -76,9 +95,14 @@
       font-family: Pacifico, sans-serif;
       font-size: 1.5em;
       text-align: right;
+      line-height: 1em;
 
       span {
         color: $global-color-primary;
+      }
+
+      .title {
+        font-size: 0.7em;
       }
     }
   }

@@ -22,3 +22,9 @@
     }
   };
 </script>
+
+<style scoped lang="scss" ref="stylesheet/scss">
+  section {
+    min-height: 350px;
+  }
+</style>
