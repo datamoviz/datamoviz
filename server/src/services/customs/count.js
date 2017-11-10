@@ -15,7 +15,7 @@ module.exports = function (app) {
         })
         .then((count) => {
           if(count ===0) {
-            return -1;
+            return '0';
           }
           return count;
         });
