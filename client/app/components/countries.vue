@@ -32,7 +32,11 @@
       refreshFilters() {
         const { filters } = this.$bus;
 
-        filters.production_countries.$in = this.selected;
+        if (this.selected.length === 0) {
+          delete filters['production_countries'];
+        } else {
+          filters['production_countries'] = { $in: this.selected };
+        }
 
         this.$bus.$emit(FILTERS_UPDATE, filters);
       }
