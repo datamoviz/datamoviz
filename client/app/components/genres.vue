@@ -2,7 +2,7 @@
   <div class="col-md-6">
     <h3>Genres
       <small>
-        <input type="checkbox" id="toggle-all" v-model="toggle" @change="toggleAll()" />
+        <input type="checkbox" id="toggle-all" v-model="enabled" @change="toggleAll()" />
         <label for="toggle-all">Toggle all</label>
       </small>
     </h3>
@@ -11,14 +11,14 @@
         <i class="fa fa-spinner fa-spin"></i> Loading...
       </div>
       <template v-else>
-        <genre v-for="genre in genres" :key="genre.id" :name="genre.name" :selected="genre.selected"></genre>
+        <genre v-for="genre in genres" :key="genre.id" :name="genre.name"></genre>
       </template>
     </div>
   </div>
 </template>
 
 <script>
-  import { FILTERS_UPDATE } from '../event-bus';
+  import { FILTERS_UPDATE, FILTERS_GENRE_TOGGLE } from '../event-bus';
   import Genre from './genre.vue';
 
   export default {
@@ -29,19 +29,21 @@
     data() {
       return {
         genres: [],
-        toggle: true,
+        enabled: true,
       };
     },
     methods: {
       toggleAll() {
-        this.genres.forEach((genre) => { genre.selected = this.toggle; });
+        this.$bus.$emit(FILTERS_GENRE_TOGGLE, this.enabled);
 
         const { filters } = this.$bus;
 
-        if (this.toggle) {
-          filters['genres.name'].$nin = [];
+        if (this.enabled) {
+          delete filters['genres.name'];
+          delete filters['genres'];
         } else {
-          filters['genres.name'].$nin = this.genres.map(genre => genre.name);
+          filters['genres.name'] = { $nin: this.genres.map(genre => genre.name) };
+          filters['genres'] = { $exists: true, $ne: [] };
         }
 
         this.$bus.$emit(FILTERS_UPDATE, filters);
@@ -52,7 +54,6 @@
         .then(response => response.json())
         .then((json) => {
           json.unshift({ id: -1, name: 'None' });
-          json.forEach((genre) => { genre.selected = true; });
 
           this.genres = json;
         });

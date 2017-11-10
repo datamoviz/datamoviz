@@ -2,9 +2,15 @@ module.exports = function (app) {
 
   app.use('/count/movies', {
     find(request) {
-      const query = request.query;
+      let filters;
+      if (request.query.filters === undefined) {
+        filters = {};
+      } else {
+        filters = JSON.parse(decodeURI(request.query.filters));
+      }
+
       return app.get('mongoClient').then(db => {
-        return db.collection('movies').find(query).count();
+        return db.collection('movies').find(filters).count();
       });
     }
   });

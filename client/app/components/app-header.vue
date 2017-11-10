@@ -14,7 +14,6 @@
 </template>
 
 <script>
-  import $ from 'jquery';
   import CountUp from 'countup.js';
   import { FILTERS_UPDATE } from '../event-bus';
 
@@ -29,7 +28,7 @@
       countMovies(filters) {
         filters = filters || {};
 
-        return fetch(`http://localhost:3030/count/movies?${$.param(filters)}`)
+        return fetch(`http://localhost:3030/count/movies?filters=${encodeURI(JSON.stringify(filters))}`)
           .then(response => response.json())
           .then(json => json)
           .then((total) => {
