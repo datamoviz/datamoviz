@@ -21,8 +21,12 @@ p {
   margin-bottom: 5px;
 }
 
+a, a:hover {
+  text-decoration: none;
+}
+
 section {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   padding: 20px 0;
 
   &.highlight {

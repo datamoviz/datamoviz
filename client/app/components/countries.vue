@@ -6,7 +6,7 @@
     </div>
     <div v-else>
       <multiselect
-              placeholder="Choose the countries you want to filter on"
+              placeholder="Choose the countries you want to filter on..."
               v-model="selected"
               :options="countries"
               :multiple="true"

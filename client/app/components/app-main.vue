@@ -3,6 +3,7 @@
     <app-header></app-header>
     <app-filters></app-filters>
     <app-overview></app-overview>
+    <app-movies></app-movies>
     <app-network></app-network>
     <app-footer></app-footer>
   </main>
@@ -12,6 +13,7 @@
   import AppHeader from './app-header.vue';
   import AppFilters from './app-filters.vue';
   import AppOverview from './app-overview.vue';
+  import AppMovies from './app-movies.vue';
   import AppNetwork from './app-network.vue';
   import AppFooter from './app-footer.vue';
 
@@ -22,6 +24,7 @@
       AppOverview,
       AppFilters,
       AppNetwork,
+      AppMovies,
       AppFooter
     }
   };

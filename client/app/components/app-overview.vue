@@ -22,7 +22,6 @@
 
 <script>
   import c3 from 'c3';
-  import { FILTERS_UPDATE } from '../event-bus';
 
   export default {
     name: 'app-overview',
@@ -38,14 +37,6 @@
           }
         }
       });
-
-      this.$bus.$on(FILTERS_UPDATE, (filters) => {
-        return fetch(`http://localhost:3030/filtered/movies?filters=${encodeURI(JSON.stringify(filters))}`)
-          .then(response => response.json())
-          .then((json) => {
-            console.log(json);
-          });
-      })
     }
   };
 </script>
