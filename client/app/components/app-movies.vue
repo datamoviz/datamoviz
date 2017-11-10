@@ -3,7 +3,7 @@
     <search ref="searchField"></search>
     <div class="results-container" v-if="movies.length !== 0">
       <div class="results">
-        <thumbnail v-for="movie in movies" :key="movie.imdb_id" :title="movie.original_title" :poster="movie.poster_path"></thumbnail>
+        <thumbnail v-for="movie in movies" :key="movie.imdb_id" :movie="movie"></thumbnail>
       </div>
     </div>
     <div class="no-result" v-else>
