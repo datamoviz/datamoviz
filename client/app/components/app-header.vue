@@ -2,12 +2,12 @@
   <header>
     <div class="container">
       <div class="row align-items-center">
-        <div class="col-6 ml-auto">
+        <div class="col-6 ml-sm-auto">
           <h1>
             <a href="/">Data<span class="name">Mo</span>viz</a>
           </h1>
         </div>
-        <div class="col-3 movies-count">
+        <div class="col-6 col-sm-3 movies-count">
           <span ref="moviesCount">0</span> {{ currentTotal|pluralize('movie') }}
           <span class="title" v-if="currentMovie !== ''">
             <br />{{ currentMovie }}
