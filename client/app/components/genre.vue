@@ -1,6 +1,6 @@
 <template>
     <div class="col-sm-6 col-md-4">
-        <input :id="'genre-' + name" type="checkbox" checked :value="name" @click="refreshFilters" />
+        <input :id="'genre-' + name" type="checkbox" :checked="selected" :value="name" @change="refreshFilters()" />
         <label :for="'genre-' + name">{{ name }}</label>
     </div>
 </template>
@@ -10,7 +10,16 @@
 
   export default {
     name: 'genre',
-    props: ['name'],
+    props: {
+      name: {
+        type: String,
+        required: true
+      },
+      selected: {
+        type: Boolean,
+        required: true
+      }
+    },
     methods: {
       refreshFilters() {
         const { filters } = this.$bus;
