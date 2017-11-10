@@ -1,8 +1,13 @@
 <template>
   <section>
-    <search></search>
-    <div v-if="movies.length !== 0">
-      <thumbnail v-for="movie in movies" :key="movie.imdb_id" :title="movie.original_title" :poster="movie.poster_path"></thumbnail>
+    <search ref="searchField"></search>
+    <div class="results-container" v-if="movies.length !== 0">
+      <div class="results">
+        <thumbnail v-for="movie in movies" :key="movie.imdb_id" :title="movie.original_title" :poster="movie.poster_path"></thumbnail>
+      </div>
+    </div>
+    <div class="no-result" v-else>
+        No result found...
     </div>
   </section>
 </template>
@@ -30,7 +35,9 @@
         fetch(`http://localhost:3030/filtered/movies?filters=${encodeURI(JSON.stringify(filters))}`)
           .then(response => response.json())
           .then((movies) => {
-            this.movies = movies;
+            this.movies = movies.sort((a, b) => {
+              return a.popularity < b.popularity;
+            });
           });
       }
     },
@@ -48,10 +55,26 @@
   section {
     max-width: 100%;
     overflow-x: hidden;
-  }
 
-  div {
-    width: 9999px;
-    margin: 0 auto;
+    .results-container {
+      position: relative;
+      height: 360px;
+      overflow: hidden;
+
+      .results {
+        width: 4000px;
+        text-align: center;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        margin-left: -2000px;
+      }
+    }
+
+    .no-result {
+      text-align: center;
+      padding: 20px;
+      height: 360px;
+    }
   }
 </style>

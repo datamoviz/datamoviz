@@ -10,7 +10,7 @@ module.exports = function (app) {
       }
 
       return app.get('mongoClient').then(db => {
-        return db.collection('movies').find(filters).limit(10).toArray();
+        return db.collection('movies').find(filters).limit(15).toArray();
       });
     }
   });
