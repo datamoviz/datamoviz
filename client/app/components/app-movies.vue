@@ -69,6 +69,7 @@
     max-width: 100%;
     overflow-x: hidden;
     margin-bottom: 0;
+    padding-bottom: 0;
 
     .results-container {
       position: relative;

@@ -2,7 +2,9 @@
   <div class="col-12">
     <h3>Adult movies</h3>
     <input type="checkbox" id="filter-adult" @change="refreshFilter()" v-model="exclude" />
-    <label for="filter-adult">Exclude adult movies (<i class="fa fa-warning"></i> some results may still be NSFW)</label>
+    <label for="filter-adult">
+      Exclude adult movies <span class="badge"><i class="fa fa-warning"></i> NSFW results may still occur</span>
+    </label>
   </div>
 </template>
 

@@ -2,7 +2,10 @@
   <div class="movie-container">
     <a href="#" :class="{ highlighted: highlighted, hidden: hidden }" @click.prevent="select()">
       <img :src="posterPath" />
-      <span class="title">{{ movie.title }}</span>
+      <span class="title">
+        {{ movie.title }}
+        <span class="badge" v-if="movie.adult">NSFW</span>
+      </span>
     </a><!--
     --><div class="details" :class="{ visible: highlighted }">
       <ul>

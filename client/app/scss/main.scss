@@ -26,6 +26,19 @@ a, a:hover {
   text-decoration: none;
 }
 
+.badge {
+  display: inline;
+  padding: .15em .5em .25em;
+  font-size: .85em;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
 section {
   margin-bottom: 10px;
   padding: 20px 0;
