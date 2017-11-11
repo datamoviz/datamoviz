@@ -1,6 +1,8 @@
-This repo contains boilerplate code for a d3 viz.
+# DataMoviz
 
-First, install the packages:
+DataMoviz is a data visualization website about movies 🎥...
+
+## Installation
 
 ```bash
 cd client/
@@ -9,7 +11,9 @@ cd ../server
 npm install
 ```
 
-To start developing run:
+You also need a populated MongoDB database, see the [server](https://github.com/quentinus95/datamoviz/tree/master/server) readme.
+
+## Running
 
 ```bash
 cd client/
@@ -18,10 +22,19 @@ cd ../server
 npm start &
 ```
 
-You should see a new browser tap opening and a title of "D3 Boilerplate" in http://127.0.0.1:8080.
+Access to the server at the following url: http://127.0.0.1:8080.
 
-From there, you start to develop your own code in the `app` directory. When you finish coding, use `npm run build` or `npm run deploy` to build the static files.
+## Deploying
 
-## License
+Compile the client:
+
+```bash
+cd client/
+npm run deploy
+```
+
+You can export the `build` folder to your server.
+
+## Licence
 
 MIT
