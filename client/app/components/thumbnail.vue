@@ -9,7 +9,7 @@
     </a><!--
     --><div class="details" :class="{ visible: highlighted }">
       <h3>
-        <span v-for="country in movie.production_countries" :key="country.iso_3166_1"><img :src="`http://www.geonames.org/flags/s/${country.iso_3166_1.toLowerCase()}.png`" :alt="country.name" :title="country.name" />&nbsp;</span><!--
+        <small v-for="country in movie.production_countries" :key="country.iso_3166_1"><img :src="`http://www.geonames.org/flags/s/${country.iso_3166_1.toLowerCase()}.png`" :alt="country.name" :title="country.name" />&nbsp;</small><!--
         -->{{ movie.original_title }}
         <small><i class="fa fa-language"></i> {{ movie.spoken_languages.map(a => a.name).join(', ') }}</small>
       </h3>
@@ -170,6 +170,10 @@
         opacity: 1;
         padding: 0 0 0 30px;
         transition: opacity 1s linear .6s, width .6s linear;
+      }
+
+      h3 small img {
+        vertical-align: initial;
       }
 
       p {
