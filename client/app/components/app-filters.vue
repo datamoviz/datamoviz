@@ -2,14 +2,16 @@
   <section class="highlight">
     <div class="container">
       <div class="row">
-        <div class="col-12"><h2>Filters</h2></div>
-        <div class="row">
-          <div class="col-md-6">
-            <genres-filter></genres-filter>
-          </div>
-          <div class="col-md-6">
-            <countries-filter></countries-filter>
-            <adult-filter></adult-filter>
+        <div class="col-12">
+          <h2>Filters</h2>
+          <div class="row">
+            <div class="col-md-6">
+              <genres-filter></genres-filter>
+            </div>
+            <div class="col-md-6">
+              <countries-filter></countries-filter>
+              <adult-filter></adult-filter>
+            </div>
           </div>
         </div>
       </div>

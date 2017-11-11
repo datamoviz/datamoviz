@@ -7,31 +7,41 @@
 
 <script>
   import c3 from 'c3';
+  import { MOVIE_SELECTED } from '../event-bus';
 
   export default {
     name: 'gauge-chart',
-    props: ['value', 'name', 'max', 'size', 'title', 'thresholds'],
-    mounted() {
-      c3.generate({
-        bindto: this.$refs.gauge,
-        data: {
-          columns: [
-            [this.name, this.value]
-          ],
-          type: 'gauge'
-        },
-        gauge: {
-          min: 0,
-          max: this.max
-        },
-        color: {
-          pattern: ['#de3e38', '#c19518', '#009946'],
-          threshold: {
-            values: this.thresholds
+    props: ['imdb', 'value', 'name', 'max', 'size', 'title', 'thresholds'],
+    methods: {
+      loadChart() {
+        c3.generate({
+          bindto: this.$refs.gauge,
+          data: {
+            columns: [
+              [this.name, this.value]
+            ],
+            type: 'gauge'
+          },
+          gauge: {
+            min: 0,
+            max: this.max
+          },
+          color: {
+            pattern: ['#de3e38', '#c19518', '#009946'],
+            threshold: {
+              values: this.thresholds
+            }
+          },
+          size: {
+            height: this.size
           }
-        },
-        size: {
-          height: this.size
+        });
+      }
+    },
+    mounted() {
+      this.$bus.$on(MOVIE_SELECTED, (movie) => {
+        if (movie.imdb_id === this.imdb) {
+          this.loadChart();
         }
       });
     }

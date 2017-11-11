@@ -23,17 +23,20 @@
               :value="movie.vote_average"
               :max="10" :size="100"
               :title="`${movie.vote_count} votes`"
-              :thresholds="[4, 7]"></gauge-chart>
+              :thresholds="[4, 7]"
+              :imdb="movie.imdb_id"></gauge-chart>
       <gauge-chart
               name="Movie popularity"
               :value="movie.popularity"
               :max="popularity" :size="100"
               :title="'Popularity'"
-              :thresholds="[1, 40]"></gauge-chart>
+              :thresholds="[1, 40]"
+              :imdb="movie.imdb_id"></gauge-chart>
       <profitability-chart
               v-if="movie.budget !== 0 && movie.revenue !== undefined"
               :budget="movie.budget"
-              :revenue="movie.revenue"></profitability-chart>
+              :revenue="movie.revenue"
+              :imdb="movie.imdb_id"></profitability-chart>
       <p><span v-for="genre in movie.genres" :key="genre.id"><span class="badge">{{ genre.name }}</span>&nbsp;</span></p>
     </div>
   </div>

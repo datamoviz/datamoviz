@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section @keyup.escape="$refs.searchField.reset()">
     <search ref="searchField"></search>
     <div class="results-container" v-if="movies.length !== 0">
       <div class="results" :style="{ 'margin-left': `${-2000 + shift}px` }">
@@ -50,7 +50,7 @@
         fetch(`http://localhost:3030/filtered/movies?filters=${encodeURI(JSON.stringify(filters))}`)
           .then(response => response.json())
           .then((movies) => {
-            this.movies = movies.sort((a, b) => a.popularity < b.popularity);
+            this.movies = movies;
           })
           .catch(() => {
             this.failure = true;

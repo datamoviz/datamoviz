@@ -15,31 +15,36 @@
 
   export default {
     name: 'app-overview',
-    mounted() {
-      c3.generate({
-        bindto: this.$refs.overviewChart,
-        data: {
-          x: 'Years',
-          columns: [
-            ['Years', ...[...new Array(117).keys()].map((val) => 1900 + val)],
-            ['Movies average budget', ...[...new Array(117).keys()].map((val) => 1000000 + Math.round((val + Math.random()*20)**4))],
-            ['Movies average revenues', ...[...new Array(117).keys()].map((val) => 1000000 + Math.round((val + Math.random()*20)**4.1))]
-          ]
-        },
-        color: {
-          pattern: ['#009946', '#2f76b5']
-        },
-        axis : {
-          y: {
-            tick: {
-              format: d3.format("$,")
+    methods: {
+      loadChart() {
+        c3.generate({
+          bindto: this.$refs.overviewChart,
+          data: {
+            x: 'Years',
+            columns: [
+              ['Years', ...[...new Array(117).keys()].map((val) => 1900 + val)],
+              ['Movies average budget', ...[...new Array(117).keys()].map((val) => 1000000 + Math.round((val + Math.random()*20)**4))],
+              ['Movies average revenues', ...[...new Array(117).keys()].map((val) => 1000000 + Math.round((val + Math.random()*20)**4.1))]
+            ]
+          },
+          color: {
+            pattern: ['#009946', '#2f76b5']
+          },
+          axis : {
+            y: {
+              tick: {
+                format: d3.format("$,")
+              }
             }
+          },
+          subchart: {
+            show: true
           }
-        },
-        subchart: {
-          show: true
-        }
-      });
+        });
+      }
+    },
+    mounted() {
+      this.loadChart();
     }
   };
 </script>
