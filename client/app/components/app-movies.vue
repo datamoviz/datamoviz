@@ -3,7 +3,7 @@
     <search ref="searchField"></search>
     <div class="results-container" v-if="movies.length !== 0">
       <div class="results" :style="{ 'margin-left': `${-2000 + shift}px` }">
-        <thumbnail v-for="(movie, key) in movies" :key="key" :position="key + 1" :movie="movie" :total="movies.length"></thumbnail>
+        <thumbnail v-for="(movie, key) in movies" :key="movie.imdb_id" :position="key + 1" :movie="movie" :total="movies.length" :popularity="maxPopularity"></thumbnail>
       </div>
     </div>
     <div class="no-result" v-else-if="!failure">
@@ -30,7 +30,8 @@
       return {
         movies: [],
         failure: false,
-        shift: 0
+        shift: 0,
+        maxPopularity: 0
       };
     },
     methods: {
@@ -39,6 +40,7 @@
           .then(response => response.json())
           .then((movies) => {
             this.movies = movies;
+            this.maxPopularity = this.movies[0].popularity;
           })
           .catch(() => {
             this.failure = true;

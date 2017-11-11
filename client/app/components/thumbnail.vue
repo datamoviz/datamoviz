@@ -21,8 +21,8 @@
       <p>
         Budget: {{ movie.budget|currency('$', 0) }}, revenue: {{ movie.revenue|currency('$', 0) }}.
       </p>
-      <gauge :value="movie.vote_average" name="Vote average" :max="10" color="#" :size="70" :title="`${movie.vote_count} votes`" :thresholds="[4, 7]"></gauge>
-      <gauge :value="movie.popularity" name="Movie popularity" :max="maxPopularity" color="#2f76b5" :size="70" :title="'Popularity'" :thresholds="[1, 10]"></gauge>
+      <gauge :value="movie.vote_average" name="Vote average" :max="10" :size="70" :title="`${movie.vote_count} votes`" :thresholds="[4, 7]"></gauge>
+      <gauge :value="movie.popularity" name="Movie popularity" :max="popularity" :size="70" :title="'Popularity'" :thresholds="[1, 40]"></gauge>
       <p><span v-for="genre in movie.genres" :key="genre.id"><span class="badge">{{ genre.name }}</span>&nbsp;</span></p>
     </div>
   </div>
@@ -34,7 +34,7 @@
 
   export default {
     name: 'thumbnail',
-    props: ['movie', 'position', 'total'],
+    props: ['movie', 'position', 'total', 'popularity'],
     components: {
       Gauge
     },
@@ -45,13 +45,6 @@
         }
 
         return `https://image.tmdb.org/t/p/w320${this.movie.poster_path}`;
-      },
-      maxPopularity() {
-        fetch('http://localhost:3030/filtered/most-popular')
-          .then(response => response.json())
-          .then((movies) => {
-            return movies[0].popularity;
-          })
       }
     },
     data() {
