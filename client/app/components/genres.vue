@@ -47,15 +47,32 @@
         }
 
         this.$bus.$emit(FILTERS_UPDATE, filters);
+      },
+      sortGenres(unsorted) { // Sorting genre in columns instead of lines
+        let nbElements = unsorted.length + 1; // "None" will be added later
+        let nbColumns = 3;
+        const genres = [];
+        for (let i = 6, j = 2; i < nbElements**2/nbColumns; i += nbElements/nbColumns, ++j) {
+          genres.push(unsorted[i % nbElements]);
+
+          if (j % nbColumns === 0) {
+            ++i;
+          }
+        }
+
+        return genres;
       }
     },
     mounted() {
       return fetch('http://localhost:3030/genres')
         .then(response => response.json())
         .then((json) => {
-          json.unshift({ id: -1, name: 'None' });
+          json = json.sort((a, b) => a.name > b.name ? 1 : -1 );
 
-          this.genres = json;
+          const genres = this.sortGenres(json);
+          genres.unshift({ id: -1, name: 'None' });
+
+          this.genres = genres;
         });
     }
   };

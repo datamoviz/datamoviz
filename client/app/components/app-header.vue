@@ -41,8 +41,7 @@
             new CountUp(this.$refs.moviesCount, this.currentTotal, total, null, 2, { separator: ' ' }).start();
             this.currentTotal = parseInt(total);
 
-            if (
-              !filters.hasOwnProperty('$text')
+            if (!filters.hasOwnProperty('$text')
               || this.currentMovie !== filters['$text'].$search.replace(/"/g, '')
               || this.currentTotal === 0) {
               this.currentMovie = '';
