@@ -1,7 +1,7 @@
 <template>
   <form action="#" @submit.prevent="search()">
     <input type="search" placeholder="Filter on a movie..." v-model="searchedMovie" @input="search()" />
-    <button @click="reset()" :class="{ hidden: searchedMovie.length === 0 }"><i class="fa fa-times"></i></button>
+    <button type="reset" @click="reset()" :class="{ hidden: searchedMovie.length === 0 }"><i class="fa fa-times"></i></button>
   </form>
 </template>
 
@@ -19,7 +19,6 @@
       search() {
         const { filters } = this.$bus;
 
-        delete filters.imdb_id;
         if (this.searchedMovie === '') {
           delete filters.$text;
         } else {
@@ -30,16 +29,12 @@
       },
       reset() {
         this.searchedMovie = '';
+        this.search();
       }
     },
     mounted() {
       this.$bus.$on(MOVIE_SELECTED, (movie) => {
-        const { filters } = this.$bus;
-
         this.searchedMovie = movie.title;
-        filters.imdb_id = { $eq: movie.imdb_id };
-
-        this.$bus.$emit(FILTERS_UPDATE, filters);
       });
     }
   };
@@ -69,8 +64,9 @@
       right: 15px;
       border: 0;
       background: none;
-      top: 17px;
+      top: 20px;
       color: $global-color-danger;
+      line-height: 0;
 
       &.hidden {
         display: none;

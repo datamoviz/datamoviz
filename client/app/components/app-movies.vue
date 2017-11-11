@@ -2,8 +2,8 @@
   <section>
     <search ref="searchField"></search>
     <div class="results-container" v-if="movies.length !== 0">
-      <div class="results">
-        <thumbnail v-for="movie in movies" :key="movie.imdb_id" :movie="movie"></thumbnail>
+      <div class="results" :style="{ 'margin-left': `${-2000 + shift}px` }">
+        <thumbnail v-for="(movie, key) in movies" :key="key" :position="key + 1" :movie="movie" :total="movies.length"></thumbnail>
       </div>
     </div>
     <div class="no-result" v-else-if="!failure">
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-  import { FILTERS_UPDATE } from '../event-bus';
+  import { FILTERS_UPDATE, MOVIE_SELECTED } from '../event-bus';
   import Thumbnail from './thumbnail.vue';
   import Search from './search.vue';
 
@@ -29,7 +29,8 @@
     data() {
       return {
         movies: [],
-        failure: false
+        failure: false,
+        shift: 0
       };
     },
     methods: {
@@ -47,11 +48,16 @@
       }
     },
     mounted() {
+      this.loadThumbnails();
+
       this.$bus.$on(FILTERS_UPDATE, (filters) => {
         this.loadThumbnails(filters);
+        this.shift = 0;
       });
 
-      this.loadThumbnails();
+      this.$bus.$on(MOVIE_SELECTED, (movie, shift) => {
+        this.shift = shift;
+      });
     }
   };
 </script>
@@ -74,7 +80,7 @@
         position: absolute;
         top: 0;
         left: 50%;
-        margin-left: -2000px;
+        transition: margin .6s linear;
       }
     }
 

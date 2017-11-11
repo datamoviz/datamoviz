@@ -1,6 +1,6 @@
 <template>
   <div class="movie-container">
-    <a href="#" :class="{ highlighted: highlighted }" @click.prevent="select()">
+    <a href="#" :class="{ highlighted: highlighted, hidden: hidden }" @click.prevent="select()">
       <img :src="posterPath" />
       <span class="title">{{ movie.title }}</span>
     </a><!--
@@ -28,7 +28,7 @@
 
   export default {
     name: 'thumbnail',
-    props: ['movie'],
+    props: ['movie', 'position', 'total'],
     computed: {
       posterPath () {
         if (this.movie.poster_path === null) {
@@ -40,21 +40,33 @@
     },
     data() {
       return {
-        highlighted: false
+        highlighted: false,
+        hidden: false
       };
     },
     methods: {
       select() {
-        this.$bus.$emit(MOVIE_SELECTED, this.movie);
+        this.highlighted = true;
+        this.$bus.$emit(MOVIE_SELECTED, this.movie, this.shift());
+      },
+      shift() {
+        if (!this.highlighted) {
+          return 0;
+        }
+
+        const shift = (this.total + 1) - (this.position * 2);
+
+        return 100 * shift;
       }
     },
     mounted() {
-      this.$bus.$on(FILTERS_UPDATE, (filters) => {
-        if (!Object.prototype.hasOwnProperty.call(filters, 'imdb_id')) {
-          this.highlighted = false;
-        } else {
-          this.highlighted = filters.imdb_id.$eq === this.movie.imdb_id;
-        }
+      this.$bus.$on(MOVIE_SELECTED, (movie) => {
+        this.highlighted = movie.imdb_id === this.movie.imdb_id;
+        this.hidden = !this.highlighted;
+      });
+      this.$bus.$on(FILTERS_UPDATE, () => {
+        this.hidden = false;
+        this.highlighted = false;
       });
     }
   };
@@ -80,6 +92,11 @@
         opacity: 1;
       }
 
+      &:focus {
+        opacity: 1;
+        outline: none;
+      }
+
       &.highlighted {
         opacity: 1;
 
@@ -93,6 +110,11 @@
           border-bottom-left-radius: 3px;
           border-bottom-right-radius: 3px;
         }
+      }
+
+      &.hidden {
+        opacity: 0;
+        pointer-events: none;
       }
 
       img {
@@ -115,13 +137,14 @@
       width: 0;
       overflow: hidden;
       padding: 0;
-      transition: width .5s;
+      transition: opacity 0s, width .6s linear, padding .6s linear;
       opacity: 0;
 
       &.visible {
         width: 900px;
         opacity: 1;
         padding: 10px;
+        transition: opacity 1s linear .6s, width .6s linear;
       }
 
       p {

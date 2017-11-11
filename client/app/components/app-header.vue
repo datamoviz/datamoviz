@@ -42,16 +42,16 @@
           .then(response => response.json())
           .then(json => json)
           .then((total) => {
-            new CountUp(this.$refs.moviesCount, this.currentTotal, total, null, 2, { separator: ' ' }).start();
-            this.currentTotal = parseInt(total, 10);
-
-            if (!Object.prototype.hasOwnProperty.call(filters, 'imdb_id') || this.currentTotal === 0) {
-              this.currentMovie = '';
-            }
+            this.updateTotal(total);
+            this.currentMovie = '';
           })
           .catch(() => {
             this.failure = true;
           });
+      },
+      updateTotal(total) {
+        new CountUp(this.$refs.moviesCount, this.currentTotal, total, null, 2, { separator: ' ' }).start();
+        this.currentTotal = parseInt(total, 10);
       }
     },
     mounted() {
@@ -60,6 +60,7 @@
       this.$bus.$on(FILTERS_UPDATE, this.countMovies);
       this.$bus.$on(MOVIE_SELECTED, (movie) => {
         this.currentMovie = movie.title;
+        this.updateTotal(1);
       });
     }
   };
