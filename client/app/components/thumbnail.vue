@@ -19,10 +19,10 @@
       </p>
       <p class="overview">{{ movie.overview }}</p>
       <p>
-        {{ movie.vote_average }}<i class="fa fa-star"></i>/10, {{ movie.vote_count }} evaluations
-        <small>(popularity: {{ movie.popularity }})</small> &bull;
         Budget: {{ movie.budget|currency('$', 0) }}, revenue: {{ movie.revenue|currency('$', 0) }}.
       </p>
+      <gauge :value="movie.vote_average" name="Vote average" :max="10" color="#" :size="70" :title="`${movie.vote_count} votes`" :thresholds="[4, 7]"></gauge>
+      <gauge :value="movie.popularity" name="Movie popularity" :max="maxPopularity" color="#2f76b5" :size="70" :title="'Popularity'" :thresholds="[1, 10]"></gauge>
       <p><span v-for="genre in movie.genres" :key="genre.id"><span class="badge">{{ genre.name }}</span>&nbsp;</span></p>
     </div>
   </div>
@@ -30,10 +30,14 @@
 
 <script>
   import { FILTERS_UPDATE, MOVIE_SELECTED } from '../event-bus';
+  import Gauge from './gauge.vue';
 
   export default {
     name: 'thumbnail',
     props: ['movie', 'position', 'total'],
+    components: {
+      Gauge
+    },
     computed: {
       posterPath () {
         if (this.movie.poster_path === null) {
@@ -41,6 +45,13 @@
         }
 
         return `https://image.tmdb.org/t/p/w320${this.movie.poster_path}`;
+      },
+      maxPopularity() {
+        fetch('http://localhost:3030/filtered/most-popular')
+          .then(response => response.json())
+          .then((movies) => {
+            return movies[0].popularity;
+          })
       }
     },
     data() {

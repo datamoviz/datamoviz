@@ -34,9 +34,17 @@
       };
     },
     methods: {
+      loadPopulars() {
+        fetch('http://localhost:3030/filtered/most-popular')
+          .then(response => response.json())
+          .then((movies) => {
+            this.movies = movies;
+          })
+          .catch(() => {
+            this.failure = true;
+          });
+      },
       loadThumbnails(filters) {
-        filters = filters || {};
-
         fetch(`http://localhost:3030/filtered/movies?filters=${encodeURI(JSON.stringify(filters))}`)
           .then(response => response.json())
           .then((movies) => {
@@ -48,10 +56,14 @@
       }
     },
     mounted() {
-      this.loadThumbnails();
+      this.loadPopulars();
 
       this.$bus.$on(FILTERS_UPDATE, (filters) => {
-        this.loadThumbnails(filters);
+        if (Object.keys(filters).length === 0) {
+          this.loadPopulars();
+        } else {
+          this.loadThumbnails(filters);
+        }
         this.shift = 0;
       });
 

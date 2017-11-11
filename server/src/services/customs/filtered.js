@@ -14,4 +14,12 @@ module.exports = function (app) {
       });
     }
   });
+
+  app.use('/filtered/most-popular', {
+    find() {
+      return app.get('mongoClient').then(db => {
+        return db.collection('movies').find({}).sort({popularity:-1}).limit(15).toArray();
+      });
+    }
+  });
 };
