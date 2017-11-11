@@ -31,7 +31,7 @@
       return {
         currentTotal: 0,
         currentMovie: '',
-        failure: false,
+        failure: false
       };
     },
     methods: {
