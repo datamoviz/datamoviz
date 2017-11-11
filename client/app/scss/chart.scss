@@ -10,4 +10,12 @@
   path, line {
     stroke: white;
   }
+
+  .c3-tooltip {
+    color: $global-color-background;
+
+    th {
+      background: $global-color-primary;
+    }
+  }
 }

@@ -11,6 +11,7 @@
 
 <script>
   import c3 from 'c3';
+  import * as d3 from 'd3';
 
   export default {
     name: 'app-overview',
@@ -21,11 +22,18 @@
           x: 'Years',
           columns: [
             ['Years', ...[...new Array(117).keys()].map((val) => 1900 + val)],
-            ['Evolution of movies budget', ...[...new Array(117).keys()].map((val) => Math.round(Math.random() * val**3))],
-            ['Evolution of movies revenues', ...[...new Array(117).keys()].map((val) => Math.round(Math.random() * val**3.3))]
-          ],
-          colors: {
-            'Evolution of movies budget': '#009946'
+            ['Movies average budget', ...[...new Array(117).keys()].map((val) => 1000000 + Math.round((val + Math.random()*20)**4))],
+            ['Movies average revenues', ...[...new Array(117).keys()].map((val) => 1000000 + Math.round((val + Math.random()*20)**4.1))]
+          ]
+        },
+        color: {
+          pattern: ['#009946', '#2f76b5']
+        },
+        axis : {
+          y: {
+            tick: {
+              format: d3.format("$,")
+            }
           }
         },
         subchart: {
