@@ -11,7 +11,7 @@
           </h1>
         </div>
         <div class="col-6 col-sm-3 movies-count">
-          <span ref="moviesCount">0</span> {{ currentTotal|pluralize('movie') }}
+          <span ref="moviesCount" class="counter">0</span> {{ currentTotal|pluralize('movie') }}
           <span class="title" v-if="currentMovie !== ''">
             <br />{{ currentMovie }}
           </span>
@@ -50,7 +50,10 @@
           });
       },
       updateTotal(total) {
-        new CountUp(this.$refs.moviesCount, this.currentTotal, total, null, 2, { separator: ' ' }).start();
+        const counter = this.$refs.moviesCount;
+        new CountUp(counter, this.currentTotal, total, null, 2, { separator: ' ' }).start();
+        counter.style.animation = 'none';
+        setTimeout(() => { counter.style.animation = ''}, 10);
         this.currentTotal = parseInt(total, 10);
       }
     },
@@ -110,8 +113,13 @@
       text-align: right;
       line-height: 1em;
 
-      span {
+      .counter, .title {
         color: $global-color-primary;
+      }
+
+      .counter {
+        animation: bounce 1000ms linear both;
+        display: inline-block;
       }
 
       .title {
