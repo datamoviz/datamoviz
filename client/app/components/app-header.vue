@@ -5,6 +5,9 @@
         <div class="col-6 ml-sm-auto">
           <h1>
             <a href="/">Data<span class="name">Mo</span>viz</a>
+            <small class="failure" v-if="failure">
+              <i class="fa fa-plug"></i>
+            </small>
           </h1>
         </div>
         <div class="col-6 col-sm-3 movies-count">
@@ -27,7 +30,8 @@
     data() {
       return {
         currentTotal: 0,
-        currentMovie: ''
+        currentMovie: '',
+        failure: false,
       };
     },
     methods: {
@@ -44,6 +48,9 @@
             if (!Object.prototype.hasOwnProperty.call(filters, 'imdb_id') || this.currentTotal === 0) {
               this.currentMovie = '';
             }
+          })
+          .catch(() => {
+            this.failure = true;
           });
       }
     },
@@ -89,6 +96,11 @@
         color: $global-color-primary;
         font-weight: normal;
       }
+
+      small {
+        font-size: 0.5em;
+        vertical-align: super;
+      }
     }
 
     .movies-count {
@@ -103,6 +115,10 @@
 
       .title {
         font-size: 0.7em;
+      }
+
+      .failure {
+        color: $global-color-danger;
       }
     }
   }

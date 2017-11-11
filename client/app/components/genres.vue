@@ -1,5 +1,5 @@
 <template>
-    <div class="col-md-6">
+  <div class="col-md-6">
     <h3>Genres
       <small>
         <input type="checkbox" id="toggle-all" v-model="enabled" @change="toggleAll()" />
@@ -7,12 +7,15 @@
       </small>
     </h3>
     <div class="row filters">
-      <div class="col" v-if="genres.length === 0">
-        <i class="fa fa-spinner fa-spin"></i> Loading...
-      </div>
-      <template v-else>
+      <template v-if="genres.length !== 0">
         <genre v-for="genre in genres" :key="genre.id" :name="genre.name"></genre>
       </template>
+      <div class="col" v-else-if="!failure">
+        <i class="fa fa-spinner fa-spin"></i> Loading...
+      </div>
+      <div class="col failure" v-else>
+        Failed to reach server.
+      </div>
     </div>
   </div>
 </template>
@@ -29,7 +32,8 @@
     data() {
       return {
         genres: [],
-        enabled: true
+        enabled: true,
+        failure: false
       };
     },
     methods: {
@@ -73,6 +77,9 @@
           genres.unshift({ id: -1, name: 'None' });
 
           this.genres = genres;
+        })
+        .catch(() => {
+          this.failure = true;
         });
     }
   };
@@ -93,5 +100,9 @@
 
   div.filters div:first-child label {
     font-style: italic;
+  }
+
+  .failure {
+    color: $global-color-danger;
   }
 </style>

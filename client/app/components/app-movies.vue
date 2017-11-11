@@ -6,8 +6,11 @@
         <thumbnail v-for="movie in movies" :key="movie.imdb_id" :movie="movie"></thumbnail>
       </div>
     </div>
-    <div class="no-result" v-else>
-        No result found...
+    <div class="no-result" v-else-if="!failure">
+      No result found...
+    </div>
+    <div class="failure" v-else>
+      Failed to reach server.
     </div>
   </section>
 </template>
@@ -25,7 +28,8 @@
     },
     data() {
       return {
-        movies: []
+        movies: [],
+        failure: false
       };
     },
     methods: {
@@ -36,6 +40,9 @@
           .then(response => response.json())
           .then((movies) => {
             this.movies = movies.sort((a, b) => a.popularity < b.popularity);
+          })
+          .catch(() => {
+            this.failure = true;
           });
       }
     },
@@ -50,6 +57,8 @@
 </script>
 
 <style scoped lang="scss" ref="stylesheet/scss">
+  @import '../scss/vars';
+
   section {
     max-width: 100%;
     overflow-x: hidden;
@@ -69,10 +78,14 @@
       }
     }
 
-    .no-result {
+    .no-result, .failure {
       text-align: center;
       padding: 20px;
       height: 360px;
+    }
+
+    .failure {
+      color: $global-color-danger;
     }
   }
 </style>

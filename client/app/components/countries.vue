@@ -1,10 +1,7 @@
 <template>
   <div class="col-md-6">
     <h3>Production countries</h3>
-    <div v-if="countries.length === 0">
-      <i class="fa fa-spinner fa-spin"></i> Loading...
-    </div>
-    <div v-else>
+    <div v-if="countries.length !== 0">
       <multiselect
               placeholder="Choose the countries you want to filter on..."
               v-model="selected"
@@ -15,6 +12,12 @@
               :close-on-select="false"
               @input="refreshFilters">
       </multiselect>
+    </div>
+    <div v-else-if="!failure">
+      <i class="fa fa-spinner fa-spin"></i> Loading...
+    </div>
+    <div class="failure" v-else>
+      Failed to reach server.
     </div>
   </div>
 </template>
@@ -44,7 +47,8 @@
     data() {
       return {
         selected: [],
-        countries: []
+        countries: [],
+        failure: false
       };
     },
     mounted() {
@@ -52,6 +56,9 @@
         .then(response => response.json())
         .then((json) => {
           this.countries = json;
+        })
+        .catch(() => {
+          this.failure = true;
         });
     }
   };
@@ -64,6 +71,10 @@
   .multiselect__option.multiselect__option--highlight,
   .multiselect__option.multiselect__option--highlight::after,
   .multiselect__tag {
-      background: $global-color-primary;
-    }
+    background: $global-color-primary;
+  }
+
+  .failure {
+    color: $global-color-danger;
+  }
 </style>
