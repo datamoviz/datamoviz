@@ -68,7 +68,7 @@
       }
     },
     mounted() {
-      return fetch('http://localhost:3030/genres')
+      return fetch(`${process.env.SERVER_URL}/genres`)
         .then(response => response.json())
         .then((json) => {
           json = json.sort((a, b) => (a.name > b.name ? 1 : -1));

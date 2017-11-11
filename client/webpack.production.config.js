@@ -2,7 +2,6 @@ let webpack = require('webpack');
 let path = require('path');
 let uglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 let CopyWebpackPlugin = require('copy-webpack-plugin');
-let ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
   devtool: 'cheap-source-map',
@@ -15,27 +14,32 @@ module.exports = {
     filename: './bundle.js'
   },
   module: {
-    loaders:[
-        { test: /\.jsx?$/,
-          include: path.resolve(__dirname, 'app'),
-          exclude: /node_modules/,
-          loader: 'babel-loader',
-          query: {
-            presets: ['es2015', 'stage-0', 'react']
+    loaders: [
+      {
+        test: /\.js$/,
+        include: path.resolve(__dirname, 'app'),
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015', 'stage-0']
+        }
+      },
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+        options: {
+          loaders: {
+            scss: 'vue-style-loader!css-loader!resolve-url-loader!sass-loader?sourceMap'
           }
-        },
-        { test: /\.css$/, include: path.resolve(__dirname, 'app'), loader: 'style-loader!css-loader' },
-        { test: /\.scss$/, loader: ExtractTextPlugin.extract('style', 'css?sourceMap!sass?sourceMap')},
+        }
+      },
+      { test: /\.(png|jpe?g|gif|svg|ttf|woff2?|eot|ico)(\?.*)?$/, loader: 'url-loader', query: { limit: 10000, name: 'assets/[name].[ext]'}}
     ]
   },
   resolve: {
-    extensions: ['', '.js', '.jsx'],
-  },
-  sassLoader: {
-    includePaths: [ 'app/style' ]
+    extensions: ['.js'],
   },
   plugins: [
-    new webpack.optimize.DedupePlugin(),
     new uglifyJsPlugin({
       compress: {
         warnings: false
@@ -43,13 +47,20 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify('production')
+        NODE_ENV: '"production"',
+        SERVER_URL: '"http://localhost:3030"'
       }
     }),
-    new ExtractTextPlugin('main.css'),
     new CopyWebpackPlugin([
       { from: './app/index.html', to: 'index.html' },
-      { from: './app/main.scss', to: 'main.css' }
     ]),
+    new webpack.LoaderOptionsPlugin({
+      options: {
+        context: path.join(__dirname, 'src'),
+        output: {
+          path: path.join(__dirname, 'www')
+        }
+      }
+    })
   ]
 };

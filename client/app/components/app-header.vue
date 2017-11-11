@@ -36,7 +36,7 @@
       countMovies(filters) {
         filters = filters || {};
 
-        return fetch(`http://localhost:3030/count/movies?filters=${encodeURI(JSON.stringify(filters))}`)
+        return fetch(`${process.env.SERVER_URL}/count/movies?filters=${encodeURI(JSON.stringify(filters))}`)
           .then(response => response.json())
           .then(json => json)
           .then((total) => {

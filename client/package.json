@@ -1,7 +1,7 @@
 {
-  "name": "charts",
+  "name": "datamoviz",
   "version": "1.0.0",
-  "description": "BlockViz data visualization",
+  "description": "DataMoviz data visualization",
   "main": "app/main.js",
   "scripts": {
     "lint": "eslint 'app/**/*.@(js|vue)'",
@@ -36,12 +36,10 @@
     "eslint-config-airbnb": "latest",
     "eslint-plugin-html": "^3.2.2",
     "eslint-plugin-import": "latest",
-    "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-react": "^7.4.0",
     "extract-text-webpack-plugin": "^2.0.0",
     "file-loader": "^1.1.5",
     "node-sass": "^3.0.0",
-    "open-browser-webpack-plugin": "latest",
+    "resolve-url-loader": "^2.2.0",
     "sass-loader": "^2.0.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.6.2",
@@ -50,11 +48,6 @@
     "webpack": "^2.1.0-beta.22",
     "webpack-dev-server": "^2.1.0-beta.8"
   },
-  "keywords": [
-    "es6",
-    "d3",
-    "webpack"
-  ],
-  "author": "Kirell Benzi",
+  "author": "Quentin de Longraye",
   "license": "MIT"
 }

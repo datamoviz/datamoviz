@@ -52,7 +52,7 @@
       };
     },
     mounted() {
-      return fetch('http://localhost:3030/countries')
+      return fetch(`${process.env.SERVER_URL}/countries`)
         .then(response => response.json())
         .then((json) => {
           this.countries = json;

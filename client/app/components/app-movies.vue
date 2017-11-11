@@ -36,7 +36,7 @@
     },
     methods: {
       loadPopulars() {
-        fetch('http://localhost:3030/filtered/most-popular')
+        fetch(`${process.env.SERVER_URL}/filtered/most-popular`)
           .then(response => response.json())
           .then((movies) => {
             this.movies = movies;
@@ -47,7 +47,7 @@
           });
       },
       loadThumbnails(filters) {
-        fetch(`http://localhost:3030/filtered/movies?filters=${encodeURI(JSON.stringify(filters))}`)
+        fetch(`${process.env.SERVER_URL}/filtered/movies?filters=${encodeURI(JSON.stringify(filters))}`)
           .then(response => response.json())
           .then((movies) => {
             this.movies = movies;
