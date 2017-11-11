@@ -11,10 +11,8 @@
           </h1>
         </div>
         <div class="col-6 col-sm-3 movies-count">
-          <span ref="moviesCount" class="counter">0</span> {{ currentTotal|pluralize('movie') }}
-          <span class="title" v-if="currentMovie !== ''">
-            <br />{{ currentMovie }}
-          </span>
+          <span ref="moviesCount" class="counter">0</span> {{ currentTotal|pluralize('movie') }}<!--
+          --><span class="title" v-if="currentMovie !== ''"><br />{{ currentMovie }}</span>
         </div>
       </div>
     </div>
@@ -124,6 +122,7 @@
 
       .title {
         font-size: 0.7em;
+        line-height: 1em;
       }
 
       .failure {
