@@ -73,16 +73,26 @@
       text-align: center;
       vertical-align: top;
       display: inline-block;
+      width: 200px;
+      overflow: hidden;
 
       &:hover {
         opacity: 1;
       }
 
       &.highlighted {
-        background: $global-color-primary;
         opacity: 1;
-        border-bottom-left-radius: 3px;
-        border-bottom-right-radius: 3px;
+
+        img {
+          border-top-left-radius: 5px;
+          border-top-right-radius: 5px;
+        }
+
+        .title {
+          background: $global-color-primary;
+          border-bottom-left-radius: 3px;
+          border-bottom-right-radius: 3px;
+        }
       }
 
       img {
@@ -92,10 +102,9 @@
 
       .title {
         display: inline-block;
-        width: 180px;
+        width: 200px;
         font-size: 0.9em;
-        padding: 10px 0;
-        height: 60px;
+        padding: 10px 5px;
       }
     }
     .details {
@@ -112,6 +121,10 @@
         width: 900px;
         opacity: 1;
         padding: 10px;
+      }
+
+      p {
+        text-align: justify;
       }
     }
   }

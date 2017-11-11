@@ -56,7 +56,7 @@
 
     .results-container {
       position: relative;
-      height: 360px;
+      height: 365px;
       overflow: hidden;
 
       .results {
