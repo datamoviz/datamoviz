@@ -3,4 +3,5 @@ module.exports = function (app) {
   require('./countries')(app);
   require('./count')(app);
   require('./filtered')(app);
+  require('./aggregate')(app);
 };
