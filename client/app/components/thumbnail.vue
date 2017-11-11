@@ -148,7 +148,7 @@
       &.visible {
         width: 900px;
         opacity: 1;
-        padding: 0 10px 0 30px;
+        padding: 0 0 0 30px;
         transition: opacity 1s linear .6s, width .6s linear;
       }
 
