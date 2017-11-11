@@ -21,7 +21,7 @@
       <p>
         {{ movie.vote_average }}<i class="fa fa-star"></i>/10, {{ movie.vote_count }} evaluations
         <small>(popularity: {{ movie.popularity }})</small> &bull;
-        Budget: ${{ movie.budget }}, revenue: ${{ movie.revenue }}.
+        Budget: {{ movie.budget|currency('$', 0) }}, revenue: {{ movie.revenue|currency('$', 0) }}.
       </p>
       <p><span v-for="genre in movie.genres" :key="genre.id"><span class="badge">{{ genre.name }}</span>&nbsp;</span></p>
     </div>
