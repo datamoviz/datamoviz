@@ -9,9 +9,8 @@
     </a><!--
     --><div class="details" :class="{ visible: highlighted }">
       <h3>
-        <img :src="`http://www.geonames.org/flags/s/${country.iso_3166_1.toLowerCase()}.png`"
-             v-for="country in movie.production_countries" :key="country.iso_3166_1" :alt="country.name" :title="country.name" />
-        {{ movie.original_title }}
+        <span v-for="country in movie.production_countries" :key="country.iso_3166_1"><img :src="`http://www.geonames.org/flags/s/${country.iso_3166_1.toLowerCase()}.png`" :alt="country.name" :title="country.name" />&nbsp;</span><!--
+        -->{{ movie.original_title }}
         <small><i class="fa fa-language"></i> {{ movie.spoken_languages.map(a => a.name).join(', ') }}</small>
       </h3>
       <p>
@@ -20,7 +19,7 @@
       </p>
       <p class="overview">{{ movie.overview }}</p>
       <p>
-        {{ movie.vote_average }} <i class="fa fa-star"></i>, {{ movie.vote_count }} evaluations
+        {{ movie.vote_average }}<i class="fa fa-star"></i>/10, {{ movie.vote_count }} evaluations
         <small>(popularity: {{ movie.popularity }})</small> &bull;
         Budget: ${{ movie.budget }}, revenue: ${{ movie.revenue }}.
       </p>
