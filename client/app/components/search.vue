@@ -13,16 +13,16 @@
     data() {
       return {
         searchedMovie: ''
-      }
+      };
     },
     methods: {
       search() {
         const { filters } = this.$bus;
 
         if (this.searchedMovie === '') {
-          delete filters['$text'];
+          delete filters.$text;
         } else {
-          filters['$text'] = { $search: `"${this.searchedMovie.replace(/ /g, '" "')}"` };
+          filters.$text = { $search: `"${this.searchedMovie.replace(/ /g, '" "')}"` };
         }
 
         this.$bus.$emit(FILTERS_UPDATE, filters);
@@ -33,13 +33,13 @@
     },
     mounted() {
       this.$bus.$on(MOVIE_SELECTED, (filters) => {
-        if (filters.hasOwnProperty('$text')) {
-          this.searchedMovie = filters['$text'].$search;
+        if (Object.prototype.hasOwnProperty.call(filters, '$text')) {
+          this.searchedMovie = filters.$text.$search;
           this.search();
         }
       });
     }
-  }
+  };
 </script>
 
 <style scoped lang="scss" ref="stylesheet/scss">

@@ -39,10 +39,10 @@
           .then(json => json)
           .then((total) => {
             new CountUp(this.$refs.moviesCount, this.currentTotal, total, null, 2, { separator: ' ' }).start();
-            this.currentTotal = parseInt(total);
+            this.currentTotal = parseInt(total, 10);
 
-            if (!filters.hasOwnProperty('$text')
-              || this.currentMovie !== filters['$text'].$search.replace(/"/g, '')
+            if (!Object.prototype.hasOwnProperty.call(filters, '$text')
+              || this.currentMovie !== filters.$text.$search.replace(/"/g, '')
               || this.currentTotal === 0) {
               this.currentMovie = '';
             }
@@ -54,8 +54,8 @@
 
       this.$bus.$on(FILTERS_UPDATE, this.countMovies);
       this.$bus.$on(MOVIE_SELECTED, (filters) => {
-        this.currentMovie = filters['$text'].$search;
-      })
+        this.currentMovie = filters.$text.$search;
+      });
     }
   };
 </script>

@@ -26,7 +26,7 @@
     data() {
       return {
         movies: []
-      }
+      };
     },
     methods: {
       loadThumbnails(filters) {
@@ -35,9 +35,7 @@
         fetch(`http://localhost:3030/filtered/movies?filters=${encodeURI(JSON.stringify(filters))}`)
           .then(response => response.json())
           .then((movies) => {
-            this.movies = movies.sort((a, b) => {
-              return a.popularity < b.popularity;
-            });
+            this.movies = movies.sort((a, b) => a.popularity < b.popularity);
           });
       }
     },

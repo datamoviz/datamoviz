@@ -18,15 +18,15 @@
     },
     data() {
       return {
-        value: true,
-      }
+        value: true
+      };
     },
     methods: {
       toggleNone(filters) {
         if (this.value) {
-          delete filters['genres'];
+          delete filters.genres;
         } else {
-          filters['genres'] = { $exists: true, $ne: [] };
+          filters.genres = { $exists: true, $ne: [] };
         }
       },
       toggleGenre(filters) {
@@ -46,7 +46,7 @@
         }
       },
       refreshFilters() {
-        let { filters } = this.$bus;
+        const { filters } = this.$bus;
 
         if (this.name === 'None') {
           this.toggleNone(filters);
@@ -60,7 +60,7 @@
     mounted() {
       this.$bus.$on(FILTERS_GENRE_TOGGLE, (enable) => {
         this.value = enable;
-      })
+      });
     }
   };
 </script>

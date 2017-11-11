@@ -29,7 +29,7 @@
     data() {
       return {
         genres: [],
-        enabled: true,
+        enabled: true
       };
     },
     methods: {
@@ -40,19 +40,19 @@
 
         if (this.enabled) {
           delete filters['genres.name'];
-          delete filters['genres'];
+          delete filters.genres;
         } else {
           filters['genres.name'] = { $nin: this.genres.map(genre => genre.name) };
-          filters['genres'] = { $exists: true, $ne: [] };
+          filters.genres = { $exists: true, $ne: [] };
         }
 
         this.$bus.$emit(FILTERS_UPDATE, filters);
       },
       sortGenres(unsorted) { // Sorting genre in columns instead of lines
-        let nbElements = unsorted.length + 1; // "None" will be added later
-        let nbColumns = 3;
+        const nbElements = unsorted.length + 1; // "None" will be added later
+        const nbColumns = 3;
         const genres = [];
-        for (let i = 6, j = 2; i < nbElements**2/nbColumns; i += nbElements/nbColumns, ++j) {
+        for (let i = 6, j = 2; i < (nbElements ** 2) / nbColumns; i += nbElements / nbColumns, ++j) {
           genres.push(unsorted[i % nbElements]);
 
           if (j % nbColumns === 0) {
@@ -67,7 +67,7 @@
       return fetch('http://localhost:3030/genres')
         .then(response => response.json())
         .then((json) => {
-          json = json.sort((a, b) => a.name > b.name ? 1 : -1 );
+          json = json.sort((a, b) => (a.name > b.name ? 1 : -1));
 
           const genres = this.sortGenres(json);
           genres.unshift({ id: -1, name: 'None' });
