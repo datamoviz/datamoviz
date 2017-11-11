@@ -8,21 +8,23 @@
       </span>
     </a><!--
     --><div class="details" :class="{ visible: highlighted }">
-      <ul>
-        <li>Original title: {{ movie.original_title }}</li>
-        <li>IMDb ID: {{ movie.imdb_id }}</li>
-        <li>Popularity: {{ movie.popularity }}</li>
-        <li>Budget: ${{ movie.budget }}, Revenue: ${{ movie.revenue }}</li>
-        <li>Spoken languages: {{ movie.spoken_languages.map(a => a.name).join(', ') }}</li>
-        <li>Vote: {{ movie.vote_average }} ({{ movie.vote_count }} notes)</li>
-        <li>Release date: {{ movie.release_date }}</li>
-        <li>
-          Production countries: {{ movie.production_countries.map(a => a.name).join(', ') }}
-        </li>
-        <li>Genres: {{ movie.genres.map(a => a.name).join(', ') }}</li>
-        <li>Adult: {{ movie.adult }}</li>
-      </ul>
-      <p>{{ movie.overview }}</p>
+      <h3>
+        <img :src="`http://www.geonames.org/flags/s/${country.iso_3166_1.toLowerCase()}.png`"
+             v-for="country in movie.production_countries" :key="country.iso_3166_1" :alt="country.name" :title="country.name" />
+        {{ movie.original_title }}
+        <small><i class="fa fa-language"></i> {{ movie.spoken_languages.map(a => a.name).join(', ') }}</small>
+      </h3>
+      <p>
+        <span class="badge">IMDb {{ movie.imdb_id }}</span>
+        <span class="badge">{{ movie.release_date }}</span>
+      </p>
+      <p class="overview">{{ movie.overview }}</p>
+      <p>
+        {{ movie.vote_average }} <i class="fa fa-star"></i>, {{ movie.vote_count }} evaluations
+        <small>(popularity: {{ movie.popularity }})</small> &bull;
+        Budget: ${{ movie.budget }}, revenue: ${{ movie.revenue }}.
+      </p>
+      <p><span v-for="genre in movie.genres" :key="genre.id"><span class="badge">{{ genre.name }}</span>&nbsp;</span></p>
     </div>
   </div>
 </template>
@@ -147,12 +149,16 @@
       &.visible {
         width: 900px;
         opacity: 1;
-        padding: 10px;
+        padding: 0 10px 0 30px;
         transition: opacity 1s linear .6s, width .6s linear;
       }
 
       p {
         text-align: justify;
+
+        &.overview {
+          margin-bottom: 30px;
+        }
       }
     }
   }
