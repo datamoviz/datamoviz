@@ -1,6 +1,6 @@
-# DataMoviz
+# DataMoviz 🎥
 
-DataMoviz is a data visualization website about movies 🎥...
+DataMoviz is a data visualization website about movies...
 
 ## Installation
 
