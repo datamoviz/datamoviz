@@ -98,6 +98,7 @@
       img {
         height: 300px;
         display: block;
+        width: 100%;
       }
 
       .title {
