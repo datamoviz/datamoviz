@@ -40,7 +40,7 @@
           .then(response => response.json())
           .then((movies) => {
             this.movies = movies;
-            this.maxPopularity = this.movies[0].popularity;
+            this.maxPopularity = Math.floor(this.movies[0].popularity);
           })
           .catch(() => {
             this.failure = true;

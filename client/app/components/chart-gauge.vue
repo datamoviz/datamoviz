@@ -9,7 +9,7 @@
   import c3 from 'c3';
 
   export default {
-    name: 'gauge',
+    name: 'gauge-chart',
     props: ['value', 'name', 'max', 'size', 'title', 'thresholds'],
     mounted() {
       c3.generate({
@@ -41,7 +41,8 @@
 <style scoped lang="scss" ref="stylesheet/scss">
   .gauge {
     display: inline-block;
-    width: 125px;
+    width: 150px;
+    margin: 0 20px 20px 0;
     font-size: 0.8em;
     font-style: italic;
     text-align: center;

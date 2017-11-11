@@ -18,11 +18,22 @@
         <span class="badge">{{ movie.release_date }}</span>
       </p>
       <p class="overview">{{ movie.overview }}</p>
-      <p>
-        Budget: {{ movie.budget|currency('$', 0) }}, revenue: {{ movie.revenue|currency('$', 0) }}.
-      </p>
-      <gauge :value="movie.vote_average" name="Vote average" :max="10" :size="70" :title="`${movie.vote_count} votes`" :thresholds="[4, 7]"></gauge>
-      <gauge :value="movie.popularity" name="Movie popularity" :max="popularity" :size="70" :title="'Popularity'" :thresholds="[1, 40]"></gauge>
+      <gauge-chart
+              name="Vote average"
+              :value="movie.vote_average"
+              :max="10" :size="100"
+              :title="`${movie.vote_count} votes`"
+              :thresholds="[4, 7]"></gauge-chart>
+      <gauge-chart
+              name="Movie popularity"
+              :value="movie.popularity"
+              :max="popularity" :size="100"
+              :title="'Popularity'"
+              :thresholds="[1, 40]"></gauge-chart>
+      <profitability-chart
+              v-if="movie.budget !== 0 && movie.revenue !== undefined"
+              :budget="movie.budget"
+              :revenue="movie.revenue"></profitability-chart>
       <p><span v-for="genre in movie.genres" :key="genre.id"><span class="badge">{{ genre.name }}</span>&nbsp;</span></p>
     </div>
   </div>
@@ -30,13 +41,15 @@
 
 <script>
   import { FILTERS_UPDATE, MOVIE_SELECTED } from '../event-bus';
-  import Gauge from './gauge.vue';
+  import GaugeChart from './chart-gauge.vue';
+  import ProfitabilityChart from './chart-profitability.vue';
 
   export default {
     name: 'thumbnail',
     props: ['movie', 'position', 'total', 'popularity'],
     components: {
-      Gauge
+      GaugeChart,
+      ProfitabilityChart
     },
     computed: {
       posterPath () {
@@ -160,7 +173,7 @@
         text-align: justify;
 
         &.overview {
-          margin-bottom: 30px;
+          margin-bottom: 10px;
         }
       }
     }
