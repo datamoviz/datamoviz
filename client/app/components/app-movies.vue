@@ -68,10 +68,11 @@
   section {
     max-width: 100%;
     overflow-x: hidden;
+    margin-bottom: 0;
 
     .results-container {
       position: relative;
-      height: 365px;
+      height: 390px;
       overflow: hidden;
 
       .results {
@@ -87,7 +88,7 @@
     .no-result, .failure {
       text-align: center;
       padding: 20px;
-      height: 360px;
+      height: 390px;
     }
 
     .failure {

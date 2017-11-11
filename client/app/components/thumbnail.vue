@@ -132,7 +132,7 @@
     }
     .details {
       display: inline-block;
-      height: 360px;
+      height: 390px;
       text-align: left;
       width: 0;
       overflow: hidden;
