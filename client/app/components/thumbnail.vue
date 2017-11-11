@@ -17,6 +17,7 @@
           Production countries: {{ movie.production_countries.map(a => a.name).join(', ') }}
         </li>
         <li>Genres: {{ movie.genres.map(a => a.name).join(', ') }}</li>
+        <li>Adult: {{ movie.adult }}</li>
       </ul>
       <p>{{ movie.overview }}</p>
     </div>

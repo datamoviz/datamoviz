@@ -1,5 +1,5 @@
 <template>
-  <div class="col-md-6">
+  <div class="col-12">
     <h3>Genres
       <small>
         <input type="checkbox" id="toggle-all" v-model="enabled" @change="toggleAll()" />
@@ -25,7 +25,7 @@
   import Genre from './genre.vue';
 
   export default {
-    name: 'genres',
+    name: 'filter-genres',
     components: {
       Genre
     },

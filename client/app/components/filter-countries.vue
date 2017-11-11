@@ -1,5 +1,5 @@
 <template>
-  <div class="col-md-6">
+  <div class="col-12">
     <h3>Production countries</h3>
     <div v-if="countries.length !== 0">
       <multiselect
@@ -27,7 +27,7 @@
   import { FILTERS_UPDATE } from '../event-bus';
 
   export default {
-    name: 'countries',
+    name: 'filter-countries',
     components: {
       Multiselect
     },
@@ -72,6 +72,10 @@
   .multiselect__option.multiselect__option--highlight::after,
   .multiselect__tag {
     background: $global-color-primary;
+  }
+
+  .multiselect {
+    margin-bottom: 10px;
   }
 
   .failure {
