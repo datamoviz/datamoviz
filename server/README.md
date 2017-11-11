@@ -6,7 +6,7 @@ We use MongoDB to store the movies related data.
 You need to have a MongoDB instance running:
 
 ```
-mongod --dbpath "./data"
+mongod --dbpath "./data/mongo"
 ```
 
 We use two collections :
@@ -20,8 +20,8 @@ You can use this tool [nedb-mongodb](https://github.com/b3rew/nedb-mongodb)
 
 ```
 npm install -g nedb-mongodb
-nedb-mongodb -d datamoviz-api -c movies -n path/to/movies.db -k false
-nedb-mongodb -d datamoviz-api -c credits -n path/to/credits.db -k false
+nedb-mongodb -d datamoviz-api -c movies -n ./data/movies.db -k false
+nedb-mongodb -d datamoviz-api -c credits -n ./data/credits.db -k false
 ```
 
 ## Installation

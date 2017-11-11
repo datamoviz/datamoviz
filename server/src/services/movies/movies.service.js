@@ -16,7 +16,7 @@ module.exports = function () {
   const service = app.service('movies');
 
   mongoClient.then(db => {
-    db.collection('movies').createIndex({'original_title': 'text'});
+    db.collection('movies').createIndex({'title': 'text'});
     service.Model = db.collection('movies');
   });
 

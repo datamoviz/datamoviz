@@ -19,6 +19,7 @@
       search() {
         const { filters } = this.$bus;
 
+        delete filters.imdb_id;
         if (this.searchedMovie === '') {
           delete filters.$text;
         } else {
@@ -32,11 +33,13 @@
       }
     },
     mounted() {
-      this.$bus.$on(MOVIE_SELECTED, (filters) => {
-        if (Object.prototype.hasOwnProperty.call(filters, '$text')) {
-          this.searchedMovie = filters.$text.$search;
-          this.search();
-        }
+      this.$bus.$on(MOVIE_SELECTED, (movie) => {
+        const { filters } = this.$bus;
+
+        this.searchedMovie = movie.title;
+        filters.imdb_id = { $eq: movie.imdb_id };
+
+        this.$bus.$emit(FILTERS_UPDATE, filters);
       });
     }
   };

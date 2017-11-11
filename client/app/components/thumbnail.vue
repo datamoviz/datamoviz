@@ -6,6 +6,7 @@
     </a><!--
     --><div class="details" :class="{ visible: highlighted }">
       <ul>
+        <li>Original title: {{ movie.original_title }}</li>
         <li>IMDb ID: {{ movie.imdb_id }}</li>
         <li>Popularity: {{ movie.popularity }}</li>
         <li>Budget: ${{ movie.budget }}, Revenue: ${{ movie.revenue }}</li>
@@ -44,19 +45,15 @@
     },
     methods: {
       select() {
-        const { filters } = this.$bus;
-
-        filters.$text = { $search: this.movie.title };
-
-        this.$bus.$emit(MOVIE_SELECTED, filters);
+        this.$bus.$emit(MOVIE_SELECTED, this.movie);
       }
     },
     mounted() {
       this.$bus.$on(FILTERS_UPDATE, (filters) => {
-        if (!Object.prototype.hasOwnProperty.call(filters, '$text')) {
+        if (!Object.prototype.hasOwnProperty.call(filters, 'imdb_id')) {
           this.highlighted = false;
         } else {
-          this.highlighted = filters.$text.$search.replace(/"/g, '') === this.movie.title;
+          this.highlighted = filters.imdb_id.$eq === this.movie.imdb_id;
         }
       });
     }
