@@ -48,7 +48,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: '"production"',
-        SERVER_URL: '"http://localhost:3030"'
+        SERVER_URL: '"https://datamoviz.dldl.io/api"'
       }
     }),
     new CopyWebpackPlugin([
