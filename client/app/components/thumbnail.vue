@@ -17,7 +17,7 @@
       </h3>
       <p>
         <span class="badge">IMDb {{ movie.imdb_id }}</span>
-        <span class="badge">{{ movie.release_date }}</span>
+        <span class="badge">{{ movie.release_date|date("%m\/%d\/%Y") }}</span>
       </p>
       <p class="overview"><strong>{{ movie.tagline }}</strong> {{ movie.overview }}</p>
       <gauge-chart

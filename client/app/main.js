@@ -1,9 +1,9 @@
 import Vue from 'vue';
-import Vue2Filters from 'vue2-filters';
+import VueFilter from 'vue-filter';
 import AppMain from './components/app-main.vue';
 import { EventBus } from './event-bus';
 
-Vue.use(Vue2Filters);
+Vue.use(VueFilter);
 
 Object.defineProperties(Vue.prototype, {
   $bus: {

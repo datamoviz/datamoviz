@@ -21,8 +21,8 @@
     "font-awesome": "^4.7.0",
     "lodash": "latest",
     "vue": "^2.5.3",
-    "vue-multiselect": "^2.0.6",
-    "vue2-filters": "^0.2.2"
+    "vue-filter": "^0.2.2",
+    "vue-multiselect": "^2.0.6"
   },
   "devDependencies": {
     "babel-core": "latest",
