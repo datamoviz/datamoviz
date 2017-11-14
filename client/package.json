@@ -2,6 +2,7 @@
   "name": "datamoviz",
   "version": "1.0.0",
   "description": "DataMoviz data visualization",
+  "repository": "https://github.com/quentinus95/datamoviz",
   "main": "app/main.js",
   "scripts": {
     "lint": "eslint 'app/**/*.@(js|vue)'",
@@ -36,6 +37,8 @@
     "eslint-config-airbnb": "latest",
     "eslint-plugin-html": "^3.2.2",
     "eslint-plugin-import": "latest",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0",
     "extract-text-webpack-plugin": "^2.0.0",
     "file-loader": "^1.1.5",
     "node-sass": "^3.0.0",

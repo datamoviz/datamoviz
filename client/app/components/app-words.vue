@@ -2,43 +2,44 @@
   <div class="col col-md-4">
     <h2>Popular words</h2>
     <div ref="chart"></div>
-    <span v-if="words.length === 0"><i class="fa fa-spinner fa-spin"></i> Please wait while I'm counting words...</span>
   </div>
 </template>
 
 <script>
+  import { FILTERS_UPDATE } from '../event-bus';
   import c3 from 'c3';
+  import * as d3 from 'd3';
+
+  let chart;
 
   export default {
     name: 'app-words',
-    data() {
-      return {
-        words: []
-      };
-    },
     methods: {
       loadWords(filters) {
         filters = filters || {};
-
-        fetch(`${process.env.SERVER_URL}/count/words`)
+        fetch(`${process.env.SERVER_URL}/count/words?filters=${encodeURI(JSON.stringify(filters))}`)
           .then(response => response.json())
           .then((words) => {
-            this.words = words;
-            this.loadChart();
+            chart.load({
+              json: words,
+              keys: {
+                x: '_id',
+                value: ['value']
+              }
+            });
           });
       },
       loadChart() {
-        c3.generate({
+        chart = c3.generate({
           bindto: this.$refs.chart,
           data: {
-            columns: [
-              ['data', ...this.words.map(w => w.value)]
-            ],
-            types: {
-              data: 'bar'
-            },
+            json: [],
+            type: 'bar',
             colors: {
-              data: '#009946'
+              value: '#009946'
+            },
+            axes: {
+              value: 'y2'
             }
           },
           legend: {
@@ -47,24 +48,44 @@
           axis: {
             rotated: true,
             x: {
-              type: 'category',
-              categories: this.words.map(w => w._id)
+              type: 'category'
             },
             y: {
               show: false
+            },
+            y2: {
+              show: true,
+              tick: {
+                count: 5,
+                format: d3.format('.0f')
+              },
+              padding: { left: 100 }
             }
           },
           size: {
             height: 500
+          },
+          grid: {
+            y: {
+              show: true
+            }
           }
         });
       }
     },
     mounted() {
       this.loadWords();
+      this.loadChart();
+
+      this.$bus.$on(FILTERS_UPDATE, (filters) => {
+        this.loadWords(filters);
+      });
     }
   };
 </script>
 
 <style scoped lang="scss" ref="stylesheet/scss">
+  h2 {
+    text-align: center;
+  }
 </style>
