@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12">
+  <div>
     <h3>Production countries</h3>
     <div v-if="countries.length !== 0">
       <multiselect

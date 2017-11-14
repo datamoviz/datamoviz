@@ -39,6 +39,8 @@
     "helmet": "^3.9.0",
     "mongodb": "^2.2.33",
     "serve-favicon": "^2.4.5",
+    "stopword": "^0.1.9",
+    "stopwords": "0.0.8",
     "winston": "^2.4.0"
   },
   "devDependencies": {

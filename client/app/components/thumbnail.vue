@@ -19,7 +19,7 @@
         <span class="badge">IMDb {{ movie.imdb_id }}</span>
         <span class="badge">{{ movie.release_date }}</span>
       </p>
-      <p class="overview">{{ movie.overview }}</p>
+      <p class="overview"><strong>{{ movie.tagline }}</strong> {{ movie.overview }}</p>
       <gauge-chart
               name="Vote average"
               :value="movie.vote_average"

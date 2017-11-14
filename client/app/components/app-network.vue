@@ -1,14 +1,8 @@
 <template>
-  <section>
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <h2>Actor network</h2>
-          <svg ref="actorsNetwork" width="960" height="600"></svg>
-        </div>
-      </div>
-    </div>
-  </section>
+  <div class="col col-md-8">
+    <h2>Actors network</h2>
+    <svg ref="actorsNetwork" width="600" height="600"></svg>
+  </div>
 </template>
 
 <script>

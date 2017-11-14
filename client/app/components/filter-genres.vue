@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12">
+  <div class="col-12 col-md-6">
     <h3>Genres
       <small>
         <input type="checkbox" id="toggle-all" v-model="enabled" @change="toggleAll()" />

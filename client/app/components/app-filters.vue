@@ -5,10 +5,8 @@
         <div class="col-12">
           <h2>Filters</h2>
           <div class="row">
-            <div class="col-md-6">
-              <genres-filter></genres-filter>
-            </div>
-            <div class="col-md-6">
+            <genres-filter></genres-filter>
+            <div class="col-12 col-md-6">
               <countries-filter></countries-filter>
               <adult-filter></adult-filter>
             </div>

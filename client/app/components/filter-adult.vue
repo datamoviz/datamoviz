@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12">
+  <div>
     <h3>Adult movies</h3>
     <input type="checkbox" id="filter-adult" @change="refreshFilter()" v-model="exclude" />
     <label for="filter-adult">
