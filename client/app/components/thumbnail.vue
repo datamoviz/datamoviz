@@ -170,7 +170,7 @@
       .details {
         width: 900px;
         opacity: 1;
-        transition: opacity .4s linear .3s;
+        transition: opacity .4s linear .5s;
         padding: 0 0 0 30px;
       }
     }
@@ -180,7 +180,7 @@
         width: 0;
         opacity: 0;
         pointer-events: none;
-        transition: opacity .2s, width .2s linear .2s;
+        transition: opacity .2s, width .6s linear .2s;
       }
     }
   }

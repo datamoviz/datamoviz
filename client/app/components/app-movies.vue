@@ -96,7 +96,7 @@
 
       &.presenter {
         width: 1100px;
-        transition: width .2s linear .2s;
+        transition: width .6s linear .2s;
       }
     }
 
