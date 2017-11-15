@@ -1,6 +1,7 @@
 @import '~bootstrap-reboot/bootstrap-reboot.scss';
 @import '~bootstrap-4-grid/scss/grid.scss';
 @import '~font-awesome/scss/font-awesome.scss';
+@import '~simplebar/dist/simplebar.css';
 
 @import 'vars';
 
@@ -48,6 +49,19 @@ section {
     background: $global-color-primary;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.30);
   }
+}
+
+.simplebar-scrollbar {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.presenter .simplebar-scrollbar {
+  background: transparent;
+}
+
+.horizontal.simplebar-track {
+  top: 0;
+  bottom: auto;
 }
 
 @import 'forms';

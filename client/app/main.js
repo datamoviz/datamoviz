@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import VueFilter from 'vue-filter';
+import 'simplebar/dist/simplebar';
+
 import AppMain from './components/app-main.vue';
 import { EventBus } from './event-bus';
 

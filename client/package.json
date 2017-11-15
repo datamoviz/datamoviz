@@ -20,6 +20,7 @@
     "d3": "latest",
     "font-awesome": "^4.7.0",
     "lodash": "latest",
+    "simplebar": "^2.5.0",
     "vue": "^2.5.3",
     "vue-filter": "^0.2.2",
     "vue-multiselect": "^2.0.6"

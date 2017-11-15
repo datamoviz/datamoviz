@@ -1,13 +1,13 @@
 <template>
-  <div class="movie-container">
-    <a href="#" :class="{ highlighted: highlighted, hidden: hidden }" @click.prevent="select()">
+  <div class="movie-container" :class="{ highlighted: highlighted, hidden: hidden }">
+    <a href="#" @click.prevent="select()">
       <img :src="posterPath" />
       <span class="title">
         {{ movie.title }}
         <span class="badge" v-if="movie.adult">NSFW</span>
       </span>
     </a><!--
-    --><div class="details" :class="{ visible: highlighted }">
+    --><div class="details">
       <h3>
         <small v-for="country in movie.production_countries" :key="country.iso_3166_1"><img
                 :src="`https://ssl-proxy.my-addr.org/myaddrproxy.php/http/www.geonames.org/flags/s/${country.iso_3166_1.toLowerCase()}.png`"
@@ -51,7 +51,7 @@
 
   export default {
     name: 'thumbnail',
-    props: ['movie', 'position', 'total', 'popularity'],
+    props: ['movie', 'total', 'popularity'],
     components: {
       GaugeChart,
       ProfitabilityChart
@@ -74,16 +74,7 @@
     methods: {
       select() {
         this.highlighted = true;
-        this.$bus.$emit(MOVIE_SELECTED, this.movie, this.shift());
-      },
-      shift() {
-        if (!this.highlighted) {
-          return 0;
-        }
-
-        const shift = (this.total + 1) - (this.position * 2);
-
-        return 100 * shift;
+        this.$bus.$emit(MOVIE_SELECTED, this.movie);
       }
     },
     mounted() {
@@ -104,6 +95,7 @@
 
   .movie-container {
     display: inline-block;
+    white-space: normal;
 
     a {
       opacity: 0.5;
@@ -122,26 +114,6 @@
       &:focus {
         opacity: 1;
         outline: none;
-      }
-
-      &.highlighted {
-        opacity: 1;
-
-        img {
-          border-top-left-radius: 5px;
-          border-top-right-radius: 5px;
-        }
-
-        .title {
-          background: $global-color-primary;
-          border-bottom-left-radius: 3px;
-          border-bottom-right-radius: 3px;
-        }
-      }
-
-      &.hidden {
-        opacity: 0;
-        pointer-events: none;
       }
 
       img {
@@ -164,15 +136,7 @@
       width: 0;
       overflow: hidden;
       padding: 0;
-      transition: opacity 0s, width .6s linear, padding .6s linear;
       opacity: 0;
-
-      &.visible {
-        width: 900px;
-        opacity: 1;
-        padding: 0 0 0 30px;
-        transition: opacity 1s linear .6s, width .6s linear;
-      }
 
       h3 small img {
         vertical-align: initial;
@@ -184,6 +148,39 @@
         &.overview {
           margin-bottom: 10px;
         }
+      }
+    }
+
+    &.highlighted {
+      a {
+        opacity: 1;
+
+        img {
+          border-top-left-radius: 5px;
+          border-top-right-radius: 5px;
+        }
+
+        .title {
+          background: $global-color-primary;
+          border-bottom-left-radius: 3px;
+          border-bottom-right-radius: 3px;
+        }
+      }
+
+      .details {
+        width: 900px;
+        opacity: 1;
+        transition: opacity .4s linear .3s;
+        padding: 0 0 0 30px;
+      }
+    }
+
+    &.hidden {
+      a {
+        width: 0;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .2s, width .2s linear .2s;
       }
     }
   }

@@ -1,16 +1,16 @@
 <template>
   <section @keyup.escape="$refs.searchField.reset()">
     <search ref="searchField"></search>
-    <div class="results-container" v-if="movies.length !== 0">
-      <div class="results" :style="{ 'margin-left': `${-2000 + shift}px` }">
-        <thumbnail v-for="(movie, key) in movies" :key="movie.imdb_id" :position="key + 1" :movie="movie" :total="movies.length" :popularity="maxPopularity"></thumbnail>
+    <div class="results-container" :class="{ presenter: presenter }" data-simplebar>
+      <div class="results" v-if="movies.length !== 0">
+        <thumbnail v-for="(movie, key) in movies" :key="movie.imdb_id" :movie="movie" :total="movies.length" :popularity="maxPopularity"></thumbnail>
       </div>
-    </div>
-    <div class="no-result" v-else-if="!failure">
-      No result found...
-    </div>
-    <div class="failure" v-else>
-      Failed to reach server.
+      <div class="no-result" v-else-if="!failure">
+        No result found...
+      </div>
+      <div class="failure" v-else>
+        Failed to reach server.
+      </div>
     </div>
   </section>
 </template>
@@ -30,7 +30,7 @@
       return {
         movies: [],
         failure: false,
-        shift: 0,
+        presenter: false,
         maxPopularity: 0
       };
     },
@@ -66,11 +66,11 @@
         } else {
           this.loadThumbnails(filters);
         }
-        this.shift = 0;
+        this.presenter = false;
       });
 
-      this.$bus.$on(MOVIE_SELECTED, (movie, shift) => {
-        this.shift = shift;
+      this.$bus.$on(MOVIE_SELECTED, () => {
+        this.presenter = true;
       });
     }
   };
@@ -80,30 +80,28 @@
   @import '../scss/vars';
 
   section {
-    max-width: 100%;
-    overflow-x: hidden;
     margin-bottom: 0;
     padding-bottom: 0;
 
     .results-container {
-      position: relative;
-      height: 390px;
+      width: 100%;
       overflow: hidden;
+      margin: 0 auto;
 
       .results {
-        width: 4000px;
-        text-align: center;
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transition: margin .6s linear;
+        white-space: nowrap;
+        height: 420px;
+        padding-top: 15px;
+      }
+
+      &.presenter {
+        width: 1100px;
+        transition: width .2s linear .2s;
       }
     }
 
     .no-result, .failure {
       text-align: center;
-      padding: 20px;
-      height: 390px;
     }
 
     .failure {
