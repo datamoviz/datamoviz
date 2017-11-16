@@ -4,3 +4,4 @@ build/
 node_modules/
 report
 !report/process-book.tex
+!report/process-book.pdf
