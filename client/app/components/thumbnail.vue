@@ -168,9 +168,10 @@
       }
 
       .details {
-        width: 900px;
+        max-width: 900px;
+        width: 100%;
         opacity: 1;
-        transition: opacity .4s linear .5s;
+        transition: opacity .4s linear .75s;
         padding: 0 0 0 30px;
       }
     }

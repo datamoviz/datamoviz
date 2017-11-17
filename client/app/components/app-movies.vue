@@ -95,7 +95,8 @@
       }
 
       &.presenter {
-        width: 1100px;
+        width: 1120px;
+        padding: 0 10px;
         transition: width .6s linear .2s;
       }
     }

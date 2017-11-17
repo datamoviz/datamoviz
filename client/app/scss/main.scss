@@ -55,6 +55,14 @@ section {
   background: rgba(255, 255, 255, 0.3);
 }
 
+.simplebar-scroll-content {
+  overflow-y: hidden;
+}
+
+.simplebar-content {
+  background: $global-color-background;
+}
+
 .presenter .simplebar-scrollbar {
   background: transparent;
 }

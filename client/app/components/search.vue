@@ -48,6 +48,7 @@
     text-align: center;
     padding: 10px;
     position: relative;
+    margin: 0;
 
     input {
       border: 0;
