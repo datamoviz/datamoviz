@@ -85,24 +85,28 @@
 
     .results-container {
       width: 100%;
-      overflow: hidden;
+      max-width: 100%;
       margin: 0 auto;
 
       .results {
-        white-space: nowrap;
-        height: 420px;
+        display: flex;
+        flex-wrap: nowrap;
+        min-height: 420px;
         padding-top: 15px;
       }
 
       &.presenter {
-        width: 1120px;
+        max-width: 1120px;
+        width: 100%;
         padding: 0 10px;
-        transition: width .6s linear .2s;
+        transition: max-width .6s linear .2s;
       }
     }
 
     .no-result, .failure {
       text-align: center;
+      min-height: 420px;
+      padding-top: 20px;
     }
 
     .failure {
