@@ -112,6 +112,11 @@
       overflow: hidden;
       margin-bottom: 20px;
 
+      img {
+        display: block;
+        width: 100%;
+      }
+
       &:hover {
         opacity: 1;
       }
