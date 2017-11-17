@@ -10,15 +10,7 @@ module.exports = function (app) {
       }
 
       return app.get('mongoClient').then(db => {
-        return db.collection('movies').find(filters).limit(15).toArray();
-      });
-    }
-  });
-
-  app.use('/filtered/most-popular', {
-    find() {
-      return app.get('mongoClient').then(db => {
-        return db.collection('movies').find({}).sort({popularity:-1}).limit(15).toArray();
+        return db.collection('movies').find(filters).sort({popularity:-1}).limit(15).toArray();
       });
     }
   });

@@ -35,19 +35,10 @@
       };
     },
     methods: {
-      loadPopulars() {
-        fetch(`${process.env.SERVER_URL}/filtered/most-popular`)
-          .then(response => response.json())
-          .then((movies) => {
-            this.movies = movies;
-            this.maxPopularity = Math.floor(this.movies[0].popularity);
-          })
-          .catch(() => {
-            this.failure = true;
-          });
-      },
       loadThumbnails(filters) {
-        fetch(`${process.env.SERVER_URL}/filtered/movies?filters=${encodeURI(JSON.stringify(filters))}`)
+        filters = filters || {};
+
+        return fetch(`${process.env.SERVER_URL}/filtered/movies?filters=${encodeURI(JSON.stringify(filters))}`)
           .then(response => response.json())
           .then((movies) => {
             this.movies = movies;
@@ -58,14 +49,12 @@
       }
     },
     mounted() {
-      this.loadPopulars();
+      this.loadThumbnails().then(() => {
+        this.maxPopularity = Math.floor(this.movies[0].popularity);
+      });
 
       this.$bus.$on(FILTERS_UPDATE, (filters) => {
-        if (Object.keys(filters).length === 0) {
-          this.loadPopulars();
-        } else {
-          this.loadThumbnails(filters);
-        }
+        this.loadThumbnails(filters);
         this.presenter = false;
       });
 
