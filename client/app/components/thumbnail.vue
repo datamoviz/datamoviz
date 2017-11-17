@@ -1,47 +1,45 @@
 <template>
-  <div class="movie-container">
-    <div class="inner-container" :class="{ highlighted: highlighted, hidden: hidden }">
-      <a href="#" @click.prevent="select()">
-        <img :src="posterPath" height="300" />
-        <span class="title">
-        {{ movie.title }}
-        <span class="badge" v-if="movie.adult">NSFW</span>
-      </span>
-      </a><!--
-    --><div class="details">
-        <h3>
-          <small v-for="country in movie.production_countries" :key="country.iso_3166_1"><img
-                  :src="`https://ssl-proxy.my-addr.org/myaddrproxy.php/http/www.geonames.org/flags/s/${country.iso_3166_1.toLowerCase()}.png`"
-                  :alt="country.name"
-                  :title="country.name" />&nbsp;</small>{{ movie.original_title }}
-          <small><i class="fa fa-language"></i> {{ movie.spoken_languages.map(a => a.name).join(', ') }}</small>
-        </h3>
-        <p>
-          <span class="badge">IMDb {{ movie.imdb_id }}</span>
-          <span class="badge">{{ movie.release_date|date("%m\/%d\/%Y") }}</span>
-        </p>
-        <p class="overview"><strong>{{ movie.tagline }}</strong> {{ movie.overview }}</p>
-        <gauge-chart
-                name="Vote average"
-                :value="movie.vote_average"
-                :max="10" :size="100"
-                :title="`${movie.vote_count} votes`"
-                :thresholds="[4, 7]"
-                :imdb="movie.imdb_id"></gauge-chart>
-        <gauge-chart
-                name="Movie popularity"
-                :value="movie.popularity"
-                :max="popularity" :size="100"
-                :title="'Popularity'"
-                :thresholds="[1, 40]"
-                :imdb="movie.imdb_id"></gauge-chart>
-        <profitability-chart
-                v-if="movie.budget !== 0 && movie.revenue !== undefined"
-                :budget="movie.budget"
-                :revenue="movie.revenue"
-                :imdb="movie.imdb_id"></profitability-chart>
-        <p><span v-for="genre in movie.genres" :key="genre.id"><span class="badge">{{ genre.name }}</span>&nbsp;</span></p>
-      </div>
+  <div class="movie-container" :class="{ highlighted: highlighted, hidden: hidden }">
+    <a href="#" @click.prevent="select()">
+      <img :src="posterPath" height="300" />
+      <span class="title">
+      {{ movie.title }}
+      <span class="badge" v-if="movie.adult">NSFW</span>
+    </span>
+    </a><!--
+  --><div class="details">
+      <h3>
+        <small v-for="country in movie.production_countries" :key="country.iso_3166_1"><img
+                :src="`https://ssl-proxy.my-addr.org/myaddrproxy.php/http/www.geonames.org/flags/s/${country.iso_3166_1.toLowerCase()}.png`"
+                :alt="country.name"
+                :title="country.name" />&nbsp;</small>{{ movie.original_title }}
+        <small><i class="fa fa-language"></i> {{ movie.spoken_languages.map(a => a.name).join(', ') }}</small>
+      </h3>
+      <p>
+        <span class="badge">IMDb {{ movie.imdb_id }}</span>
+        <span class="badge">{{ movie.release_date|date("%m\/%d\/%Y") }}</span>
+      </p>
+      <p class="overview"><strong>{{ movie.tagline }}</strong> {{ movie.overview }}</p>
+      <gauge-chart
+              name="Vote average"
+              :value="movie.vote_average"
+              :max="10" :size="100"
+              :title="`${movie.vote_count} votes`"
+              :thresholds="[4, 7]"
+              :imdb="movie.imdb_id"></gauge-chart>
+      <gauge-chart
+              name="Movie popularity"
+              :value="movie.popularity"
+              :max="popularity" :size="100"
+              :title="'Popularity'"
+              :thresholds="[1, 40]"
+              :imdb="movie.imdb_id"></gauge-chart>
+      <profitability-chart
+              v-if="movie.budget !== 0 && movie.revenue !== undefined"
+              :budget="movie.budget"
+              :revenue="movie.revenue"
+              :imdb="movie.imdb_id"></profitability-chart>
+      <p><span v-for="genre in movie.genres" :key="genre.id"><span class="badge">{{ genre.name }}</span>&nbsp;</span></p>
     </div>
   </div>
 </template>
@@ -96,102 +94,98 @@
   @import '../scss/vars';
 
   .movie-container {
-    display: inline-block;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 
-    .inner-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+    @media screen and (min-width: 576px) {
+      flex-wrap: nowrap;
+    }
 
-      @media screen and (min-width: 576px) {
-        flex-wrap: nowrap;
+    a {
+      opacity: 0.5;
+      transition: opacity .4s;
+      color: white;
+      width: 200px;
+      min-width: 200px;
+      max-width: 200px;
+      overflow: hidden;
+      margin-bottom: 20px;
+
+      &:hover {
+        opacity: 1;
       }
 
-      a {
-        opacity: 0.5;
-        transition: opacity .4s;
-        color: white;
+      &:focus {
+        opacity: 1;
+        outline: none;
+      }
+
+      .title {
+        display: inline-block;
+        text-align: center;
         width: 200px;
-        min-width: 200px;
-        max-width: 200px;
-        overflow: hidden;
-        margin-bottom: 20px;
+        font-size: 0.9em;
+        padding: 10px 5px;
+      }
+    }
 
-        &:hover {
-          opacity: 1;
+    .details {
+      width: 0;
+      height: 0;
+      overflow: hidden;
+      padding: 0;
+      opacity: 0;
+
+      h3 small img {
+        vertical-align: initial;
+      }
+
+      p {
+        text-align: justify;
+
+        &.overview {
+          margin-bottom: 10px;
         }
+      }
+    }
 
-        &:focus {
-          opacity: 1;
-          outline: none;
+    &.highlighted {
+      a {
+        opacity: 1;
+
+        img {
+          border-top-left-radius: 5px;
+          border-top-right-radius: 5px;
         }
 
         .title {
-          display: inline-block;
-          text-align: center;
-          width: 200px;
-          font-size: 0.9em;
-          padding: 10px 5px;
+          background: $global-color-primary;
+          border-bottom-left-radius: 3px;
+          border-bottom-right-radius: 3px;
         }
       }
 
       .details {
+        opacity: 1;
+        transition: opacity .4s linear .75s;
+        padding-right: 15px;
+        width: auto;
+        height: auto;
+
+        @media screen and (min-width: 576px) {
+          margin-left: 20px;
+        }
+      }
+    }
+
+    &.hidden {
+      a {
         width: 0;
-        height: 0;
-        overflow: hidden;
-        padding: 0;
+        min-width: 0;
         opacity: 0;
-
-        h3 small img {
-          vertical-align: initial;
-        }
-
-        p {
-          text-align: justify;
-
-          &.overview {
-            margin-bottom: 10px;
-          }
-        }
-      }
-
-      &.highlighted {
-        a {
-          opacity: 1;
-
-          img {
-            border-top-left-radius: 5px;
-            border-top-right-radius: 5px;
-          }
-
-          .title {
-            background: $global-color-primary;
-            border-bottom-left-radius: 3px;
-            border-bottom-right-radius: 3px;
-          }
-        }
-
-        .details {
-          opacity: 1;
-          transition: opacity .4s linear .75s;
-          padding-right: 15px;
-          width: auto;
-          height: auto;
-
-          @media screen and (min-width: 576px) {
-            margin-left: 20px;
-          }
-        }
-      }
-
-      &.hidden {
-        a {
-          width: 0;
-          min-width: 0;
-          opacity: 0;
-          pointer-events: none;
-          transition: opacity .2s, width .6s linear .2s;
-        }
+        pointer-events: none;
+        transition: opacity .2s, width .6s linear .2s;
       }
     }
   }
