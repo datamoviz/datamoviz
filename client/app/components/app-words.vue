@@ -1,6 +1,7 @@
 <template>
   <div class="col col-md-4">
-    <h2>Popular words</h2>
+    <h3>Popular words</h3>
+    <p>Here is the top 15 of the most used words in movie titles.</p>
     <div ref="chart"></div>
   </div>
 </template>
@@ -83,9 +84,3 @@
     }
   };
 </script>
-
-<style scoped lang="scss" ref="stylesheet/scss">
-  h2 {
-    text-align: center;
-  }
-</style>

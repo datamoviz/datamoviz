@@ -37,7 +37,7 @@
 
           filters['genres.name'] = excluded;
           if (filters['genres.name'].$nin.length === 0) {
-            delete filters['genre.name'];
+            delete filters['genres.name'];
           }
         } else {
           excluded.$nin.push(this.name);

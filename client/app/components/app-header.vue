@@ -12,7 +12,14 @@
         </div>
         <div class="col-6 col-sm-3 movies-count">
           <span ref="moviesCount" class="counter">0</span> movie<!--
-          --><span class="title" v-if="currentMovie !== ''"><br />{{ currentMovie }}</span><span v-else>s</span>
+          --><span class="title" v-if="currentMovie !== ''"><br />{{ currentMovie }}</span><span v-else>s
+          <br />
+          <span class="filters">
+            <span v-if="nbFilters == 0">No</span>
+            <span v-else>{{ nbFilters }}</span>
+            filter<span v-if="nbFilters != 1">s</span> enabled
+          </span>
+        </span>
         </div>
       </div>
     </div>
@@ -27,9 +34,11 @@
     name: 'app-header',
     data() {
       return {
+        total: 0,
         currentTotal: 0,
         currentMovie: '',
-        failure: false
+        failure: false,
+        nbFilters: 0
       };
     },
     methods: {
@@ -41,6 +50,7 @@
           .then(json => json)
           .then((total) => {
             this.updateTotal(total);
+            this.nbFilters = Object.keys(filters).length;
             this.currentMovie = '';
           })
           .catch(() => {
@@ -109,7 +119,7 @@
       font-family: Pacifico, sans-serif;
       font-size: 1.5em;
       text-align: right;
-      line-height: 1em;
+      line-height: 0.8em;
 
       .counter, .title {
         color: $global-color-primary;
@@ -122,7 +132,11 @@
 
       .title {
         font-size: 0.7em;
-        line-height: 1em;
+      }
+
+      .filters {
+        font-size: 0.5em;
+        font-family: $global-font;
       }
 
       .failure {

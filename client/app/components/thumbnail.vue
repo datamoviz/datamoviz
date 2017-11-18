@@ -39,8 +39,9 @@
               :budget="movie.budget"
               :revenue="movie.revenue"
               :imdb="movie.imdb_id"></profitability-chart>
-      <p><span v-for="genre in movie.genres" :key="genre.id"><span class="badge">{{ genre.name }}</span>&nbsp;</span></p>
-    </div>
+      <p><span v-for="genre in movie.genres" :key="genre.id"><span class="badge">{{ genre.name }}</span>&nbsp;</span><br />&nbsp;</p>
+      <small><span class="badge badge-info">Pro tip</span> Press <span class="badge">esc</span> to deselect the movie.</small>
+  </div>
   </div>
 </template>
 

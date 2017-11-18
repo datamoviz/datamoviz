@@ -1,8 +1,14 @@
 <template>
-  <div class="col col-md-8">
-    <h2>Actors network</h2>
-    <svg ref="actorsNetwork" width="600" height="600"></svg>
-  </div>
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h2>Actors network</h2>
+          <svg ref="actorsNetwork" width="900" height="600"></svg>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
