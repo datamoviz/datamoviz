@@ -4,4 +4,5 @@ module.exports = function (app) {
   require('./count')(app);
   require('./filtered')(app);
   require('./aggregate')(app);
+  require('./network')(app);
 };
