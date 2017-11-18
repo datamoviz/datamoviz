@@ -3,9 +3,9 @@
     <a href="#" @click.prevent="select()">
       <img :src="posterPath" height="300" />
       <span class="title">
-      {{ movie.title }}
-      <span class="badge" v-if="movie.adult">NSFW</span>
-    </span>
+        <span class="badge">{{ movie.release_date|date("%Y") }}</span>
+        {{ movie.title }}
+      </span>
     </a><!--
   --><div class="details">
       <h3>
@@ -111,14 +111,26 @@
       max-width: 200px;
       overflow: hidden;
       margin-bottom: 20px;
+      position: relative;
 
       img {
         display: block;
         width: 100%;
       }
 
+      .badge-year {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        display: none;
+      }
+
       &:hover {
         opacity: 1;
+
+        .badge-year {
+          display: block;
+        }
       }
 
       &:focus {
