@@ -1,19 +1,23 @@
-module.exports = function (app) {
+const MINIMUM_LINK = 2;
 
+
+module.exports = function (app) {
   app.use('/network', {
     async find() {
       const db = await app.get('mongoClient');
-      const movies = await db.collection('movies').find().limit(100).toArray();
+      const movies = await db.collection('movies').find().limit(200).toArray();
 
       const moviesIds = collectMoviesIds(movies);
 
       const credits = await db.collection('credits').find({ id: { $in:moviesIds } }, { cast: 1, id: 1 }).toArray();
 
-      const actors = await db.collection('credits').distinct('cast.name', { id: { $in:moviesIds } });
+      let actors = await db.collection('credits').distinct('cast.name', { id: { $in:moviesIds } });
 
-      const network = getActorsNetworkLink(credits, actors);
+      const links = getActorsNetworkLink(credits, actors);
 
-      return {actors, network}
+      actors = getActorNodeObject(actors, links, credits);
+
+      return {actors, links}
     }
   });
 };
@@ -38,8 +42,8 @@ function getActorsLinkMap(credits, actors) {
         }
 
         const linkObject = {
-          actor1: actor,
-          actor2: actorObject2.name
+          source: actor,
+          target: actorObject2.name
         }
 
         const key = JSON.stringify(linkObject);
@@ -60,12 +64,54 @@ function getActorsLinkMap(credits, actors) {
   return actorsLink;
 }
 
+function getActorNodeObject(actors, links, credits) {
+  actors = removeActorsLowLinks(actors, links);
+
+  return actors.map(actor => {
+    let movieCount = 0;
+    credits.forEach(creditObject => {
+      creditObject.cast.forEach(actorObject => {
+        if(actorObject.name === actor) {
+          movieCount++;
+        }
+      })
+    })
+    return {name: actor, group:1, movieCount}
+  });
+}
+
+function removeActorsLowLinks(actors, links) {
+  let actorsIndexToRemove = [];
+
+  for (let i = 0; i < actors.length; i++) {
+    let actor = actors[i];
+    let found = false;
+    links.forEach(link => {
+      if((link.source === actor || link.target === actor) && link.count >= MINIMUM_LINK) {
+        found = true;
+        return false;
+      }
+    })
+
+    if(!found) {
+      actorsIndexToRemove.push(i);
+    }
+  }
+
+  for (let i = actorsIndexToRemove.length -1; i >= 0; i--) {
+    actors.splice(actorsIndexToRemove[i], 1);
+  }
+
+  return actors;
+}
+
 function getActorsNetworkLink(credits, actors) {
   const actorsLinkMap = getActorsLinkMap(credits, actors);
 
   const links = [];
 
   actorsLinkMap.forEach((count, strLink) => {
+    if(count < MINIMUM_LINK) return;
     const linkObject = JSON.parse(strLink);
     linkObject.count = count;
     links.push(linkObject);
