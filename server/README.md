@@ -14,15 +14,9 @@ We use two collections :
 - movies
 - credits
 
-### Load the NeDB db to MongoDB
+### Load NeDB database into MongoDB
 
-You can use this tool [nedb-mongodb](https://github.com/b3rew/nedb-mongodb)
-
-```
-npm install -g nedb-mongodb
-nedb-mongodb -d datamoviz-api -c movies -n ./data/movies.db -k false
-nedb-mongodb -d datamoviz-api -c credits -n ./data/credits.db -k false
-```
+See the [scripts](https://github.com/quentinus95/datamoviz/tree/master/scripts) readme.
 
 ## Installation
 
@@ -39,3 +33,4 @@ npm start
 ## Custom endpoint
 
 You can register your custom endpoint in `./src/services/customs`.
+
