@@ -68,7 +68,7 @@
           .data(graph.actors)
           .enter()
           .append('circle')
-          .attr('r', d => d.movieCount + 2)
+          .attr('r', d => Math.min(d.movieCount + 1, 7))
           .attr('fill', d => color(d.group))
           .call(d3.drag()
             .on('start', dragstarted)
