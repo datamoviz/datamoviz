@@ -3,8 +3,8 @@ const Datastore = require('nedb-promises');
 
 // NeDb
 const neDb = {}
-neDb.movieInfo = new Datastore('path/to/db.movieInfo');
-neDb.movieCredits = new Datastore('path/to/db.movieCredits');
+neDb.movieInfo = new Datastore('../server/data/movies.db');
+neDb.movieCredits = new Datastore('../server/data/credits.db');
 
 const MongoClient = require('mongodb').MongoClient
 const url = 'mongodb://localhost:27017/datamoviz-api';
@@ -21,7 +21,7 @@ const url = 'mongodb://localhost:27017/datamoviz-api';
   await nedbToMongodb(neDb.movieCredits, mongoDb.collection('credits'))
 
   console.log("Completed !")
-
+  process.exit(0)
 }()).catch(e => {
   console.log(e)
 })
