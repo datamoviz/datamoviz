@@ -109,7 +109,4 @@ $RECYCLE.BIN/
 
 # Others
 lib/
-data/
-!data/.gitkeep
-!data/mongo/.gitkeep
 
