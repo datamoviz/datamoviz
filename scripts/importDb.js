@@ -3,8 +3,8 @@ const Datastore = require('nedb-promises');
 
 // NeDb
 const neDb = {}
-neDb.movieInfo = new Datastore('../server/data/movies.db');
-neDb.movieCredits = new Datastore('../server/data/credits.db');
+neDb.movieInfo = new Datastore('../data/movies.db');
+neDb.movieCredits = new Datastore('../data/credits.db');
 
 const MongoClient = require('mongodb').MongoClient
 const url = 'mongodb://localhost:27017/datamoviz-api';

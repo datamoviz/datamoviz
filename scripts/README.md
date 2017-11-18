@@ -8,6 +8,13 @@ npm install
 
 ## importDb.js
 
+Be sure to pull submodules before running this command.
+
+```sh
+git submodule init
+git submodule update
+```
+
 Import your neDb files to mongoDb
 ```sh
 npm run import
