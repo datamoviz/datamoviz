@@ -6,7 +6,7 @@ We use MongoDB to store the movies related data.
 You need to have a MongoDB instance running:
 
 ```
-mongod --dbpath "./data/mongo"
+mongod --dbpath "../data/mongo"
 ```
 
 We use two collections :
