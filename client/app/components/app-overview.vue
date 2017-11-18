@@ -18,9 +18,17 @@
 
   export default {
     name: 'app-overview',
+    data() {
+      return {
+        lock: 0
+      }
+    },
     methods: {
       loadCount(filters) {
-        filters = filters || {};
+        filters = Object.assign({}, filters);
+
+        delete filters['release_date']; // We ignore date range filtering for the overview
+
         fetch(`${process.env.SERVER_URL}/aggregate/movies?filters=${encodeURI(JSON.stringify(filters))}`)
           .then(response => response.json())
           .then((years) => {
@@ -33,6 +41,19 @@
             });
           });
       },
+      updateDateRange(domain) {
+        const { filters } = this.$bus;
+
+        console.log(domain);
+        filters['release_date'] = {
+          $gte: new Date(Math.round(domain[0]).toString()),
+          $lte: new Date(Math.round(domain[1]).toString())
+        };
+
+        console.log(filters);
+
+        this.$bus.$emit(FILTERS_UPDATE, filters);
+      },
       loadChart() {
         chart = c3.generate({
           bindto: this.$refs.overviewChart,
@@ -44,7 +65,19 @@
             }
           },
           subchart: {
-            show: true
+            show: true,
+            onbrush: (domain) => {
+              const lock = ++this.lock;
+              setTimeout(() => { // Avoiding too frequent requests to avoid page lags
+                console.log(lock, this.lock);
+
+                if (lock !== this.lock) {
+                  return;
+                }
+
+                this.updateDateRange(domain);
+              }, 1000);
+            }
           },
           axis: {
             y: {

@@ -1,13 +1,10 @@
+const parse = require('./parser');
+
 module.exports = function (app) {
 
   app.use('/count/movies', {
     find(request) {
-      let filters;
-      if (request.query.filters === undefined) {
-        filters = {};
-      } else {
-        filters = JSON.parse(decodeURI(request.query.filters));
-      }
+      const filters = parse(request.query.filters);
 
       return app.get('mongoClient')
         .then(db => {
@@ -24,14 +21,8 @@ module.exports = function (app) {
 
   app.use('/count/words', {
     find(request) {
-      let filters;
-      if (request.query.filters === undefined) {
-        filters = {};
-      } else {
-        filters = JSON.parse(decodeURI(request.query.filters));
-      }
+      const filters = parse(request.query.filters);
 
-      console.log(filters);
       return app.get('mongoClient')
         .then(db => {
           return db.collection('movies').aggregate([
