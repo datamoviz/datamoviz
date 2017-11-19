@@ -4,8 +4,19 @@ const url = 'mongodb://localhost:27017/datamoviz-api';
 (async function () {
   const db = await MongoClient.connect(url);
 
-  collectionName = 'movies'
+  await removeDuplicate(db, 'movies')
+  await removeDuplicate(db, 'credits')
 
+  console.log('Completed !')
+
+
+}()).catch(e => {
+  console.log(e)
+})
+
+
+
+async function removeDuplicate(db, collectionName) {
   const duplicated = await db.collection(collectionName).aggregate([{
           $group: {
               _id: {
@@ -36,10 +47,4 @@ const url = 'mongodb://localhost:27017/datamoviz-api';
           }
       })
   }
-
-  console.log('Completed !')
-
-
-}()).catch(e => {
-  console.log(e)
-})
+}
