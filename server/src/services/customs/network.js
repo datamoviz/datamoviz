@@ -1,17 +1,23 @@
-const MINIMUM_LINK = 2;
-
+const MINIMUM_LINK = 1;
 
 module.exports = function (app) {
   app.use('/network', {
     async find() {
       const db = await app.get('mongoClient');
-      const movies = await db.collection('movies').find().limit(200).toArray();
+      const movies = await db.collection('movies').find().limit(1000).toArray();
 
       const moviesIds = collectMoviesIds(movies);
 
       const credits = await db.collection('credits').find({ id: { $in:moviesIds } }, { cast: 1, id: 1 }).toArray();
 
-      let actors = await db.collection('credits').distinct('cast.name', { id: { $in:moviesIds } });
+      // let actors = await db.collection('credits').distinct('cast.name', { id: { $in:moviesIds }});
+      let actors = await db.collection('credits').aggregate([
+        { "$match": { "id": {"$in":moviesIds} } },
+        { "$unwind": "$cast" },
+         { "$match": { "cast.order": {"$lt":2} } }, // Get only main actors
+         { "$project": {"cast.name":1} },
+         { "$group": { "_id": "$cast.name" }}
+       ]).map(x => x._id).toArray()
 
       const links = getActorsNetworkLink(credits, actors);
 
@@ -33,6 +39,10 @@ function getActorsLinkMap(credits, actors) {
 
       movieCast.cast.forEach(actorObject2 => {
         if(actor === actorObject2.name) {
+          return;
+        }
+
+        if(!actors.includes(actorObject2.name)) {
           return;
         }
 
