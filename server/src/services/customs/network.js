@@ -4,9 +4,7 @@ module.exports = function (app) {
   app.use('/network', {
     async find() {
       const db = await app.get('mongoClient');
-      const movies = await db.collection('movies').find().limit(1000).toArray();
-
-      const moviesIds = collectMoviesIds(movies);
+      const moviesIds = await db.collection('movies').find({}, {id:1, _id:0}).limit(200).map(x => x.id).toArray();
 
       const credits = await db.collection('credits').find({ id: { $in:moviesIds } }, { cast: 1, id: 1 }).toArray();
 
