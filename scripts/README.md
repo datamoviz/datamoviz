@@ -26,3 +26,9 @@ Convert the `release_date` attribute to date for `movies` collection.
 ```sh
 node convertDate.js
 ```
+
+## removeDuplicate.js
+Remove all duplicated entry for `movies` and `credits` collection.
+```sh
+node removeDuplicate.js
+```
