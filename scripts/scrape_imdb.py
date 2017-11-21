@@ -143,8 +143,7 @@ if __name__ == '__main__':
         # Save the data
         with open(DATA_FILENAME, mode='a', encoding='utf-8') as data_json:
             json_data = json.dumps(entry)
-            data_json.write(json_data)
-            data_json.write('\n')
+            data_json.write(json_data + ',\n')
 
         # Save current index
         with open(INDEX_FILENAME, 'w') as imdb_ids_index_file:
