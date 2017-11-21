@@ -78,6 +78,16 @@
         node.append('title')
           .text(d => d.name);
 
+        const text = svg.append('g')
+          .attr('class', 'texts')
+          .selectAll('text')
+          .data(graph.actors)
+          .enter()
+          .append('text')
+          .attr('x', 8)
+          .attr('y', '.31em')
+          .text(d => d.name);
+
         function ticked() {
           link
             .attr('x1', d => d.source.x)
@@ -85,9 +95,8 @@
             .attr('x2', d => d.target.x)
             .attr('y2', d => d.target.y);
 
-          node
-            .attr('cx', d => d.x)
-            .attr('cy', d => d.y);
+          node.attr('transform', d => `translate(${d.x},${d.y})`);
+          text.attr('transform', d => `translate(${d.x},${d.y})`);
         }
 
         simulation
@@ -100,3 +109,10 @@
     }
   };
 </script>
+
+<style lang="scss" ref="stylesheet/scss">
+text {
+  font: 10px sans-serif;
+  stroke: white;
+}
+</style>
