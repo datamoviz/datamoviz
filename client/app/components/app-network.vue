@@ -13,6 +13,8 @@
 
 <script>
   import * as d3 from 'd3';
+  import { FILTERS_UPDATE } from '../event-bus';
+
 
   function loadGraph() {
     return fetch(`${process.env.SERVER_URL}/network`)
@@ -22,21 +24,11 @@
 
   export default {
     id: 'app-network',
-    mounted() {
-      const svg = d3.select(this.$refs.actorsNetwork);
-      const width = +svg.attr('width');
-      const height = +svg.attr('height');
 
+    methods: {
+      drawGraph(svg, simulation, graph) {
+        const color = d3.scaleOrdinal(d3.schemeCategory20);
 
-      const color = d3.scaleOrdinal(d3.schemeCategory20);
-
-      const simulation = d3.forceSimulation()
-        .force('link', d3.forceLink().id(d => d.name))
-        .force('charge', d3.forceManyBody())
-        .force('center', d3.forceCenter(width / 2, height / 2));
-
-
-      loadGraph().then((graph) => {
         const link = svg.append('g')
           .attr('class', 'links')
           .selectAll('line')
@@ -105,6 +97,26 @@
 
         simulation.force('link')
           .links(graph.links);
+      }
+    },
+
+    mounted() {
+      this.$bus.$on(FILTERS_UPDATE, (filters) => {
+        console.log(filters);
+      });
+
+      const svg = d3.select(this.$refs.actorsNetwork);
+      const width = +svg.attr('width');
+      const height = +svg.attr('height');
+
+      const simulation = d3.forceSimulation()
+        .force('link', d3.forceLink().id(d => d.name))
+        .force('charge', d3.forceManyBody())
+        .force('center', d3.forceCenter(width / 2, height / 2));
+
+
+      loadGraph().then((graph) => {
+        this.drawGraph(svg, simulation, graph);
       });
     }
   };
