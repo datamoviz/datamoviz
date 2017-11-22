@@ -5,7 +5,12 @@
         <div class="col-12">
           <h2>Map</h2>
           <p>{{test}}</p>
-          <p>{{countries.map(country => country.name).join(', ')}}</p>
+          <p>{{countries.map(country => country._id.name).join(', ')}}</p>
+          <ul id="example-1">
+            <li v-for="country in countries">
+              {{ country._id.name}}:{{country.value}}
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -22,7 +27,7 @@
       }
     },
       mounted() {
-          return fetch(`${process.env.SERVER_URL}/countries`)
+          return fetch(`${process.env.SERVER_URL}/count/countries`)
               .then(response => response.json())
               .then((json) => {
                   this.countries = json;
