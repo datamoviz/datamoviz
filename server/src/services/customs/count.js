@@ -51,9 +51,9 @@ module.exports = function (app) {
               }
             },
             {
-              $limit: 20
+              $limit: 25
             }
-          ]).toArray()
+          ]).toArray();
         });
     }
   });
