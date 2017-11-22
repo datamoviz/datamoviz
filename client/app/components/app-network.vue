@@ -105,7 +105,7 @@
         console.log(filters);
       });
 
-      const svg = d3.select(this.$refs.actorsNetwork);
+      const svg = d3.select(this.$refs.actorsNetwork).attr('class', 'actors-network');
       const width = +svg.attr('width');
       const height = +svg.attr('height');
 
@@ -123,8 +123,8 @@
 </script>
 
 <style lang="scss" ref="stylesheet/scss">
-text {
-  font: 10px sans-serif;
-  stroke: white;
-}
+  svg.actors-network text {
+    font: 10px sans-serif;
+    stroke: white;
+  }
 </style>
