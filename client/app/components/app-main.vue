@@ -48,6 +48,7 @@
         </div>
       </div>
     </section>
+    <app-map></app-map>
     <app-footer></app-footer>
     <scroller></scroller>
   </main>
@@ -60,8 +61,10 @@
   import AppMovies from './app-movies.vue';
   import AppWords from './app-words.vue';
   import AppNetwork from './app-network.vue';
+  import AppMap from './app-map.vue';
   import AppFooter from './app-footer.vue';
   import Scroller from './scroller.vue';
+
 
   export default {
     name: 'app-main',
@@ -72,6 +75,7 @@
       AppNetwork,
       AppMovies,
       AppWords,
+      AppMap,
       AppFooter,
       Scroller
     }
