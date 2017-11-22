@@ -31,7 +31,7 @@ module.exports = function (app) {
             },
             {
               $project: {
-                words: { $split: ['$title', ' '] }
+                words: '$title_keywords'
               }
             },
             {

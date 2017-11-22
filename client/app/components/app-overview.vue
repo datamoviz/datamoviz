@@ -65,6 +65,9 @@
             type: 'bar',
             colors: {
               count: '#009946'
+            },
+            names: {
+              count: 'Number of movies'
             }
           },
           subchart: {
@@ -78,25 +81,18 @@
             }
           },
           axis: {
-            y: {
-              tick: {
-                format: (x) => { return x % 1000 === 0 ? x : ''; }
-              }
-            },
             x: {
               tick: {
                 count: this.nbYears,
-                culling: false,
-                format: (x) => { return x % 10 === 0 ? x : ''; }
+                culling: {
+                  max: 12
+                },
               }
             }
           },
           grid: {
             x: {
               show: true,
-            },
-            y: {
-              show: true
             }
           }
         });
