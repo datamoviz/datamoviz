@@ -24,7 +24,8 @@
     name: 'app-overview',
     data() {
       return {
-        timeout: 0
+        timeout: 0,
+        nbYears: 0
       }
     },
     methods: {
@@ -36,6 +37,7 @@
         fetch(`${process.env.SERVER_URL}/aggregate/movies?filters=${encodeURI(JSON.stringify(filters))}`)
           .then(response => response.json())
           .then((years) => {
+            this.nbYears = years.length;
             chart.load({
               json: years,
               keys: {
@@ -78,7 +80,14 @@
           axis: {
             y: {
               tick: {
-                values: [...[...new Array(10).keys()].map((val) => 1000*val)]
+                format: (x) => { return x % 1000 === 0 ? x : ''; }
+              }
+            },
+            x: {
+              tick: {
+                count: this.nbYears,
+                culling: false,
+                format: (x) => { return x % 10 === 0 ? x : ''; }
               }
             }
           },
