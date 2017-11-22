@@ -13,6 +13,8 @@
 
 <script>
   import * as d3 from 'd3';
+  import { FILTERS_UPDATE } from '../event-bus';
+
 
   function loadGraph() {
     return fetch(`${process.env.SERVER_URL}/network`)
@@ -22,21 +24,11 @@
 
   export default {
     id: 'app-network',
-    mounted() {
-      const svg = d3.select(this.$refs.actorsNetwork);
-      const width = +svg.attr('width');
-      const height = +svg.attr('height');
 
+    methods: {
+      drawGraph(svg, simulation, graph) {
+        const color = d3.scaleOrdinal(d3.schemeCategory20);
 
-      const color = d3.scaleOrdinal(d3.schemeCategory20);
-
-      const simulation = d3.forceSimulation()
-        .force('link', d3.forceLink().id(d => d.name))
-        .force('charge', d3.forceManyBody())
-        .force('center', d3.forceCenter(width / 2, height / 2));
-
-
-      loadGraph().then((graph) => {
         const link = svg.append('g')
           .attr('class', 'links')
           .selectAll('line')
@@ -78,6 +70,16 @@
         node.append('title')
           .text(d => d.name);
 
+        const text = svg.append('g')
+          .attr('class', 'texts')
+          .selectAll('text')
+          .data(graph.actors)
+          .enter()
+          .append('text')
+          .attr('x', 8)
+          .attr('y', '.31em')
+          .text(d => d.name);
+
         function ticked() {
           link
             .attr('x1', d => d.source.x)
@@ -85,9 +87,8 @@
             .attr('x2', d => d.target.x)
             .attr('y2', d => d.target.y);
 
-          node
-            .attr('cx', d => d.x)
-            .attr('cy', d => d.y);
+          node.attr('transform', d => `translate(${d.x},${d.y})`);
+          text.attr('transform', d => `translate(${d.x},${d.y})`);
         }
 
         simulation
@@ -96,7 +97,34 @@
 
         simulation.force('link')
           .links(graph.links);
+      }
+    },
+
+    mounted() {
+      this.$bus.$on(FILTERS_UPDATE, (filters) => {
+        console.log(filters);
+      });
+
+      const svg = d3.select(this.$refs.actorsNetwork);
+      const width = +svg.attr('width');
+      const height = +svg.attr('height');
+
+      const simulation = d3.forceSimulation()
+        .force('link', d3.forceLink().id(d => d.name))
+        .force('charge', d3.forceManyBody())
+        .force('center', d3.forceCenter(width / 2, height / 2));
+
+
+      loadGraph().then((graph) => {
+        this.drawGraph(svg, simulation, graph);
       });
     }
   };
 </script>
+
+<style lang="scss" ref="stylesheet/scss">
+text {
+  font: 10px sans-serif;
+  stroke: white;
+}
+</style>
