@@ -1,25 +1,3 @@
-# Si tu veux paralléliser le tout:
-
-# from requests_futures.sessions import FuturesSession
-# session = FuturesSession(max_workers=10)
-# futures = []
-# results =[]
-
-# First, we use futures to send multiple requests without waiting for the response of the last request to send the next one.
-
-# for url in urls:
-#     future = session.get(url)
-#     futures.append((url, future))
-
-# Second, we collect all the responses of the sent requests.
-
-# for url, r in futures:
-#     results.append((url, r.result()))
-
-
-
-# SUPPRIMER TOUS LES FILMS DUPPLIQUÉS AVANT (c'est bizarre qu'on en ait autant...)
-
 import requests, re
 from bs4 import BeautifulSoup
 import pandas as pd
