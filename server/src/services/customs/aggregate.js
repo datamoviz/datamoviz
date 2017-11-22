@@ -7,7 +7,9 @@ module.exports = function (app) {
       const filters = parse(request.query.filters);
 
       return app.get('mongoClient').then(db => {
-        return db.collection('movies').aggregate([
+        const startPromise = db.collection('movies').find({}, {release_date: 1}).sort({release_date: 1}).limit(1).toArray();
+        const endPromise = db.collection('movies').find({}, {release_date: 1}).sort({release_date: -1}).limit(1).toArray();
+        const aggregatePromise = db.collection('movies').aggregate([
           {
             $match: filters
           },
@@ -27,7 +29,30 @@ module.exports = function (app) {
               _id: -1
             }
           }
-        ]).toArray()
+        ]).toArray();
+
+        return Promise.all([startPromise, endPromise, aggregatePromise])
+          .then(([start, end, aggregate]) => {
+            const startDate = new Date(start[0].release_date).getFullYear();
+            const endDate = new Date(end[0].release_date).getFullYear();
+            const matchedYears = aggregate;
+
+            let years = [];
+            for (let y = startDate; y < endDate; ++y) {
+              years.push({
+                _id: y,
+                count: 0
+              });
+            }
+
+            years.map((year) => {
+              return Object.assign(year, matchedYears.find((matchedYear) => {
+                return year._id === matchedYear._id;
+              }))
+            });
+
+            return years;
+        });
       });
     }
   });
