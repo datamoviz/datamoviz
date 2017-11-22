@@ -31,6 +31,10 @@
           .padding(1.5);
       },
       updateChart() {
+        let color = d3.scaleLinear().domain([d3.min(this.words, (w) => { return w.value }), d3.max(this.words, (w) => { return w.value })])
+          .interpolate(d3.interpolateHcl)
+          .range([d3.rgb("#008235"), d3.rgb('#009946')]);
+
         let transition = d3.transition().duration(750);
         let hierarchy = d3.hierarchy({ children: this.words }).sum(function(d) { return d.value; });
 
@@ -49,7 +53,7 @@
           .attr('r', (d) => { return isNaN(d.r) ? 1e-6 : d.r })
           .attr('cx', (d) => { return d.x; })
           .attr('cy', (d) => { return d.y; })
-          .attr('class', 'kept');
+          .style('fill', (d) => { return color(d.data.value); });
 
         circle.select('title').text((d) => { return `${d.data._id}: ${d.data.value} occurrences`; });
 
@@ -62,7 +66,8 @@
         let test = circle.enter().append('circle')
           .attr('r', 1e-6)
           .attr('cx', (d) => { return d.x; })
-          .attr('cy', (d) => { return d.y; });
+          .attr('cy', (d) => { return d.y; })
+          .style('fill', (d) => { return color(d.data.value); });
 
         test.transition(transition).attr('r', (d) => { return isNaN(d.r) ? 1e-6 : d.r });
 
@@ -101,16 +106,9 @@
 <style lang="scss" ref="stylesheet/scss">
   @import '../scss/_vars.scss';
 
-  svg.bubble {
-    circle {
-      overflow: hidden;
-      fill: $global-color-primary;
-    }
-
-    text {
-      text-anchor: middle;
-      font: 10px sans-serif;
-      padding-top: 0.3em;
-    }
+  svg.bubble text {
+    text-anchor: middle;
+    font: 11px sans-serif;
+    padding-top: 0.3em;
   }
 </style>
