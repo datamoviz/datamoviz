@@ -28,7 +28,7 @@ const stopwords = {
     let cleanedKeywords = titleKeywords.map((keyword) => { return pluralize.singular(keyword.toLowerCase()) });
 
     cleanedKeywords = cleanedKeywords.filter(function (value) {
-      return value !== '' && XRegExp("^\\p{L}+$").test(value) && !stopwords.global.includes(value);
+      return value !== '' && XRegExp("^\\p{L}+$").test(value) && !stopwords.global.includes(value) && value.length < 2;
     });
 
     db.collection('movies').update(
