@@ -58,7 +58,7 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env': {
-        SERVER_URL: '"http://localhost:3030"'
+        SERVER_URL: '"http://localhost:3030/api"'
       }
     })
   ]
