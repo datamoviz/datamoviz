@@ -12,20 +12,25 @@
     name: 'search',
     data() {
       return {
-        searchedMovie: ''
+        searchedMovie: '',
+        timeout: 0
       };
     },
     methods: {
       search() {
-        const { filters } = this.$bus;
+        clearTimeout(this.timeout);
 
-        if (this.searchedMovie === '') {
-          delete filters.$text;
-        } else {
-          filters.$text = { $search: `"${this.searchedMovie.replace(/ /g, '" "')}"` };
-        }
+        this.timeout = setTimeout(() => {
+          const {filters} = this.$bus;
 
-        this.$bus.$emit(FILTERS_UPDATE, filters);
+          if (this.searchedMovie === '') {
+            delete filters.$text;
+          } else {
+            filters.$text = {$search: `"${this.searchedMovie.replace(/ /g, '" "')}"`};
+          }
+
+          this.$bus.$emit(FILTERS_UPDATE, filters);
+        }, 500);
       },
       reset() {
         this.searchedMovie = '';

@@ -24,7 +24,7 @@
     name: 'app-overview',
     data() {
       return {
-        lock: 0
+        timeout: 0
       }
     },
     methods: {
@@ -68,14 +68,11 @@
           subchart: {
             show: true,
             onbrush: (domain) => {
-              const lock = ++this.lock;
-              setTimeout(() => { // Avoiding too frequent requests to avoid page lags
-                if (lock !== this.lock) {
-                  return;
-                }
+              clearTimeout(this.timeout);
 
+              this.timeout = setTimeout(() => { // Avoiding too frequent requests to avoid page lags
                 this.updateDateRange(domain);
-              }, 1000);
+              }, 500);
             }
           },
           axis: {
