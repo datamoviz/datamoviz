@@ -18,6 +18,7 @@
 </template>
 
 <script>
+  import { FILTERS_UPDATE, MOVIE_SELECTED } from '../event-bus';
   export default {
     name: 'app-map',
     data(){
@@ -25,13 +26,21 @@
         test: 'Slt',
         countries:[]
       }
-    },
+    },methods: {
+          countCountries(filters) {
+              filters = filters || {};
+
+              return fetch(`${process.env.SERVER_URL}/count/countries?filters=${encodeURI(JSON.stringify(filters))}`)
+                  .then(response => response.json())
+                  .then((json) => {
+                      this.countries = json;
+                  });
+          },
+      },
       mounted() {
-          return fetch(`${process.env.SERVER_URL}/count/countries`)
-              .then(response => response.json())
-              .then((json) => {
-                  this.countries = json;
-              });
+          this.countCountries();
+
+          this.$bus.$on(FILTERS_UPDATE, this.countCountries);
       }
   };
 
