@@ -15,7 +15,6 @@
   import * as d3 from 'd3';
   import { FILTERS_UPDATE } from '../event-bus';
 
-
   function loadGraph() {
     return fetch(`${process.env.SERVER_URL}/network`)
       .then(response => response.json());
@@ -101,9 +100,7 @@
     },
 
     mounted() {
-      this.$bus.$on(FILTERS_UPDATE, (filters) => {
-        console.log(filters);
-      });
+      this.$bus.$on(FILTERS_UPDATE, () => {});
 
       const svg = d3.select(this.$refs.actorsNetwork).attr('class', 'actors-network');
       const width = +svg.attr('width');

@@ -21,12 +21,12 @@
         clearTimeout(this.timeout);
 
         this.timeout = setTimeout(() => {
-          const {filters} = this.$bus;
+          const { filters } = this.$bus;
 
           if (this.searchedMovie === '') {
             delete filters.$text;
           } else {
-            filters.$text = {$search: `"${this.searchedMovie.replace(/ /g, '" "')}"`};
+            filters.$text = { $search: `"${this.searchedMovie.replace(/ /g, '" "')}"` };
           }
 
           this.$bus.$emit(FILTERS_UPDATE, filters);

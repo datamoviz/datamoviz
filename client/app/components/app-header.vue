@@ -61,7 +61,7 @@
         const counter = this.$refs.moviesCount;
         new CountUp(counter, this.currentTotal, total, null, 2, { separator: ' ' }).start();
         counter.style.animation = 'none';
-        setTimeout(() => { counter.style.animation = ''}, 10);
+        setTimeout(() => { counter.style.animation = ''; }, 10);
         this.currentTotal = parseInt(total, 10);
       }
     },

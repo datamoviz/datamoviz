@@ -14,9 +14,8 @@
 </template>
 
 <script>
-  import { FILTERS_UPDATE } from '../event-bus';
   import c3 from 'c3';
-  import * as d3 from 'd3';
+  import { FILTERS_UPDATE } from '../event-bus';
 
   let chart;
 
@@ -26,13 +25,13 @@
       return {
         timeout: 0,
         nbYears: 0
-      }
+      };
     },
     methods: {
       loadCount(filters) {
         filters = Object.assign({}, filters);
 
-        delete filters['release_date']; // We ignore date range filtering for the overview
+        delete filters.release_date; // We ignore date range filtering for the overview
 
         fetch(`${process.env.SERVER_URL}/aggregate/movies?filters=${encodeURI(JSON.stringify(filters))}`)
           .then(response => response.json())
@@ -50,7 +49,7 @@
       updateDateRange(domain) {
         const { filters } = this.$bus;
 
-        filters['release_date'] = {
+        filters.release_date = {
           $gte: new Date(Math.round(domain[0]).toString()),
           $lte: new Date(Math.round(domain[1]).toString())
         };
@@ -86,13 +85,13 @@
                 count: this.nbYears,
                 culling: {
                   max: 12
-                },
+                }
               }
             }
           },
           grid: {
             x: {
-              show: true,
+              show: true
             }
           }
         });
