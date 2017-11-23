@@ -40,7 +40,9 @@
     mounted() {
       this.countCountries();
 
-      this.$bus.$on(FILTERS_UPDATE, this.countCountries);
+      this.$bus.$on(FILTERS_UPDATE, (filters) => {
+              this.countCountries(filters);
+          });
     }
   };
 
