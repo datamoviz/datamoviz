@@ -24,7 +24,9 @@
     data() {
       return {
         timeout: 0,
-        nbYears: 0
+        nbYears: 0,
+        minYear: 0,
+        maxYear: 0
       };
     },
     methods: {
@@ -33,7 +35,7 @@
 
         delete filters.release_date; // We ignore date range filtering for the overview
 
-        fetch(`${process.env.SERVER_URL}/aggregate/movies?filters=${encodeURI(JSON.stringify(filters))}`)
+        return fetch(`${process.env.SERVER_URL}/aggregate/movies?filters=${encodeURI(JSON.stringify(filters))}`)
           .then(response => response.json())
           .then((years) => {
             this.nbYears = years.length;
@@ -44,15 +46,24 @@
                 value: ['count']
               }
             });
+
+            return years;
           });
       },
       updateDateRange(domain) {
         const { filters } = this.$bus;
 
-        filters.release_date = {
-          $gte: new Date(Math.round(domain[0]).toString()),
-          $lte: new Date(Math.round(domain[1]).toString())
-        };
+        const startYear= Math.round(domain[0]);
+        const endYear = Math.round(domain[1]);
+
+        if (startYear === this.minYear && endYear === this.maxYear) {
+          delete filters.release_date;
+        } else {
+          filters.release_date = {
+            $gte: new Date(startYear.toString()),
+            $lte: new Date(endYear.toString())
+          };
+        }
 
         this.$bus.$emit(FILTERS_UPDATE, filters);
       },
@@ -98,7 +109,10 @@
       }
     },
     mounted() {
-      this.loadCount();
+      this.loadCount().then((years) => {
+        this.minYear = years[0]._id;
+        this.maxYear = years[years.length - 1]._id + 1;
+      });
       this.loadChart();
 
       this.$bus.$on(FILTERS_UPDATE, (filters) => {
