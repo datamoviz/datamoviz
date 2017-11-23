@@ -10,6 +10,9 @@
               {{ country._id.name}}: {{country.value}}
             </li>
           </ul>
+        <div ref="map" class="map">
+
+        </div>
         </div>
       </div>
     </div>
@@ -18,12 +21,14 @@
 
 <script>
   import { FILTERS_UPDATE } from '../event-bus';
+  import Datamaps from 'datamaps';
 
   export default {
     name: 'app-map',
     data() {
       return {
-        countries: []
+        countries: [],
+        map: null
       };
     },
     methods: {
@@ -39,7 +44,7 @@
     },
     mounted() {
       this.countCountries();
-
+      this.map = new Datamaps({element: this.$refs.map});
       this.$bus.$on(FILTERS_UPDATE, (filters) => {
               this.countCountries(filters);
           });
@@ -47,3 +52,9 @@
   };
 
 </script>
+
+<style scoped lang="scss" ref="stylesheet/scss">
+  .map{
+    height:500px;
+  }
+</style>
