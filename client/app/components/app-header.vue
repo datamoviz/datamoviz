@@ -2,7 +2,7 @@
   <header>
     <div class="container">
       <div class="row align-items-center">
-        <div class="col-6 ml-sm-auto">
+        <div class="col-8 col-md-6 ml-sm-auto">
           <h1>
             <img src="../images/logo.svg" height="50" />
             <a href="/">Data<span class="name">Mo</span>viz</a>
@@ -11,7 +11,7 @@
             </small>
           </h1>
         </div>
-        <div class="col-6 col-sm-3 movies-count">
+        <div class="col-4 col-md-3 movies-count">
           <span ref="moviesCount" class="counter">0</span> movie<!--
           --><span class="title" v-if="currentMovie !== ''"><br />{{ currentMovie }}</span><span v-else>s
           <br />
