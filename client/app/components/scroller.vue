@@ -7,8 +7,13 @@
 
   export default {
     name: 'scroller',
+    data() {
+      return {
+        elevator: null
+      };
+    },
     mounted() {
-      new Elevator({
+      this.elevator = new Elevator({
         element: document.querySelector('.elevator'),
         duration: 1000
       });

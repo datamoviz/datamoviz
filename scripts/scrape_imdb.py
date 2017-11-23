@@ -89,16 +89,6 @@ def scrap_imdb(imdbId):
     return movie
 
 if __name__ == '__main__':
-
-    # from requests_futures.sessions import FuturesSession
-    # session = FuturesSession(max_workers=10)
-    # futures = []
-    # results =[]
-    #
-    # for url in urls:
-    #     future = session.get(url)
-    #     futures.append((url, future))
-
     DATA_FILENAME = './data/imdb_datas.json'
     INDEX_FILENAME = './data/imdb_ids_index.txt'
 
@@ -127,5 +117,3 @@ if __name__ == '__main__':
         with open(INDEX_FILENAME, 'w') as imdb_ids_index_file:
             imdb_ids_index_file.write('%d' % i)
 
-
-    print(scrap_imdb('tt1655442'))

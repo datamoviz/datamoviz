@@ -8,8 +8,8 @@
 </template>
 
 <script>
-  import { FILTERS_UPDATE } from '../event-bus';
   import * as d3 from 'd3';
+  import { FILTERS_UPDATE } from '../event-bus';
 
   export default {
     name: 'app-words',
@@ -18,28 +18,31 @@
         chart: null,
         pack: null,
         words: []
-      }
+      };
     },
     methods: {
       bubbleChart() {
         this.chart = d3.select(this.$refs.chart);
-        let width = +this.chart.attr('width'),
-            height = +this.chart.attr('height');
+        const width = +this.chart.attr('width');
+        const height = +this.chart.attr('height');
 
         this.pack = d3.pack()
           .size([width, height])
           .padding(1.5);
       },
       updateChart() {
-        let color = d3.scaleLinear().domain([d3.min(this.words, (w) => { return w.value }), d3.max(this.words, (w) => { return w.value })])
+        const color = d3.scaleLinear().domain([
+          d3.min(this.words, w => w.value),
+          d3.max(this.words, w => w.value)
+        ])
           .interpolate(d3.interpolateHcl)
-          .range([d3.rgb("#008235"), d3.rgb('#009946')]);
+          .range([d3.rgb('#008235'), d3.rgb('#009946')]);
 
-        let transition = d3.transition().duration(750);
-        let hierarchy = d3.hierarchy({ children: this.words }).sum(function(d) { return d.value; });
+        const transition = d3.transition().duration(750);
+        const hierarchy = d3.hierarchy({ children: this.words }).sum(d => d.value);
 
-        let circle = this.chart.selectAll('circle').data(this.pack(hierarchy).leaves(), (d) => { return d.data._id; });
-        let text = this.chart.selectAll('text').data(this.pack(hierarchy).leaves(), (d) => { return d.data._id; });
+        const circle = this.chart.selectAll('circle').data(this.pack(hierarchy).leaves(), d => d.data._id);
+        const text = this.chart.selectAll('text').data(this.pack(hierarchy).leaves(), d => d.data._id);
 
         circle.exit()
           .transition(transition)
@@ -50,33 +53,33 @@
 
         circle
           .transition(transition)
-          .attr('r', (d) => { return isNaN(d.r) ? 1e-6 : d.r })
-          .attr('cx', (d) => { return d.x; })
-          .attr('cy', (d) => { return d.y; })
-          .style('fill', (d) => { return color(d.data.value); });
+          .attr('r', d => (Number.isNaN(d.r) ? 1e-6 : d.r))
+          .attr('cx', d => d.x)
+          .attr('cy', d => d.y)
+          .style('fill', d => color(d.data.value));
 
-        circle.select('title').text((d) => { return `${d.data._id}: ${d.data.value} occurrences`; });
+        circle.select('title').text(d => `${d.data._id}: ${d.data.value} occurrences`);
 
         text
           .transition(transition)
-          .attr('x', (d) => { return d.x; })
-          .attr('y', (d) => { return d.y + 3; })
+          .attr('x', d => d.x)
+          .attr('y', d => d.y + 3)
           .attr('class', 'kept');
 
-        let test = circle.enter().append('circle')
+        const test = circle.enter().append('circle')
           .attr('r', 1e-6)
-          .attr('cx', (d) => { return d.x; })
-          .attr('cy', (d) => { return d.y; })
-          .style('fill', (d) => { return color(d.data.value); });
+          .attr('cx', d => d.x)
+          .attr('cy', d => d.y)
+          .style('fill', d => color(d.data.value));
 
-        test.transition(transition).attr('r', (d) => { return isNaN(d.r) ? 1e-6 : d.r });
+        test.transition(transition).attr('r', d => (Number.isNaN(d.r) ? 1e-6 : d.r));
 
-        test.append('svg:title').text((d) => { return `${d.data._id}: ${d.data.value} occurrences`; });
+        test.append('svg:title').text(d => `${d.data._id}: ${d.data.value} occurrences`);
 
         text.enter().append('text')
-          .attr('x', (d) => { return d.x; })
-          .attr('y', (d) => { return d.y + 3; })
-          .text((d) => { return d.data._id; })
+          .attr('x', d => d.x)
+          .attr('y', d => d.y + 3)
+          .text(d => d.data._id)
           .attr('opacity', 1e-6)
           .transition(transition)
           .attr('opacity', 1);

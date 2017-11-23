@@ -28,7 +28,7 @@
                 data: d3.format('$,')
               }
             },
-            color: function (color, d) {
+            color (color, d) {
               return colors[d.index];
             }
           },
