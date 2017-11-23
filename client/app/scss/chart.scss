@@ -22,4 +22,9 @@
   .c3-chart-arcs text {
     fill: white;
   }
+
+  .c3-chart-arc path {
+    stroke: $global-color-background;
+    stroke-width: 2;
+  }
 }

@@ -12,7 +12,7 @@
   import { FILTERS_UPDATE } from '../event-bus';
 
   export default {
-    name: 'app-words',
+    name: 'stats-words',
     data() {
       return {
         chart: null,
@@ -31,12 +31,7 @@
           .padding(1.5);
       },
       updateChart() {
-        const color = d3.scaleLinear().domain([
-          d3.min(this.words, w => w.value),
-          d3.max(this.words, w => w.value)
-        ])
-          .interpolate(d3.interpolateHcl)
-          .range([d3.rgb('#008235'), d3.rgb('#009946')]);
+        const color = d3.scaleOrdinal(d3.schemeCategory20);
 
         const transition = d3.transition().duration(750);
         const hierarchy = d3.hierarchy({ children: this.words }).sum(d => d.value);

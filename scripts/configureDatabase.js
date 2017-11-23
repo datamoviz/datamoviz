@@ -11,7 +11,7 @@ const stopwords = {
   spa: sw.es,
   ita: sw.it,
   deu: sw.de,
-  global: ['la', 'le', 'de', 'el', 'der']
+  global: ['der']
 };
 
 (async function () {
@@ -28,7 +28,7 @@ const stopwords = {
     let cleanedKeywords = titleKeywords.map((keyword) => { return pluralize.singular(keyword.toLowerCase()) });
 
     cleanedKeywords = cleanedKeywords.filter(function (value) {
-      return value !== '' && XRegExp("^\\p{L}+$").test(value) && !stopwords.global.includes(value) && value.length > 1;
+      return value.length > 2 && XRegExp("^\\p{L}+$").test(value) && !stopwords.global.includes(value);
     });
 
     db.collection('movies').update(
