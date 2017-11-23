@@ -4,6 +4,7 @@
       <div class="row align-items-center">
         <div class="col-6 ml-sm-auto">
           <h1>
+            <img src="../images/logo.svg" height="50" />
             <a href="/">Data<span class="name">Mo</span>viz</a>
             <small class="failure" v-if="failure">
               <i class="fa fa-plug"></i>
@@ -93,6 +94,10 @@
       margin: 0;
       font-family: Pacifico, sans-serif;
       font-size: 2.7em;
+
+      img {
+        vertical-align: sub;
+      }
 
       a {
         color: white;
