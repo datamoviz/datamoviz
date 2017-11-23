@@ -57,4 +57,44 @@ module.exports = function (app) {
         });
     }
   });
+
+  app.use('/count/countries', {
+    find(request) {
+      const filters = parse(request.query.filters);
+
+      return app.get('mongoClient')
+        .then(db => {
+        return db.collection('movies').aggregate([
+          {
+            $match: filters
+          },
+          {
+            $project: {
+              countries: '$production_countries'
+            }
+          },
+          {
+            $unwind: {
+              path: '$countries'
+            }
+          },
+          {
+            $group: {
+              _id: '$countries',
+              value: { $sum: 1 }
+
+            }
+          },
+          {
+            $sort: {
+              value: -1
+            }
+          },
+          {
+            $limit: 20
+          }
+        ]).toArray();
+    });
+    }
+  });
 };
