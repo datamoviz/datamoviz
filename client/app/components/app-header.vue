@@ -4,8 +4,10 @@
       <div class="row align-items-center">
         <div class="col-8 col-md-6 ml-sm-auto">
           <h1>
-            <img src="../images/logo.svg" height="50" />
-            <a href="/">Data<span class="name">Mo</span>viz</a>
+            <a href="/">
+              <img src="../images/logo.svg" height="50" />
+              Data<span class="name">Mo</span>viz
+            </a>
             <small class="failure" v-if="failure">
               <i class="fa fa-plug"></i>
             </small>
