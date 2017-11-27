@@ -1,12 +1,16 @@
+const parse = require('./parser');
+
 const MINIMUM_LINK = 1;
 const MINIMUM_MOVIE_COUNT = 2;
 const MAIN_ACTORS_COUNT = 5;
 
 module.exports = function (app) {
   app.use('/network', {
-    async find() {
+    async find(request) {
+      const filters = parse(request.query.filters);
+
       const db = await app.get('mongoClient');
-      const moviesIds = await db.collection('movies').find({}, {id:1, _id:0}).limit(1000).map(x => x.id).toArray();
+      const moviesIds = await db.collection('movies').find(filters, {id:1, _id:0}).limit(200).map(x => x.id).toArray();
 
       const credits = await db.collection('credits').find({ id: { $in:moviesIds } }, { cast: 1, id: 1 }).toArray();
 
