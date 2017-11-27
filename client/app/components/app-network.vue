@@ -13,7 +13,9 @@
 
 <script>
   import * as d3 from 'd3';
-  import { FILTERS_UPDATE } from '../event-bus';
+  import {
+    FILTERS_UPDATE
+  } from '../event-bus';
 
   export default {
     id: 'app-network',
@@ -49,41 +51,45 @@
           d.fx = d.x;
           d.fy = d.y;
         }
+
         function dragged(d) {
           d.fx = d3.event.x;
           d.fy = d3.event.y;
         }
+
         function dragended(d) {
           if (!d3.event.active) this.simulation.alphaTarget(0);
           d.fx = null;
           d.fy = null;
         }
 
-        this.node = this.node.data(this.graph.actors, d => d.name );
-        this.node.exit().remove();
-        this.node = this.node.enter().append("circle")
-                            .attr('r', d => Math.min(d.movieCount + 1, 7))
-                            .attr('fill', d => color(d.group))
-                            .call(d3.drag()
-                              .on('start', dragstarted.bind(this))
-                              .on('drag', dragged)
-                              .on('end', dragended.bind(this)))
-                              .merge(this.node);
-
-        this.node.append('title').text(d => d.name);
-
-        this.link = this.link.data(this.graph.links, d => { d.source.name + "-" + d.target.name });
+        this.link = this.link.data(this.graph.links, d => {
+          d.source.name + "-" + d.target.name
+        });
         this.link.exit().remove();
         this.link = this.link.enter().append("line").merge(this.link);
+
+        this.node = this.node.data(this.graph.actors, d => d.name);
+        this.node.exit().remove();
+        this.node = this.node.enter().append("circle")
+          .attr('r', d => Math.min(d.movieCount + 1, 7))
+          .attr('fill', d => color(d.group))
+          .call(d3.drag()
+            .on('start', dragstarted.bind(this))
+            .on('drag', dragged)
+            .on('end', dragended.bind(this)))
+          .merge(this.node);
+
+        this.node.append('title').text(d => d.name);
 
         this.text = this.text.data(this.graph.actors, d => d.name)
         this.text.exit().remove();
         this.text = this.text.enter()
-                              .append('text')
-                              .attr('x', 8)
-                              .attr('y', '.31em')
-                              .text(d => d.name)
-                              .merge(this.text);
+          .append('text')
+          .attr('x', 8)
+          .attr('y', '.31em')
+          .text(d => d.name)
+          .merge(this.text);
 
         this.simulation
           .nodes(this.graph.actors)
@@ -98,16 +104,14 @@
             this.text.attr('transform', d => `translate(${d.x},${d.y})`);
           });
 
-        this.simulation.force('link')
-          .links(this.graph.links);
-
+        this.simulation.force('link').links(this.graph.links);
         // this.simulation.alpha(1).restart();
       },
       drawGraph(svg) {
         const color = d3.scaleOrdinal(d3.schemeCategory20);
 
-        this.node = svg.append("g").attr("stroke", "#fff").attr("stroke-width", 1.5).selectAll(".node");
         this.link = svg.append("g").attr("stroke", "white").attr("stroke-width", 1.5).selectAll(".link")
+        this.node = svg.append("g").attr("stroke", "#fff").attr("stroke-width", 1.5).selectAll(".node");
         this.text = svg.append('g').attr('class', 'texts').selectAll('.text')
 
         this.updateGraph()
