@@ -63,16 +63,18 @@
           d.fy = null;
         }
 
+        const transition = d3.transition().duration(750);
+
         this.link = this.link.data(this.graph.links, d => {
           d.source.name + "-" + d.target.name
         });
-        this.link.exit().remove();
+        this.link.exit().transition(transition).attr("stroke-opacity", 0).remove();
         this.link = this.link.enter().append("line").merge(this.link);
 
         this.node = this.node.data(this.graph.actors, d => d.name);
-        this.node.exit().remove();
+        this.node.exit().transition(transition).attr('r', 1e-6).remove();
         this.node = this.node.enter().append("circle")
-          .attr('r', d => Math.min(d.movieCount + 1, 7))
+          .attr('r', d => Math.min(d.movieCount + 4, 7))
           .attr('fill', d => color(d.group))
           .call(d3.drag()
             .on('start', dragstarted.bind(this))
