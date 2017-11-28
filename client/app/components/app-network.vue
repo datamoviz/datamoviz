@@ -74,7 +74,7 @@
         this.node = this.node.data(this.graph.nodes, d => d.name);
         this.node.exit().transition(transition).attr('r', 1e-6).remove();
         this.node = this.node.enter().append("circle")
-          .attr('r', d => Math.min(d.movieCount + 4, 7))
+          .attr('r', d => Math.min(d.movieCount + 4, 10))
           .attr('fill', d => color(d.group))
           .call(d3.drag()
             .on('start', dragstarted.bind(this))

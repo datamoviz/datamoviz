@@ -1,8 +1,11 @@
 const parse = require('./parser');
 
 const MINIMUM_LINK = 1;
-const MINIMUM_MOVIE_COUNT = 2;
+const MINIMUM_MOVIE_COUNT = 1;
 const MAIN_ACTORS_COUNT = 5;
+
+const ACTOR_GROUP = 1
+const DIRECTOR_GROUP = 2
 
 module.exports = function (app) {
   app.use('/network', {
@@ -10,7 +13,7 @@ module.exports = function (app) {
       const filters = parse(request.query.filters);
 
       const db = await app.get('mongoClient');
-      const moviesIds = await db.collection('movies').find(filters, {id:1, _id:0}).limit(200).map(x => x.id).toArray();
+      const moviesIds = await db.collection('movies').find(filters, {id:1, _id:0}).sort({popularity:-1}).limit(20).map(x => x.id).toArray();
 
       const credits = await db.collection('credits').find({ id: { $in:moviesIds } }, { crew:1, cast: 1, id: 1 }).toArray();
 
@@ -21,7 +24,7 @@ module.exports = function (app) {
          { "$match": { "cast.order": {"$lt":MAIN_ACTORS_COUNT} } }, // Get only main actors
          { "$project": {"cast.name":1} },
          { "$group": { "_id": "$cast.name" }}
-       ]).map(x => { return {name: x._id, group: 1}}).toArray()
+       ]).map(x => { return {name: x._id, group: ACTOR_GROUP}}).toArray()
 
 
       let directors = await db.collection('credits').aggregate([
@@ -30,15 +33,15 @@ module.exports = function (app) {
          { "$match": { "crew.job": {"$in":["Director"]} } },
          { "$project": {"crew":1} },
          { "$group": { "_id": "$crew.name" }}
-       ]).map(x => { return {name: x._id, job:'Director', group:2}}).toArray()
+       ]).map(x => { return {name: x._id, job:'Director', group:DIRECTOR_GROUP}}).toArray()
 
       let people = actors.concat(directors);
 
-      let links = getActorsNetworkLink(credits, actors);
+      let links = getActorsNetworkLink(credits, people);
 
-      actors = getActorNodeObject(actors, links, credits);
+      people = getActorNodeObject(people, links, credits);
 
-      let actorsLinks = removeActorsMinMovieCount(actors, links)
+      let actorsLinks = removeActorsMinMovieCount(people, links)
       actors = actorsLinks.actors
       links = actorsLinks.links
 
@@ -52,7 +55,11 @@ function getActorsLinkMap(credits, actors) {
   actors.forEach(actor => {
     credits.forEach(movieCast => {
 
-      if(!peopleObjectsContainsName(movieCast.cast, actor.name)) {
+      if(actor.group === ACTOR_GROUP && !peopleObjectsContainsName(movieCast.cast, actor.name)) {
+        return;
+      }
+
+      if(actor.group === DIRECTOR_GROUP && !peopleObjectsContainsName(movieCast.crew, actor.name)) {
         return;
       }
 
@@ -97,11 +104,28 @@ function getActorNodeObject(actors, links, credits) {
   actors =  actors.map(actor => {
     let movieCount = 0;
     credits.forEach(creditObject => {
-      creditObject.cast.forEach(actorObject => {
-        if(actorObject.name === actor.name) {
-          movieCount++;
-        }
-      })
+
+      // Actor
+      if(actor.group === ACTOR_GROUP) {
+        creditObject.cast.forEach(actorObject => {
+          if(actorObject.name === actor.name) {
+            movieCount++;
+            return false;
+          }
+        })
+      }
+
+      // Director
+      if(actor.group === DIRECTOR_GROUP && movieCount === 0) {
+        creditObject.crew.forEach(actorObject => {
+          if(actorObject.name === actor.name) {
+            movieCount++;
+            return false;
+          }
+        })
+      }
+
+
     })
     return {name: actor.name, group: actor.group, movieCount}
   });
