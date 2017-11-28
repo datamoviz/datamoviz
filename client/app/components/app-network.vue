@@ -80,6 +80,8 @@
             .on('start', dragstarted.bind(this))
             .on('drag', dragged)
             .on('end', dragended.bind(this)))
+            .on('mouseover', function(){d3.select(this).style('fill', 'red')})
+            .on('mouseout', function(d){d3.select(this).style('fill', color(d.group))})
           .merge(this.node);
 
         this.node.append('title').text(d => d.name);
