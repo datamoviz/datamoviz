@@ -1,12 +1,13 @@
 <template>
   <div class="col col-sm-6 col-md-6">
     <h4>Genres distribution</h4>
-    <div ref="genresChart"></div>
+    <div ref="genresChart" class="genres-chart"></div>
   </div>
 </template>
 
 <script>
   import c3 from 'c3';
+  import * as d3 from 'd3';
   import { FILTERS_UPDATE } from '../event-bus';
 
   let chart;
@@ -21,8 +22,11 @@
           .then(response => response.json())
           .then((genres) => {
             chart.load({
-              unload: true,
-              columns: genres
+              json: genres,
+              keys: {
+                x: '_id',
+                value: ['value']
+              }
             });
           });
       },
@@ -30,30 +34,46 @@
         chart = c3.generate({
           bindto: this.$refs.genresChart,
           data: {
-            columns: [],
-            type: 'pie',
+            json: {},
+            type: 'bar',
             colors: {
-              count: '#009946'
+              value: '#1d92dd'
             },
             names: {
-              count: 'Distribution of genres'
+              value: 'Number of movies'
+            },
+            axes: {
+              value: 'y2'
             },
             order: null
           },
-          pie: {
-            label: {
-              show: false
-            }
-          },
           legend: {
-            position: 'right',
-            item: {
-              onclick: () => {}
+            show: false
+          },
+          axis: {
+            rotated: true,
+            x: {
+              type: 'category'
+            },
+            y: {
+              show: false
+            },
+            y2: {
+              show: true,
+              tick: {
+                count: 5,
+                format: d3.format('.0f')
+              }
             }
           },
           size: {
-            height: 200,
+            height: 300,
             width: 300
+          },
+          grid: {
+            y: {
+              show: true
+            }
           }
         });
       }
@@ -68,3 +88,9 @@
     }
   };
 </script>
+
+<style lang="scss" ref="stylesheet/scss">
+  .genres-chart g.tick:last-of-type text {
+    transform: translate(-7px, 0);
+  }
+</style>

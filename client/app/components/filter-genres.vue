@@ -8,7 +8,7 @@
     </h3>
     <div class="row filters">
       <template v-if="genres.length !== 0">
-        <genre v-for="genre in genres" :key="genre.id" :name="genre.name"></genre>
+        <genre v-for="genre, key in genres" :key="key" :name="genre"></genre>
       </template>
       <div class="col" v-else-if="!failure">
         <i class="fa fa-spinner fa-spin"></i> Loading...
@@ -46,37 +46,19 @@
           delete filters['genres.name'];
           delete filters.genres;
         } else {
-          filters['genres.name'] = { $nin: this.genres.map(genre => genre.name) };
+          filters['genres.name'] = { $nin: this.genres };
           filters.genres = { $exists: true, $ne: [] };
         }
 
         this.$bus.$emit(FILTERS_UPDATE, filters);
-      },
-      sortGenres(unsorted) { // Sorting genre in columns instead of lines
-        const nbElements = unsorted.length + 1; // "None" will be added later
-        const nbColumns = 3;
-        const genres = [];
-        for (let i = 6, j = 2; i < (nbElements ** 2) / nbColumns; i += nbElements / nbColumns, ++j) {
-          genres.push(unsorted[i % nbElements]);
-
-          if (j % nbColumns === 0) {
-            ++i;
-          }
-        }
-
-        return genres;
       }
     },
     mounted() {
-      return fetch(`${process.env.SERVER_URL}/genres`)
+      return fetch(`${process.env.SERVER_URL}/list/genres`)
         .then(response => response.json())
         .then((json) => {
-          json = json.sort((a, b) => (a.name > b.name ? 1 : -1));
-
-          const genres = this.sortGenres(json);
-          genres.unshift({ id: -1, name: 'None' });
-
-          this.genres = genres;
+          this.genres = json.sort();
+          this.genres.unshift('None');
         })
         .catch(() => {
           this.failure = true;

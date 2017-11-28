@@ -36,8 +36,7 @@
           d3.max(this.words, (w) => { return w.value })
         ])
           .interpolate(d3.interpolateHcl)
-          .range([d3.rgb("#008235"), d3.rgb('#009946')]);
-
+          .range([d3.rgb("#1b82c7"), d3.rgb('#21a8ff')]);
 
         const transition = d3.transition().duration(750);
         const hierarchy = d3.hierarchy({ children: this.words }).sum(d => d.value);

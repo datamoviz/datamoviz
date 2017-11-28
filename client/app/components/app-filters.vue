@@ -8,7 +8,7 @@
             <genres-filter></genres-filter>
             <div class="col-12 col-md-6">
               <countries-filter></countries-filter>
-              <adult-filter></adult-filter>
+              <content-rating-filter></content-rating-filter>
             </div>
           </div>
         </div>
@@ -20,14 +20,14 @@
 <script>
   import GenresFilter from './filter-genres.vue';
   import CountriesFilter from './filter-countries.vue';
-  import AdultFilter from './filter-adult.vue';
+  import ContentRatingFilter from './filter-content-rating.vue';
 
   export default {
     name: 'app-filters',
     components: {
       GenresFilter,
       CountriesFilter,
-      AdultFilter
+      ContentRatingFilter
     }
   };
 </script>
