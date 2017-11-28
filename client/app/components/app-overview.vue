@@ -25,30 +25,43 @@
       return {
         timeout: 0,
         nbYears: 0,
-        minYear: 0,
-        maxYear: 0
+        yearsList: []
       };
     },
     methods: {
       loadCount(filters) {
+        return Promise.all([this.loadYears(filters), this.loadColors(filters)]).then(([years, colors]) => {
+          this.yearsList = this.yearsList.length === 0 ? years[0] : this.yearsList;
+
+          years.push(colors[0]);
+          years.push(colors[1]);
+
+          console.log(years);
+          chart.load({
+            columns: years
+          });
+        })
+      },
+      loadYears(filters) {
         filters = Object.assign({}, filters);
 
         delete filters.release_date; // We ignore date range filtering for the overview
 
-        return fetch(`${process.env.SERVER_URL}/aggregate/movies?filters=${encodeURI(JSON.stringify(filters))}`)
+        return fetch(`${process.env.SERVER_URL}/aggregate/years?filters=${encodeURI(JSON.stringify(filters))}`)
           .then(response => response.json())
           .then((years) => {
             this.nbYears = years.length;
-            chart.load({
-              json: years,
-              keys: {
-                x: '_id',
-                value: ['count']
-              }
-            });
-
             return years;
           });
+      },
+      loadColors(filters) {
+        filters = Object.assign({}, filters);
+
+        delete filters.release_date; // We ignore date range filtering for the overview
+
+        return fetch(`${process.env.SERVER_URL}/aggregate/years-colors?filters=${encodeURI(JSON.stringify(filters))}`)
+          .then(response => response.json())
+          .then((colors) => colors);
       },
       updateDateRange(domain) {
         const { filters } = this.$bus;
@@ -71,13 +84,23 @@
         chart = c3.generate({
           bindto: this.$refs.overviewChart,
           data: {
-            json: [],
+            x: 'list',
+            columns: [],
             type: 'bar',
             colors: {
-              count: '#009946'
+              years: '#009946',
+              b_and_w: '#989898',
+              color: '#1d92dd'
             },
+            hide: ['b_and_w','color'],
             names: {
-              count: 'Number of movies'
+              years: 'All the movies',
+              b_and_w: 'Black and White movies',
+              color: 'Color movies'
+            },
+            types: {
+              b_and_w: 'area',
+              color: 'area'
             }
           },
           subchart: {
@@ -109,10 +132,7 @@
       }
     },
     mounted() {
-      this.loadCount().then((years) => {
-        this.minYear = years[0]._id;
-        this.maxYear = years[years.length - 1]._id + 1;
-      });
+      this.loadCount();
       this.loadChart();
 
       this.$bus.$on(FILTERS_UPDATE, (filters) => {

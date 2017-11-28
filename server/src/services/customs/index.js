@@ -1,5 +1,5 @@
 module.exports = function (app) {
-  require('./genres')(app);
+  require('./list')(app);
   require('./countries')(app);
   require('./count')(app);
   require('./filtered')(app);

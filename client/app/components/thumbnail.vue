@@ -22,11 +22,12 @@
       <p class="overview"><strong>{{ movie.tagline }}</strong> {{ movie.overview }}</p>
       <gauge-chart
               name="Vote average"
-              :value="movie.vote_average"
+              :value="movie.imdb_rating"
               :max="10" :size="100"
-              :title="`${movie.vote_count} votes`"
+              :title="`${movie.imdb_nb_reviews} votes`"
               :thresholds="[4, 7]"
-              :imdb="movie.imdb_id"></gauge-chart>
+              :imdb="movie.imdb_id"
+              v-if="movie.imdb_rating !== undefined"></gauge-chart>
       <gauge-chart
               name="Movie popularity"
               :value="movie.popularity"
@@ -39,7 +40,7 @@
               :budget="movie.budget"
               :revenue="movie.revenue"
               :imdb="movie.imdb_id"></profitability-chart>
-      <p><span v-for="genre in movie.genres" :key="genre.id"><span class="badge">{{ genre.name }}</span>&nbsp;</span><br />&nbsp;</p>
+      <p><span v-for="genre, key in movie.genres" :key="key"><span class="badge">{{ genre }}</span>&nbsp;</span><br />&nbsp;</p>
       <small><span class="badge badge-info">Pro tip</span> Press <span class="badge">esc</span> to deselect the movie.</small>
   </div>
   </div>
