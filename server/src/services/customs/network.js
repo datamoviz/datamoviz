@@ -12,7 +12,7 @@ module.exports = function (app) {
       const db = await app.get('mongoClient');
       const moviesIds = await db.collection('movies').find(filters, {id:1, _id:0}).limit(200).map(x => x.id).toArray();
 
-      const credits = await db.collection('credits').find({ id: { $in:moviesIds } }, { cast: 1, id: 1 }).toArray();
+      const credits = await db.collection('credits').find({ id: { $in:moviesIds } }, { crew:1, cast: 1, id: 1 }).toArray();
 
       // let actors = await db.collection('credits').distinct('cast.name', { id: { $in:moviesIds }});
       let actors = await db.collection('credits').aggregate([
@@ -21,7 +21,18 @@ module.exports = function (app) {
          { "$match": { "cast.order": {"$lt":MAIN_ACTORS_COUNT} } }, // Get only main actors
          { "$project": {"cast.name":1} },
          { "$group": { "_id": "$cast.name" }}
-       ]).map(x => x._id).toArray()
+       ]).map(x => { return {name: x._id, group: 1}}).toArray()
+
+
+      let directors = await db.collection('credits').aggregate([
+        { "$match": { "id": {"$in":moviesIds} } },
+        { "$unwind": "$crew" },
+         { "$match": { "crew.job": {"$in":["Director"]} } },
+         { "$project": {"crew":1} },
+         { "$group": { "_id": "$crew.name" }}
+       ]).map(x => { return {name: x._id, job:'Director', group:2}}).toArray()
+
+      let people = actors.concat(directors);
 
       let links = getActorsNetworkLink(credits, actors);
 
@@ -31,7 +42,7 @@ module.exports = function (app) {
       actors = actorsLinks.actors
       links = actorsLinks.links
 
-      return {actors, links}
+      return {nodes:actors, links}
     }
   });
 };
@@ -41,26 +52,26 @@ function getActorsLinkMap(credits, actors) {
   actors.forEach(actor => {
     credits.forEach(movieCast => {
 
-      if(!castContainActor(movieCast.cast, actor)) {
+      if(!peopleObjectsContainsName(movieCast.cast, actor.name)) {
         return;
       }
 
       movieCast.cast.forEach(actorObject2 => {
-        if(actor === actorObject2.name) {
+        if(actor.name === actorObject2.name) {
           return;
         }
 
-        if(!actors.includes(actorObject2.name)) {
+        if(!peopleObjectsContainsName(actors, actorObject2.name)) {
           return;
         }
 
         // Keep only (actorname1, actorname2) and throw (actorname2, actorname1)
-        if(actor.localeCompare(actorObject2.name) > 0) {
+        if(actor.name.localeCompare(actorObject2.name) > 0) {
           return;
         }
 
         const linkObject = {
-          source: actor,
+          source: actor.name,
           target: actorObject2.name
         }
 
@@ -87,12 +98,12 @@ function getActorNodeObject(actors, links, credits) {
     let movieCount = 0;
     credits.forEach(creditObject => {
       creditObject.cast.forEach(actorObject => {
-        if(actorObject.name === actor) {
+        if(actorObject.name === actor.name) {
           movieCount++;
         }
       })
     })
-    return {name: actor, group:1, movieCount}
+    return {name: actor.name, group: actor.group, movieCount}
   });
 
   return actors
@@ -158,7 +169,6 @@ function removeActorsNotInLinks(actors, links) {
 
 function getActorsNetworkLink(credits, actors) {
   const actorsLinkMap = getActorsLinkMap(credits, actors);
-
   const links = [];
 
   // MINIMUM_LINK criteria
@@ -182,10 +192,10 @@ function collectMoviesIds(movies) {
   return moviesIds;
 }
 
-function castContainActor(cast, actor) {
+function peopleObjectsContainsName(cast, name) {
   let found = false;
   cast.forEach(actorObject => {
-    if(actorObject.name === actor) {
+    if(actorObject.name === name) {
       found = true;
       return false;
     }

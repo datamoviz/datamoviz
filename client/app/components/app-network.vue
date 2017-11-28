@@ -71,7 +71,7 @@
         this.link.exit().transition(transition).attr("stroke-opacity", 0).remove();
         this.link = this.link.enter().append("line").merge(this.link);
 
-        this.node = this.node.data(this.graph.actors, d => d.name);
+        this.node = this.node.data(this.graph.nodes, d => d.name);
         this.node.exit().transition(transition).attr('r', 1e-6).remove();
         this.node = this.node.enter().append("circle")
           .attr('r', d => Math.min(d.movieCount + 4, 7))
@@ -86,7 +86,7 @@
 
         this.node.append('title').text(d => d.name);
 
-        this.text = this.text.data(this.graph.actors, d => d.name)
+        this.text = this.text.data(this.graph.nodes, d => d.name)
         this.text.exit().remove();
         this.text = this.text.enter()
           .append('text')
@@ -95,7 +95,7 @@
           .text(d => d.name)
           .merge(this.text);
 
-        this.simulation.nodes(this.graph.actors);
+        this.simulation.nodes(this.graph.nodes);
         this.simulation.force('link').links(this.graph.links);
         this.simulation.alpha(1).restart();
       },
@@ -109,7 +109,7 @@
         const width = +svg.attr('width');
         const height = +svg.attr('height');
 
-        this.simulation = d3.forceSimulation(this.graph.actors)
+        this.simulation = d3.forceSimulation(this.graph.nodes)
           .force('link', d3.forceLink(this.graph.links).id(d => d.name).distance(5))
           .force('charge', d3.forceManyBody().strength(-300))
           .force('center', d3.forceCenter(width / 2, height / 2))
