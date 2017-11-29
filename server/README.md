@@ -14,10 +14,6 @@ We use two collections :
 - movies
 - credits
 
-### Load NeDB database into MongoDB
-
-See the [scripts](https://github.com/quentinus95/datamoviz/tree/master/scripts) readme.
-
 ## Installation
 
 ```
@@ -29,8 +25,3 @@ npm install
 ```
 npm start
 ```
-
-## Custom endpoint
-
-You can register your custom endpoint in `./src/services/customs`.
-

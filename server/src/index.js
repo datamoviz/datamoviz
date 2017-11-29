@@ -1,20 +1,26 @@
-/* eslint-disable no-console */
-const feathers = require('feathers');
+const express = require('express');
+const MongoClient = require('mongodb');
+const cors = require('cors');
 
+const app = express();
+const router = express.Router();
 
-const logger = require('winston');
-const api = require('./app');
+app.use(cors());
 
-const app = feathers();
-const port = api.get('port');
-app.use('/api/', api);
-const server = app.listen(port);
-api.setup(server);
+app.set('mongoClient', MongoClient.connect('mongodb://localhost:27017/datamoviz-api'));
 
-process.on('unhandledRejection', (reason, p) =>
-  logger.error('Unhandled Rejection at: Promise ', p, reason)
-);
+app.use(function(req, res, next) {
+  res.setHeader('Cache-Control', 'max-age=86400');
+  next();
+});
 
-server.on('listening', () =>
-  logger.info(`Feathers application started on ${api.get('host')}:${port}`)
-);
+require('./aggregate')(app, router);
+require('./count')(app, router);
+require('./countries')(app, router);
+require('./filtered')(app, router);
+require('./list')(app, router);
+require('./network')(app, router);
+
+app.use('/api', router);
+
+app.listen(3030, () => console.log('Server listening on port 3030!'));

@@ -7,46 +7,44 @@ const MAIN_ACTORS_COUNT = 5;
 const ACTOR_GROUP = 1
 const DIRECTOR_GROUP = 2
 
-module.exports = function (app) {
-  app.use('/network', {
-    async find(request) {
-      const filters = parse(request.query.filters);
+module.exports = function (app, router) {
+  router.get('/network', async (req, res) => {
+    const filters = parse(req.query.filters);
 
-      const db = await app.get('mongoClient');
-      const moviesIds = await db.collection('movies').find(filters, {id:1, _id:0}).sort({popularity:-1}).limit(20).map(x => x.id).toArray();
+    const db = await app.get('mongoClient');
+    const moviesIds = await db.collection('movies').find(filters, {id:1, _id:0}).sort({popularity:-1}).limit(20).map(x => x.id).toArray();
 
-      const credits = await db.collection('credits').find({ id: { $in:moviesIds } }, { crew:1, cast: 1, id: 1 }).toArray();
+    const credits = await db.collection('credits').find({ id: { $in:moviesIds } }, { crew:1, cast: 1, id: 1 }).toArray();
 
-      // let actors = await db.collection('credits').distinct('cast.name', { id: { $in:moviesIds }});
-      let actors = await db.collection('credits').aggregate([
-        { "$match": { "id": {"$in":moviesIds} } },
-        { "$unwind": "$cast" },
-         { "$match": { "cast.order": {"$lt":MAIN_ACTORS_COUNT} } }, // Get only main actors
-         { "$project": {"cast.name":1} },
-         { "$group": { "_id": "$cast.name" }}
-       ]).map(x => { return {name: x._id, group: ACTOR_GROUP}}).toArray()
+    // let actors = await db.collection('credits').distinct('cast.name', { id: { $in:moviesIds }});
+    let actors = await db.collection('credits').aggregate([
+      { "$match": { "id": {"$in":moviesIds} } },
+      { "$unwind": "$cast" },
+       { "$match": { "cast.order": {"$lt":MAIN_ACTORS_COUNT} } }, // Get only main actors
+       { "$project": {"cast.name":1} },
+       { "$group": { "_id": "$cast.name" }}
+     ]).map(x => { return {name: x._id, group: ACTOR_GROUP}}).toArray()
 
 
-      let directors = await db.collection('credits').aggregate([
-        { "$match": { "id": {"$in":moviesIds} } },
-        { "$unwind": "$crew" },
-         { "$match": { "crew.job": {"$in":["Director"]} } },
-         { "$project": {"crew":1} },
-         { "$group": { "_id": "$crew.name" }}
-       ]).map(x => { return {name: x._id, job:'Director', group:DIRECTOR_GROUP}}).toArray()
+    let directors = await db.collection('credits').aggregate([
+      { "$match": { "id": {"$in":moviesIds} } },
+      { "$unwind": "$crew" },
+       { "$match": { "crew.job": {"$in":["Director"]} } },
+       { "$project": {"crew":1} },
+       { "$group": { "_id": "$crew.name" }}
+     ]).map(x => { return {name: x._id, job:'Director', group:DIRECTOR_GROUP}}).toArray()
 
-      let people = actors.concat(directors);
+    let people = actors.concat(directors);
 
-      let links = getActorsNetworkLink(credits, people);
+    let links = getActorsNetworkLink(credits, people);
 
-      people = getActorNodeObject(people, links, credits);
+    people = getActorNodeObject(people, links, credits);
 
-      let actorsLinks = removeActorsMinMovieCount(people, links)
-      actors = actorsLinks.actors
-      links = actorsLinks.links
+    let actorsLinks = removeActorsMinMovieCount(people, links)
+    actors = actorsLinks.actors
+    links = actorsLinks.links
 
-      return {nodes:actors, links}
-    }
+    return res.json({nodes:actors, links});
   });
 };
 
