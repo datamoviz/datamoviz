@@ -16,8 +16,9 @@
         <small><i class="fa fa-language"></i> {{ movie.spoken_languages.map(a => a.name).join(', ') }}</small>
       </h3>
       <p>
-        <span class="badge">IMDb {{ movie.imdb_id }}</span>
         <span class="badge">{{ movie.release_date|date("%m\/%d\/%Y") }}</span>
+        <span class="badge" v-if="movie.runtime"><i class="fa fa-clock-o"></i> {{ movie.runtime }} min</span>
+        <small>IMDb {{ movie.imdb_id }}</small>
       </p>
       <p class="overview"><strong>{{ movie.tagline }}</strong> {{ movie.overview }}</p>
       <gauge-chart
@@ -41,7 +42,7 @@
               :revenue="movie.revenue"
               :imdb="movie.imdb_id"></profitability-chart>
       <p><span v-for="genre, key in movie.genres" :key="key"><span class="badge">{{ genre }}</span>&nbsp;</span>
-        <span v-if="movie.homepage">&bull; <a :href="movie.homepage" title="Go to movie official website">{{ movie.homepage }}</a></span>
+        <small v-if="movie.homepage"><a :href="movie.homepage" title="Go to movie official website">{{ movie.homepage }}</a></small>
         <br />&nbsp;</p>
       <small><span class="badge badge-info">Pro tip</span> Press <span class="badge">esc</span> to deselect the movie.</small>
   </div>
