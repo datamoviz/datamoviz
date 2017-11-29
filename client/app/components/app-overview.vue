@@ -36,7 +36,6 @@
           years.push(colors[0]);
           years.push(colors[1]);
 
-          console.log(years);
           chart.load({
             columns: years
           });

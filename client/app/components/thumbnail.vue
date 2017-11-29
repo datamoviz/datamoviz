@@ -30,7 +30,7 @@
               v-if="movie.imdb_rating !== undefined"></gauge-chart>
       <gauge-chart
               name="Movie popularity"
-              :value="movie.popularity"
+              :value="movie.imdb_nb_reviews"
               :max="popularity" :size="100"
               :title="'Popularity'"
               :thresholds="[1, 40]"
@@ -40,7 +40,9 @@
               :budget="movie.budget"
               :revenue="movie.revenue"
               :imdb="movie.imdb_id"></profitability-chart>
-      <p><span v-for="genre, key in movie.genres" :key="key"><span class="badge">{{ genre }}</span>&nbsp;</span><br />&nbsp;</p>
+      <p><span v-for="genre, key in movie.genres" :key="key"><span class="badge">{{ genre }}</span>&nbsp;</span>
+        <span v-if="movie.homepage">&bull; <a :href="movie.homepage" title="Go to movie official website">{{ movie.homepage }}</a></span>
+        <br />&nbsp;</p>
       <small><span class="badge badge-info">Pro tip</span> Press <span class="badge">esc</span> to deselect the movie.</small>
   </div>
   </div>

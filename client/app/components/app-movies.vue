@@ -50,7 +50,7 @@
     },
     mounted() {
       this.loadThumbnails().then(() => {
-        this.maxPopularity = Math.floor(this.movies[0].popularity);
+        this.maxPopularity = Math.floor(this.movies[0].imdb_nb_reviews);
       });
 
       this.$bus.$on(FILTERS_UPDATE, (filters) => {
