@@ -14,6 +14,7 @@
           </h1>
         </div>
         <div class="col-4 col-md-3 movies-count">
+          <i class="fa fa-spinner fa-spin" v-if="loading"></i>
           <span ref="moviesCount" class="counter">0</span> movie<!--
           --><span class="title" v-if="currentMovie !== ''"><br />{{ currentMovie }}</span><span v-else>s
           <br />
@@ -41,13 +42,15 @@
         currentTotal: 0,
         currentMovie: '',
         failure: false,
-        nbFilters: 0
+        nbFilters: 0,
+        loading: false,
       };
     },
     methods: {
       countMovies(filters) {
         filters = filters || {};
 
+        this.loading = true;
         return fetch(`${process.env.SERVER_URL}/count/movies?filters=${encodeURI(JSON.stringify(filters))}`)
           .then(response => response.json())
           .then(json => json)
@@ -55,9 +58,11 @@
             this.updateTotal(total);
             this.nbFilters = Object.keys(filters).length;
             this.currentMovie = '';
+            this.loading = false;
           })
           .catch(() => {
             this.failure = true;
+            this.loading = false;
           });
       },
       updateTotal(total) {
@@ -127,6 +132,10 @@
       font-size: 1.5em;
       text-align: right;
       line-height: 0.8em;
+
+      .fa-spinner {
+        font-size: 0.7em;
+      }
 
       .counter, .title {
         color: $global-color-primary;
