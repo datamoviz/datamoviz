@@ -23,26 +23,36 @@
     },
     methods: {
       toggleNone(filters) {
+        const excluded = filters.genres || {};
+
         if (this.value) {
-          delete filters.genres;
+          delete filters.genres.$ne;
+          if (Object.keys(filters.genres).length === 0) {
+            delete filters.genres;
+          }
         } else {
-          filters.genres = { $exists: true, $ne: [] };
+          excluded.$ne = [];
+          filters.genres = excluded;
         }
       },
       toggleGenre(filters) {
-        const excluded = filters['genres.name'] || { $nin: [] };
+        const excluded = filters.genres || { $nin: [] };
+        excluded.$nin = excluded.$nin || [];
 
         if (this.value) {
           excluded.$nin.splice(excluded.$nin.indexOf(this.name), 1);
 
-          filters['genres.name'] = excluded;
-          if (filters['genres.name'].$nin.length === 0) {
-            delete filters['genres.name'];
+          filters.genres = excluded;
+          if (filters.genres.$nin.length === 0) {
+            delete filters.genres.$nin;
+          }
+          if (Object.keys(filters.genres).length === 0) {
+            delete filters.genres;
           }
         } else {
           excluded.$nin.push(this.name);
 
-          filters['genres.name'] = excluded;
+          filters.genres = excluded;
         }
       },
       refreshFilters() {

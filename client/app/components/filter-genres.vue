@@ -43,11 +43,13 @@
         const { filters } = this.$bus;
 
         if (this.enabled) {
-          delete filters['genres.name'];
+          delete filters['genres'];
           delete filters.genres;
         } else {
-          filters['genres.name'] = { $nin: this.genres };
-          filters.genres = { $exists: true, $ne: [] };
+          filters.genres = {
+            $nin: this.genres.slice(), // Duplicating entire array
+            $ne: []
+          };
         }
 
         this.$bus.$emit(FILTERS_UPDATE, filters);
