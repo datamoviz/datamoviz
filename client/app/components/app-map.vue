@@ -4,15 +4,7 @@
       <div class="row">
         <div class="col-12">
           <h2>Map</h2>
-          <p>{{ countries.map(country => country._id.name).join(', ') }}</p>
-          <ul>
-            <li v-for="country in countries">
-              {{ country._id.name}}: {{country.value}}
-            </li>
-          </ul>
-        <div ref="map" class="map">
-
-        </div>
+          <div ref="map" class="map"></div>
         </div>
       </div>
     </div>

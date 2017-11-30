@@ -6,16 +6,6 @@
     <app-stats></app-stats>
     <app-movies></app-movies>
     <app-network></app-network>
-    <section>
-      <div class="container">
-        <div class="row">
-          <div class="col">
-            <h2>Actors</h2>
-            <p>Revenue, top actors, ...</p>
-          </div>
-        </div>
-      </div>
-    </section>
     <app-map></app-map>
     <app-footer></app-footer>
     <scroller></scroller>
