@@ -1,6 +1,6 @@
 # DataMoviz 🎥
 
-Deep into the movie scene... https://datamoviz.dldl.io
+Deep into the movie scene: https://datamoviz.dldl.io
 
 ## Installation
 
