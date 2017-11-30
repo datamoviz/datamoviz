@@ -1,6 +1,6 @@
 {
   "name": "datamoviz-api",
-  "description": "Datamoviz api",
+  "description": "The API to deep into the movie scene",
   "version": "1.0.0",
   "main": "src/",
   "author": "Quentin de Longraye",
