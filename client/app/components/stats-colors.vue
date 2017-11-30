@@ -33,7 +33,7 @@
             columns: [],
             type: 'donut',
             colors: {
-              'Color': '#1d92dd',
+              Color: '#1d92dd',
               'Black and White': '#989898'
             }
           },

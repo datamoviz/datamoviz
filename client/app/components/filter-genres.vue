@@ -43,7 +43,7 @@
         const { filters } = this.$bus;
 
         if (this.enabled) {
-          delete filters['genres'];
+          delete filters.genres;
           delete filters.genres;
         } else {
           filters.genres = {
