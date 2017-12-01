@@ -30,16 +30,17 @@
     },
     methods: {
       loadCount(filters) {
-        return Promise.all([this.loadYears(filters), this.loadColors(filters)]).then(([years, colors]) => {
-          this.yearsList = this.yearsList.length === 0 ? years[0] : this.yearsList;
+        return Promise.all([this.loadYears(filters), this.loadColors(filters)])
+          .then(([years, colors]) => {
+            this.yearsList = this.yearsList.length === 0 ? years[0] : this.yearsList;
 
-          years.push(colors[0]);
-          years.push(colors[1]);
+            years.push(colors[0]);
+            years.push(colors[1]);
 
-          chart.load({
-            columns: years
+            chart.load({
+              columns: years
+            });
           });
-        })
       },
       loadYears(filters) {
         filters = Object.assign({}, filters);
@@ -60,12 +61,12 @@
 
         return fetch(`${process.env.SERVER_URL}/aggregate/years-colors?filters=${encodeURI(JSON.stringify(filters))}`)
           .then(response => response.json())
-          .then((colors) => colors);
+          .then(colors => colors);
       },
       updateDateRange(domain) {
         const { filters } = this.$bus;
 
-        const startYear= Math.round(domain[0]);
+        const startYear = Math.round(domain[0]);
         const endYear = Math.round(domain[1]);
 
         if (startYear === this.minYear && endYear === this.maxYear) {
@@ -91,7 +92,7 @@
               b_and_w: '#989898',
               color: '#1d92dd'
             },
-            hide: ['b_and_w','color'],
+            hide: ['b_and_w', 'color'],
             names: {
               years: 'All the movies',
               b_and_w: 'Black and White movies',

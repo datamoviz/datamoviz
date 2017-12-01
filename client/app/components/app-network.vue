@@ -13,9 +13,7 @@
 
 <script>
   import * as d3 from 'd3';
-  import {
-    FILTERS_UPDATE
-  } from '../event-bus';
+  import { FILTERS_UPDATE } from '../event-bus';
 
   export default {
     id: 'app-network',

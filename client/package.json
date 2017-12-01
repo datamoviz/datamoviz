@@ -1,7 +1,7 @@
 {
   "name": "datamoviz",
   "version": "1.0.0",
-  "description": "DataMoviz data visualization",
+  "description": "Deep into the movie scene",
   "repository": "https://github.com/quentinus95/datamoviz",
   "main": "app/main.js",
   "scripts": {

@@ -53,6 +53,7 @@ module.exports = {
     }),
     new CopyWebpackPlugin([
       { from: './app/index.html', to: 'index.html' },
+      { from: 'app/icons' }
     ]),
     new webpack.LoaderOptionsPlugin({
       options: {

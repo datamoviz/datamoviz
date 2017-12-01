@@ -1,5 +1,6 @@
 let webpack = require('webpack');
 let path = require('path');
+let CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   devServer: {
@@ -60,6 +61,9 @@ module.exports = {
       'process.env': {
         SERVER_URL: '"http://localhost:3030/api"'
       }
-    })
+    }),
+    new CopyWebpackPlugin([
+      { from: 'app/icons' }
+    ])
   ]
 };
