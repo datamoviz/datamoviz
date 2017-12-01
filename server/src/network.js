@@ -12,7 +12,7 @@ module.exports = function (app, router) {
     const filters = parse(req.query.filters);
 
     const db = await app.get('mongoClient');
-    const moviesIds = await db.collection('movies').find(filters, {id:1, _id:0}).sort({imdb_nb_reviews:-1}).limit(20).map(x => x.id).toArray();
+    const moviesIds = await db.collection('movies').find(filters, {id:1, _id:0}).sort({imdb_nb_reviews:-1}).limit(5).map(x => x.id).toArray();
 
     const credits = await db.collection('credits').find({ id: { $in:moviesIds } }, { crew:1, cast: 1, id: 1 }).toArray();
 
@@ -60,6 +60,8 @@ function getActorsLinkMap(credits, actors) {
       if(actor.group === DIRECTOR_GROUP && !peopleObjectsContainsName(movieCast.crew, actor.name)) {
         return;
       }
+
+      actor.movieGroup = movieCast.id // TODO : multiple movies ?
 
       movieCast.cast.forEach(actorObject2 => {
         if(actor.name === actorObject2.name) {
@@ -125,7 +127,7 @@ function getActorNodeObject(actors, links, credits) {
 
 
     })
-    return {name: actor.name, group: actor.group, movieCount}
+    return {name: actor.name, group: actor.group, movieCount, movieGroup: actor.movieGroup}
   });
 
   return actors
