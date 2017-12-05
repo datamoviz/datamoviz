@@ -67,7 +67,7 @@
             }
           },
           size: {
-            height: 300,
+            height: 350,
             width: 300
           },
           grid: {

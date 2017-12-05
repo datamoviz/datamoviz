@@ -191,7 +191,7 @@ module.exports = function (app, router) {
             displayedGenres.push({_id: genres[i]._id, value: genres[i].value});
 
             ++i;
-            if ((i < genres.length - 1 && genres[i].value / total < 0.02) || i > 8) {
+            if ((i < genres.length - 1 && genres[i].value / total < 0.01) || i > 10) {
               break;
             }
           }

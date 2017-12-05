@@ -3,10 +3,10 @@
     <app-header></app-header>
     <app-filters></app-filters>
     <app-overview></app-overview>
+    <app-map></app-map>
     <app-stats></app-stats>
     <app-movies></app-movies>
     <app-network></app-network>
-    <app-map></app-map>
     <app-footer></app-footer>
     <scroller></scroller>
   </main>
@@ -29,11 +29,11 @@
     components: {
       AppHeader,
       AppOverview,
+      AppMap,
       AppStats,
       AppFilters,
       AppNetwork,
       AppMovies,
-      AppMap,
       AppFooter,
       Scroller
     }

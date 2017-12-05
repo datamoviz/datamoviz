@@ -24,6 +24,7 @@
     "elevator.js": "^1.0.1",
     "font-awesome": "^4.7.0",
     "he": "^1.1.1",
+    "i18n-iso-countries": "^3.2.2",
     "is-extglob": "^2.1.1",
     "lodash": "latest",
     "simplebar": "^2.5.0",

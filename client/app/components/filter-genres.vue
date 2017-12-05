@@ -17,17 +17,20 @@
         Failed to reach server.
       </div>
     </div>
+    <search ref="searchField"></search>
   </div>
 </template>
 
 <script>
   import { FILTERS_UPDATE, FILTERS_GENRE_TOGGLE } from '../event-bus';
   import Genre from './genre.vue';
+  import Search from './search.vue';
 
   export default {
     name: 'filter-genres',
     components: {
-      Genre
+      Genre,
+      Search
     },
     data() {
       return {

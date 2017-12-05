@@ -79,9 +79,6 @@ module.exports = function (app, router) {
             $sort: {
               value: -1
             }
-          },
-          {
-            $limit: 20
           }
         ]).toArray()
           .then(data => res.json(data));
