@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col">
           <h2>Actors network</h2>
-          <svg ref="actorsNetwork" width="900" height="600"></svg>
+          <svg ref="actorsNetwork"></svg>
         </div>
       </div>
     </div>
@@ -33,7 +33,9 @@
       textg: {},
       expand: {},
       net: null,
-      fillColor: null
+      fillColor: null,
+      width: 960,
+      height: 600
     }),
 
     methods: {
@@ -195,8 +197,6 @@
         }
 
         // --------------------------------------------------------
-        const width = 960; // svg width
-        const height = 600; // svg height
         const dr = 4; // default point radius
         const off = 15; // cluster hull offset
 
@@ -251,7 +251,7 @@
                 );
             }))
           .force('charge', d3.forceManyBody().strength(-300))
-          .force('center', d3.forceCenter(width / 2, height / 2))
+          .force('center', d3.forceCenter(this.width / 2, this.height / 2))
           .force('y', d3.forceY())
           .force('x', d3.forceX())
           .on('tick', ticked);
@@ -330,15 +330,11 @@
         simulation.alpha(0.1).restart();
       },
       drawGraph(svg) {
-        const width = 960; // svg width
-        const height = 600; // svg height
-
         this.fillColor = d3.scaleOrdinal(d3.schemeCategory20);
 
-
         svg
-          .attr('width', width)
-          .attr('height', height);
+          .attr('width', this.width)
+          .attr('height', this.height);
 
         this.hullg = svg.append('g');
         this.linkg = svg.append('g').attr('stroke', 'white');
