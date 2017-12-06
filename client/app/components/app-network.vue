@@ -309,7 +309,7 @@
           .on('drag', dragged)
           .on('end', dragended));
 
-        this.node.append('title').text(d => d.name || 'Movie cluster');
+        this.node.append('title').text(d => d.name || this.graph.moviesTitleMap[d.movieGroup]);
         this.node.merge(this.node);
 
         simulation.nodes(this.net.nodes);
