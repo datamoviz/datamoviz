@@ -250,7 +250,7 @@
                   100
                 );
             }))
-          .force('charge', d3.forceManyBody().strength(-100))
+          .force('charge', d3.forceManyBody().strength(-300))
           .force('center', d3.forceCenter(width / 2, height / 2))
           .force('y', d3.forceY())
           .force('x', d3.forceX())
