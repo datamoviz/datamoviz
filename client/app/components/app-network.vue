@@ -30,6 +30,7 @@
       nodeg: {},
       hullg: {},
       linkg: {},
+      textg: {},
       expand: {},
       net: null,
       fillColor: null
@@ -226,6 +227,8 @@
 
           this.node.attr('cx', d => d.x)
             .attr('cy', d => d.y);
+
+          this.text.attr('transform', d => `translate(${d.x},${d.y})`);
         };
 
         const simulation = d3.forceSimulation(this.net.nodes)
@@ -312,6 +315,16 @@
         this.node.append('title').text(d => d.name || this.graph.moviesTitleMap[d.movieGroup]);
         this.node.merge(this.node);
 
+        this.textg.selectAll('*').remove(); // Small fix TODO: fix the correct way
+        this.text = this.textg.selectAll('.text').data(this.net.nodes, d => this.net.nodes.indexOf(d));
+        this.text.exit().remove();
+        this.text = this.text.enter().append('text')
+          .attr('class', d => (d.size ? 'text-movie' : 'text-actor'))
+          .attr('x', 8)
+          .attr('y', '.31em')
+          .text(d => d.name || this.graph.moviesTitleMap[d.movieGroup])
+          .merge(this.text);
+
         simulation.nodes(this.net.nodes);
         simulation.force('link').links(this.net.links);
         simulation.alpha(0.1).restart();
@@ -330,6 +343,7 @@
         this.hullg = svg.append('g');
         this.linkg = svg.append('g').attr('stroke', 'white');
         this.nodeg = svg.append('g');
+        this.textg = svg.append('g').attr('class', 'texts');
 
 
         svg.attr('opacity', 1e-6)
@@ -359,6 +373,14 @@
 </script>
 
 <style lang="scss" ref="stylesheet/scss">
+  svg.actors-network .text-actor {
+     font: 8px sans-serif;
+     stroke: white;
+   }
+   svg.actors-network .text-movie {
+      font: 12px sans-serif;
+      stroke: white;
+  }
   svg.actors-network circle.node {
     fill: lightsteelblue;
     stroke: #555;
