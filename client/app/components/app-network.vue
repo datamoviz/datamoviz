@@ -32,7 +32,7 @@
       linkg: {},
       textg: {},
       expand: {},
-      net: null,
+      network: null,
       fillColor: null,
       width: 960,
       height: 600
@@ -65,7 +65,7 @@
         }
 
         // constructs the network to visualize
-        function network(data, prev, index, expand) {
+        function getNetwork(data, prev, index, expand) {
           expand = expand || {};
           const movieGroupMap = {}; // movieGroup map
           const nodeMap = {}; // node map
@@ -213,10 +213,10 @@
           }
         }
 
-        this.net = network(data, this.net, getGroup, this.expand);
+        this.network = getNetwork(data, this.network, getGroup, this.expand);
         const ticked = () => {
           if (!this.hull.empty()) {
-            this.hull.data(convexHulls(this.net.nodes, getGroup, off))
+            this.hull.data(convexHulls(this.network.nodes, getGroup, off))
               .attr('d', drawCluster);
           }
 
@@ -231,9 +231,9 @@
           this.text.attr('transform', d => `translate(${d.x},${d.y})`);
         };
 
-        const simulation = d3.forceSimulation(this.net.nodes)
-          .force('link', d3.forceLink(this.net.links)
-            .id(d => this.net.nodes.indexOf(d))
+        const simulation = d3.forceSimulation(this.network.nodes)
+          .force('link', d3.forceLink(this.network.links)
+            .id(d => this.network.nodes.indexOf(d))
             .distance((link) => {
               let n1 = link.source,
                 n2 = link.target;
@@ -258,7 +258,7 @@
 
         this.hullg.selectAll('path.hull').remove();
         this.hull = this.hullg.selectAll('path.hull')
-          .data(convexHulls(this.net.nodes, getGroup, off))
+          .data(convexHulls(this.network.nodes, getGroup, off))
           .enter().append('path')
           .attr('class', 'hull')
           .attr('d', drawCluster)
@@ -270,14 +270,14 @@
             this.updateGraph();
           });
 
-        this.link = this.linkg.selectAll('line.link').data(this.net.links, linkid);
+        this.link = this.linkg.selectAll('line.link').data(this.network.links, linkid);
         this.link.exit().remove();
         this.link.enter().append('line')
           .attr('class', 'link')
           .style('stroke-width', d => d.size || 1)
           .merge(this.link);
 
-        this.node = this.nodeg.selectAll('circle.node').data(this.net.nodes, d => this.net.nodes.indexOf(d));
+        this.node = this.nodeg.selectAll('circle.node').data(this.network.nodes, d => this.network.nodes.indexOf(d));
         this.node.exit().remove();
         this.node.enter().append('circle')
           .attr('class', d => `node${d.size ? '' : ' leaf'}`)
@@ -316,7 +316,7 @@
         this.node.merge(this.node);
 
         this.textg.selectAll('*').remove(); // Small fix TODO: fix the correct way
-        this.text = this.textg.selectAll('.text').data(this.net.nodes, d => this.net.nodes.indexOf(d));
+        this.text = this.textg.selectAll('.text').data(this.network.nodes, d => this.network.nodes.indexOf(d));
         this.text.exit().remove();
         this.text = this.text.enter().append('text')
           .attr('class', d => (d.size ? 'text-movie' : 'text-actor'))
@@ -325,8 +325,8 @@
           .text(d => d.name || this.graph.moviesTitleMap[d.movieGroup])
           .merge(this.text);
 
-        simulation.nodes(this.net.nodes);
-        simulation.force('link').links(this.net.links);
+        simulation.nodes(this.network.nodes);
+        simulation.force('link').links(this.network.links);
         simulation.alpha(0.1).restart();
       },
       drawGraph(svg) {
