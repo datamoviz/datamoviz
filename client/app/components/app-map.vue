@@ -16,6 +16,7 @@
   import Datamaps from 'datamaps';
   import IsoConverter from 'i18n-iso-countries';
   import { FILTERS_UPDATE } from '../event-bus';
+  import scaleCluster from 'd3-scale-cluster';
 
   let map;
 
@@ -23,7 +24,8 @@
     name: 'app-map',
     data() {
       return {
-        countries: []
+        countries: [],
+        allCountries: {}
       };
     },
     methods: {
@@ -33,31 +35,39 @@
         return fetch(`${process.env.SERVER_URL}/count/countries?filters=${encodeURI(JSON.stringify(filters))}`)
           .then(response => response.json())
           .then((json) => {
-            this.displayCountries(json);
+            this.countries = this.formatCountries(json);
+
+            if (Object.keys(this.allCountries).length === 0) {
+              this.countries.forEach((item) => {
+                this.allCountries[item.iso] = { movies: 0, countryName: item.countryName, fillColor: '#3f4045' };
+              });
+            }
+
+            this.displayCountries();
           });
       },
-      displayCountries(json) {
-        /*const reset = {};
-        this.countries.forEach((item) => {
-          reset[this.translateCountryCode(item._id.iso_3166_1)] = null;
+      formatCountries(countries) {
+        return countries.map((item) => {
+          return {
+            iso: this.translateCountryCode(item._id.iso_3166_1),
+            value: item.value,
+            countryName: item._id.name
+          }
         });
+      },
+      displayCountries() {
+        map.updateChoropleth(this.allCountries);
 
-        map.updateChoropleth(reset);*/
+        if (this.countries.length === 0) {
+          return;
+        }
 
-        this.countries = json;
+        const paletteScale = scaleCluster() // Natural breaks
+          .domain(this.countries.map(c => c.value))
+          .range(['#83c1ec','#6eadde','#579ad0','#3d87c2','#1975b4']);
 
-        const list = this.countries.map(item => { return {
-          iso: this.translateCountryCode(item._id.iso_3166_1),
-          value: item.value,
-          countryName: item._id.name
-        }});
-        const paletteScale = d3.scaleSqrt().domain([
-          d3.min(list, c => c.value),
-          d3.max(list, c => c.value)
-        ])
-          .range([d3.rgb('#21a8ff'), d3.rgb('#1975b4')]);
         const countries = {};
-        list.forEach((item) => {
+        this.countries.forEach((item) => {
           countries[item.iso] = { movies: item.value, countryName: item.countryName, fillColor: paletteScale(item.value) };
         });
 
