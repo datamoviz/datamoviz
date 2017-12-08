@@ -369,32 +369,31 @@
 </script>
 
 <style lang="scss" ref="stylesheet/scss">
-  svg.actors-network .text-actor {
-     font: 8px sans-serif;
-     stroke: white;
-   }
-   svg.actors-network .text-movie {
+  svg.actors-network {
+    .text-actor {
+      font: 8px sans-serif;
+      fill: white;
+    }
+    .text-movie {
       font: 12px sans-serif;
-      stroke: white;
-  }
-  svg.actors-network circle.node {
-    fill: lightsteelblue;
-    stroke: #555;
-    stroke-width: 3px;
-  }
-
-  svg.actors-network circle.leaf {
-    stroke: #fff;
-    stroke-width: 1.5px;
-  }
-
-  svg.actors-network path.hull {
-    fill: lightsteelblue;
-    fill-opacity: 0.3;
-  }
-
-  svg.actors-network line.link {
-    stroke-opacity: 0.5;
-    pointer-events: none;
+      fill: white;
+    }
+    circle.node {
+      fill: lightsteelblue;
+      stroke: #555;
+      stroke-width: 3px;
+    }
+    circle.leaf {
+      stroke: #fff;
+      stroke-width: 1.5px;
+    }
+    path.hull {
+      fill: lightsteelblue;
+      fill-opacity: 0.3;
+    }
+    line.link {
+      stroke-opacity: 0.5;
+      pointer-events: none;
+    }
   }
 </style>
