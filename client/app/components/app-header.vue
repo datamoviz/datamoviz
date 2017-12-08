@@ -19,9 +19,9 @@
           --><span class="title" v-if="currentMovie !== ''"><br />{{ currentMovie }}</span><span v-else>s
           <br />
           <span class="filters">
-            <span v-if="nbFilters == 0">No</span>
+            <span v-if="nbFilters === 0">No</span>
             <span v-else>{{ nbFilters }}</span>
-            filter<span v-if="nbFilters != 1">s</span> enabled
+            filter<span v-if="nbFilters !== 1">s</span> enabled
           </span>
         </span>
         </div>
@@ -43,7 +43,7 @@
         currentMovie: '',
         failure: false,
         nbFilters: 0,
-        loading: false,
+        loading: false
       };
     },
     methods: {
@@ -53,12 +53,11 @@
         this.loading = true;
         return fetch(`${process.env.SERVER_URL}/count/movies?filters=${encodeURI(JSON.stringify(filters))}`)
           .then(response => response.json())
-          .then(json => json)
           .then((total) => {
-            this.updateTotal(total);
             this.nbFilters = Object.keys(filters).length;
             this.currentMovie = '';
             this.loading = false;
+            return this.updateTotal(total)
           })
           .catch(() => {
             this.failure = true;
@@ -67,10 +66,11 @@
       },
       updateTotal(total) {
         const counter = this.$refs.moviesCount;
-        new CountUp(counter, this.currentTotal, total, null, 2, { separator: ' ' }).start();
-        counter.style.animation = 'none';
-        setTimeout(() => { counter.style.animation = ''; }, 10);
-        this.currentTotal = parseInt(total, 10);
+        return new CountUp(counter, this.currentTotal, total).start(() => {
+          counter.style.animation = 'none';
+          setTimeout(() => { counter.style.animation = ''; }, 10);
+          this.currentTotal = total;
+        });
       }
     },
     mounted() {
@@ -79,7 +79,7 @@
       this.$bus.$on(FILTERS_UPDATE, this.countMovies);
       this.$bus.$on(MOVIE_SELECTED, (movie) => {
         this.currentMovie = movie.title;
-        this.updateTotal(1);
+        return this.updateTotal(1);
       });
     }
   };

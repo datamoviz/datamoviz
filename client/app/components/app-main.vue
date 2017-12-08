@@ -2,11 +2,11 @@
   <main>
     <app-header></app-header>
     <app-filters></app-filters>
-    <app-overview></app-overview>
     <app-map></app-map>
+    <app-overview></app-overview>
     <app-stats></app-stats>
-    <app-movies></app-movies>
     <app-network></app-network>
+    <app-movies></app-movies>
     <app-footer></app-footer>
     <scroller></scroller>
   </main>

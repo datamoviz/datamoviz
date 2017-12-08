@@ -1,3 +1,5 @@
+@import '~c3/src/scss/main.scss';
+
 .c3 {
   .c3-axis, .c3-legend-item, .c3-axis-x {
     fill: white;
@@ -9,10 +11,6 @@
 
   .c3-chart-line path {
     stroke-width: 2px;
-  }
-
-  path, line {
-    stroke: white;
   }
 
   .c3-tooltip {

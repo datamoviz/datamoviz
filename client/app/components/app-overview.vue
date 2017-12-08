@@ -1,12 +1,10 @@
 <template>
-  <section>
+  <section class="highlight">
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <h2>Overview</h2>
-          <h3>Movies count</h3>
-          <small><span class="badge badge-info">Pro tip</span> You can drag your mouse on the below subgraph to select a time period.</small>
           <div ref="overviewChart"></div>
+          <small><span class="badge badge-info">Pro tip</span> You can drag your mouse on the above subgraph to select a time period.</small>
         </div>
       </div>
     </div>
@@ -141,7 +139,3 @@
     }
   };
 </script>
-
-<style lang="scss" ref="stylesheet/scss">
-    @import '~c3/src/scss/main.scss';
-</style>

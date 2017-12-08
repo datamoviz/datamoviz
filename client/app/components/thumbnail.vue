@@ -1,5 +1,5 @@
 <template>
-  <div class="movie-container" :class="{ highlighted: highlighted, hidden: hidden }">
+  <div class="movie-container" :class="{ highlighted: highlighted, hidden: hidden }" @keyup.escape="close()">
     <a href="#" @click.prevent="select()">
       <img :src="posterPath" height="300" />
       <span class="title">
@@ -80,6 +80,10 @@
       select() {
         this.highlighted = true;
         this.$bus.$emit(MOVIE_SELECTED, this.movie);
+      },
+      close() {
+        const { filters } = this.$bus;
+        this.$bus.$emit(FILTERS_UPDATE, filters);
       }
     },
     mounted() {

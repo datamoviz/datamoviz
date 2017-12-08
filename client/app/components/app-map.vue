@@ -1,10 +1,21 @@
 <template>
-  <section>
+  <section class="map">
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <h3>Production countries</h3>
           <div ref="map" class="map"></div>
+          <small>
+            <span class="badge badge-info">Pro tip</span> Click on a country to filter on
+          </small>
+          <template v-if="paletteScale">
+            <span v-for="b, key in paletteScale.clusters()" :key="key" class="legend">
+              <span :style="{ background: paletteScale.range()[key] }" class="color"></span>
+              <span class="limit">{{ b }}</span>
+            </span>
+            <span class="legend">
+              <span :style="{ background: paletteScale.range()[paletteScale.clusters().length] }" class="color"></span>
+            </span>
+          </template>
         </div>
       </div>
     </div>
@@ -25,7 +36,8 @@
     data() {
       return {
         countries: [],
-        allCountries: {}
+        allCountries: {},
+        paletteScale: null
       };
     },
     methods: {
@@ -62,13 +74,13 @@
           return;
         }
 
-        const paletteScale = scaleCluster() // Natural breaks
+        this.paletteScale = scaleCluster() // Natural breaks
           .domain(this.countries.map(c => c.value))
-          .range(['#83c1ec','#6eadde','#579ad0','#3d87c2','#1975b4']);
+          .range(['#dee7f3','#becee6','#9db8da','#7aa1cd','#548bc1','#1975b4']);
 
         const countries = {};
         this.countries.forEach((item) => {
-          countries[item.iso] = { movies: item.value, countryName: item.countryName, fillColor: paletteScale(item.value) };
+          countries[item.iso] = { movies: item.value, countryName: item.countryName, fillColor: this.paletteScale(item.value) };
         });
 
         map.updateChoropleth(countries);
@@ -122,8 +134,30 @@
 <style lang="scss" ref="stylesheet/scss">
   @import '../scss/vars';
 
-  .map {
-    height:700px;
+  section.map {
+    padding: 0 0 10px;
+
+    .legend {
+      font-size: 0.8em;
+      margin: 10px 0 0 0;
+      float: right;
+      position: relative;
+
+      .color {
+        width: 50px;
+        height: 10px;
+        display: inline-block;
+      }
+
+      .limit {
+        position: absolute;
+        bottom: -11px;
+        left: -25px;
+        font-size: 0.75em;
+        width: 50px;
+        text-align: center;
+      }
+    }
   }
 
   .datamaps-hoverover .hoverinfo {

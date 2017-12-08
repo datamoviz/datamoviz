@@ -1,6 +1,6 @@
 <template>
   <div class="col col-sm-6 col-md-6">
-    <h4>Colors distribution</h4>
+    <h3>Colors distribution</h3>
     <div ref="colorsChart" class="colors-chart"></div>
   </div>
 </template>

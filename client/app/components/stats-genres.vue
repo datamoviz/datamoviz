@@ -1,6 +1,6 @@
 <template>
   <div class="col col-sm-6 col-md-6">
-    <h4>Genres distribution</h4>
+    <h3>Genres distribution</h3>
     <div ref="genresChart" class="genres-chart"></div>
   </div>
 </template>

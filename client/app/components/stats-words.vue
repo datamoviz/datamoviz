@@ -1,7 +1,6 @@
 <template>
   <div class="col col-md-4">
-    <h3>Popular words</h3>
-    <p>Here is the top 25 of the most used words in selected movie titles.</p>
+    <h3>Most used words in titles</h3>
     <svg ref="chart" class="bubble" width="330" height="330"></svg>
     <small><span class="badge badge-info">Pro tip</span> Keep your mouse on a bubble to see the number of occurrences.</small>
   </div>

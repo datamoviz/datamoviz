@@ -3,7 +3,6 @@
     <div class="container">
       <div class="row">
         <div class="col col-md-8">
-          <h3>Statistics</h3>
           <div class="row">
             <stats-genres></stats-genres>
             <stats-colors></stats-colors>

@@ -1,9 +1,9 @@
 <template>
-  <section>
+  <section class="map">
     <div class="container">
       <div class="row">
         <div class="col">
-          <h2>Actors network</h2>
+          <h3>Actors network</h3>
           <svg ref="actorsNetwork"></svg>
         </div>
       </div>
@@ -35,7 +35,7 @@
       network: null,
       fillColor: null,
       width: 960,
-      height: 600
+      height: 400
     }),
 
     methods: {

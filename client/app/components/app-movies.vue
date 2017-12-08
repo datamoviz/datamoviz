@@ -1,6 +1,13 @@
 <template>
-  <section @keyup.escape="$refs.searchField.reset()">
-    <search ref="searchField"></search>
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h3>Resulting movies</h3>
+          <p>Those are the movies sorted by popularity corresponding to the selected filters. You can select a movie to learn more about it.</p>
+        </div>
+      </div>
+    </div>
     <div class="results-container" :class="{ presenter: presenter }" data-simplebar>
       <div class="results" v-if="movies.length !== 0">
         <thumbnail v-for="(movie, key) in movies" :key="movie.imdb_id" :movie="movie" :total="movies.length" :popularity="maxPopularity"></thumbnail>
@@ -17,13 +24,11 @@
 
 <script>
   import { FILTERS_UPDATE, MOVIE_SELECTED } from '../event-bus';
-  import Search from './search.vue';
   import Thumbnail from './thumbnail.vue';
 
   export default {
     name: 'app-movies',
     components: {
-      Search,
       Thumbnail
     },
     data() {
@@ -85,7 +90,7 @@
       }
 
       &.presenter {
-        max-width: 1120px;
+        max-width: 1130px;
         width: 100%;
         padding: 0 10px;
         transition: max-width .6s linear .2s;
