@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col">
           <h2>Actors network</h2>
-          <svg ref="actorsNetwork" width="900" height="600"></svg>
+          <svg ref="actorsNetwork"></svg>
         </div>
       </div>
     </div>
@@ -30,9 +30,12 @@
       nodeg: {},
       hullg: {},
       linkg: {},
+      textg: {},
       expand: {},
-      net: null,
-      fillColor: null
+      network: null,
+      fillColor: null,
+      width: 960,
+      height: 600
     }),
 
     methods: {
@@ -62,7 +65,7 @@
         }
 
         // constructs the network to visualize
-        function network(data, prev, index, expand) {
+        function getNetwork(data, prev, index, expand) {
           expand = expand || {};
           const movieGroupMap = {}; // movieGroup map
           const nodeMap = {}; // node map
@@ -194,8 +197,6 @@
         }
 
         // --------------------------------------------------------
-        const width = 960; // svg width
-        const height = 600; // svg height
         const dr = 4; // default point radius
         const off = 15; // cluster hull offset
 
@@ -212,10 +213,10 @@
           }
         }
 
-        this.net = network(data, this.net, getGroup, this.expand);
+        this.network = getNetwork(data, this.network, getGroup, this.expand);
         const ticked = () => {
           if (!this.hull.empty()) {
-            this.hull.data(convexHulls(this.net.nodes, getGroup, off))
+            this.hull.data(convexHulls(this.network.nodes, getGroup, off))
               .attr('d', drawCluster);
           }
 
@@ -226,11 +227,13 @@
 
           this.node.attr('cx', d => d.x)
             .attr('cy', d => d.y);
+
+          this.text.attr('transform', d => `translate(${d.x},${d.y})`);
         };
 
-        const simulation = d3.forceSimulation(this.net.nodes)
-          .force('link', d3.forceLink(this.net.links)
-            .id(d => this.net.nodes.indexOf(d))
+        const simulation = d3.forceSimulation(this.network.nodes)
+          .force('link', d3.forceLink(this.network.links)
+            .id(d => this.network.nodes.indexOf(d))
             .distance((link) => {
               let n1 = link.source,
                 n2 = link.target;
@@ -247,15 +250,15 @@
                   100
                 );
             }))
-          .force('charge', d3.forceManyBody().strength(-100))
-          .force('center', d3.forceCenter(width / 2, height / 2))
+          .force('charge', d3.forceManyBody().strength(-300))
+          .force('center', d3.forceCenter(this.width / 2, this.height / 2))
           .force('y', d3.forceY())
           .force('x', d3.forceX())
           .on('tick', ticked);
 
         this.hullg.selectAll('path.hull').remove();
         this.hull = this.hullg.selectAll('path.hull')
-          .data(convexHulls(this.net.nodes, getGroup, off))
+          .data(convexHulls(this.network.nodes, getGroup, off))
           .enter().append('path')
           .attr('class', 'hull')
           .attr('d', drawCluster)
@@ -267,14 +270,14 @@
             this.updateGraph();
           });
 
-        this.link = this.linkg.selectAll('line.link').data(this.net.links, linkid);
+        this.link = this.linkg.selectAll('line.link').data(this.network.links, linkid);
         this.link.exit().remove();
         this.link.enter().append('line')
           .attr('class', 'link')
           .style('stroke-width', d => d.size || 1)
           .merge(this.link);
 
-        this.node = this.nodeg.selectAll('circle.node').data(this.net.nodes, d => this.net.nodes.indexOf(d));
+        this.node = this.nodeg.selectAll('circle.node').data(this.network.nodes, d => this.network.nodes.indexOf(d));
         this.node.exit().remove();
         this.node.enter().append('circle')
           .attr('class', d => `node${d.size ? '' : ' leaf'}`)
@@ -309,27 +312,34 @@
           .on('drag', dragged)
           .on('end', dragended));
 
-        this.node.append('title').text(d => d.name || 'Movie cluster');
+        this.node.append('title').text(d => d.name || this.graph.moviesTitleMap[d.movieGroup]);
         this.node.merge(this.node);
 
-        simulation.nodes(this.net.nodes);
-        simulation.force('link').links(this.net.links);
+        this.textg.selectAll('*').remove(); // Small fix TODO: fix the correct way
+        this.text = this.textg.selectAll('.text').data(this.network.nodes, d => this.network.nodes.indexOf(d));
+        this.text.exit().remove();
+        this.text = this.text.enter().append('text')
+          .attr('class', d => (d.size ? 'text-movie' : 'text-actor'))
+          .attr('x', 8)
+          .attr('y', '.31em')
+          .text(d => d.name || this.graph.moviesTitleMap[d.movieGroup])
+          .merge(this.text);
+
+        simulation.nodes(this.network.nodes);
+        simulation.force('link').links(this.network.links);
         simulation.alpha(0.1).restart();
       },
       drawGraph(svg) {
-        const width = 960; // svg width
-        const height = 600; // svg height
-
         this.fillColor = d3.scaleOrdinal(d3.schemeCategory20);
 
-
         svg
-          .attr('width', width)
-          .attr('height', height);
+          .attr('width', this.width)
+          .attr('height', this.height);
 
         this.hullg = svg.append('g');
         this.linkg = svg.append('g').attr('stroke', 'white');
         this.nodeg = svg.append('g');
+        this.textg = svg.append('g').attr('class', 'texts');
 
 
         svg.attr('opacity', 1e-6)
@@ -359,6 +369,14 @@
 </script>
 
 <style lang="scss" ref="stylesheet/scss">
+  svg.actors-network .text-actor {
+     font: 8px sans-serif;
+     stroke: white;
+   }
+   svg.actors-network .text-movie {
+      font: 12px sans-serif;
+      stroke: white;
+  }
   svg.actors-network circle.node {
     fill: lightsteelblue;
     stroke: #555;

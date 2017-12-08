@@ -12,7 +12,12 @@ module.exports = function (app, router) {
     const filters = parse(req.query.filters);
 
     const db = await app.get('mongoClient');
-    const moviesIds = await db.collection('movies').find(filters, {id:1, _id:0}).sort({imdb_nb_reviews:-1}).limit(20).map(x => x.id).toArray();
+    const moviesIds = await db.collection('movies').find(filters, {id:1, _id:0, original_title:1}).sort({imdb_nb_reviews:-1}).limit(20).map(x => x.id).toArray();
+    const moviesTitles = await db.collection('movies').find(filters, {id:1, _id:0, original_title:1}).sort({imdb_nb_reviews:-1}).limit(20).toArray()
+    const moviesTitleMap = {}
+    moviesTitles.forEach(movie => {
+      moviesTitleMap[movie.id] = movie.original_title
+    })
 
     const credits = await db.collection('credits').find({ id: { $in:moviesIds } }, { crew:1, cast: 1, id: 1 }).toArray();
 
@@ -44,7 +49,7 @@ module.exports = function (app, router) {
     actors = actorsLinks.actors
     links = actorsLinks.links
 
-    return res.json({nodes:actors, links});
+    return res.json({nodes:actors, links, moviesTitleMap});
   });
 };
 
