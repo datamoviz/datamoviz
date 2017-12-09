@@ -5,6 +5,7 @@
         <div class="col">
           <h3>Actors network</h3>
           <svg ref="actorsNetwork"></svg>
+          <small><span class="badge badge-info">Pro tip</span> You can click on a Movie cluster to show its crew.</small>
         </div>
       </div>
     </div>
@@ -147,12 +148,12 @@
             }
             u = expand[u] ? nodeMap[e.source.name] : nodeMap[u];
             v = expand[v] ? nodeMap[e.target.name] : nodeMap[v];
-            let i = (u < v ? `${u}|${v}` : `${v}|${u}`),
-              l = linkMap[i] || (linkMap[i] = {
-                source: u,
-                target: v,
-                size: 0
-              });
+            const i = (u < v ? `${u}|${v}` : `${v}|${u}`);
+            const l = linkMap[i] || (linkMap[i] = {
+              source: u,
+              target: v,
+              size: 0
+            });
             l.size += 1;
           }
           for (const i in linkMap) {
@@ -235,8 +236,8 @@
           .force('link', d3.forceLink(this.network.links)
             .id(d => this.network.nodes.indexOf(d))
             .distance((link) => {
-              let n1 = link.source,
-                n2 = link.target;
+              const n1 = link.source;
+              const n2 = link.target;
               return 30 +
                 Math.min(
                   20 * Math.min(
