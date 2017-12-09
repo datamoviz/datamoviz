@@ -285,7 +285,6 @@
           .attr('d', drawCluster)
           .style('fill', d => this.fillColor(d.movieGroup))
           .on('click', (d) => {
-            console.log('hull click', d, arguments, this, this.expand[d.movieGroup]);
             this.expand[d.movieGroup] = false;
             this.updateGraph();
             this.updateGraph();
@@ -305,7 +304,6 @@
           .attr('r', d => (d.size ? d.size + dr : dr + 1))
           .style('fill', d => this.fillColor(d.movieGroup))
           .on('click', (d) => {
-            console.log('node click', d, arguments, this, this.expand[d.movieGroup]);
             this.expand[d.movieGroup] = !this.expand[d.movieGroup];
             this.updateGraph();
             this.updateGraph();

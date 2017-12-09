@@ -69,8 +69,6 @@
           }
         }
 
-        console.log(filters);
-
         this.$bus.$emit(FILTERS_UPDATE, filters);
       }
     },
