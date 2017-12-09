@@ -9,7 +9,7 @@
             <div class="col col-sm-6">
               <small><span class="badge badge-info">Pro tip</span> You can click on a movie cluster to show its cast.</small>
             </div>
-            <div class="col col-sm-6">
+            <div class="col col-sm-6 network-choices">
               <input type="checkbox" id="show-movies-name-checkbox" v-model="showMovieName" v-on:change="onMovieNameChangeVisibility">
               <label for="show-movies-name-checkbox">Show movies name</label>
 
@@ -440,5 +440,9 @@
       stroke-opacity: 0.5;
       pointer-events: none;
     }
+  }
+
+  .network-choices {
+    text-align: right;
   }
 </style>
