@@ -13,9 +13,10 @@
 
 <script>
   import c3 from 'c3';
+  import * as d3 from 'd3';
   import { FILTERS_UPDATE } from '../event-bus';
 
-  let chart;
+  let chart = null;
 
   export default {
     name: 'app-overview',
@@ -28,6 +29,14 @@
     },
     methods: {
       loadCount(filters) {
+        filters = Object.assign({}, filters);
+
+        if (!filters.hasOwnProperty('release_date') && chart !== null) {
+          chart.internal.brush.clear().update();
+        }
+
+        delete filters.release_date; // We ignore date range filtering for the overview
+
         return Promise.all([this.loadYears(filters), this.loadColors(filters)])
           .then(([years, colors]) => {
             this.yearsList = this.yearsList.length === 0 ? years[0] : this.yearsList;
@@ -41,10 +50,6 @@
           });
       },
       loadYears(filters) {
-        filters = Object.assign({}, filters);
-
-        delete filters.release_date; // We ignore date range filtering for the overview
-
         return fetch(`${process.env.SERVER_URL}/aggregate/years?filters=${encodeURI(JSON.stringify(filters))}`)
           .then(response => response.json())
           .then((years) => {
@@ -53,10 +58,6 @@
           });
       },
       loadColors(filters) {
-        filters = Object.assign({}, filters);
-
-        delete filters.release_date; // We ignore date range filtering for the overview
-
         return fetch(`${process.env.SERVER_URL}/aggregate/years-colors?filters=${encodeURI(JSON.stringify(filters))}`)
           .then(response => response.json())
           .then(colors => colors);
