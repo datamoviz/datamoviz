@@ -11,8 +11,8 @@
       </template><span class="filter" v-for="country, key in values.countries" :key="key">
         <i class="fa fa-globe"></i> {{ country.name }} <a href="#" @click.prevent="removeFilter('countries', key)"><i class="fa fa-times"></i></a>
       </span><template  v-if="values.search.length !== 0">
-        <span class="filter" v-for="word, key in values.search.split(' ')" :key="key">
-          <i class="fa fa-search"></i> {{ word }} <a href="#" @click.prevent="removeFilter('search', key)"><i class="fa fa-times"></i></a>
+        <span class="filter">
+          <i class="fa fa-search"></i> {{ values.search }} <a href="#" @click.prevent="removeFilter('search')"><i class="fa fa-times"></i></a>
         </span>
       </template><span class="filter" v-for="rating, key in values.ratings" :key="key">
         <i class="fa fa-child"></i> {{ rating }} <a href="#" @click.prevent="removeFilter('ratings', key)"><i class="fa fa-times"></i></a>
@@ -50,7 +50,7 @@
           'genres': [],
           'dates': [],
           'ratings': [],
-          'search': []
+          'search': ''
         }
       }
     },

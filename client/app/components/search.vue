@@ -35,6 +35,13 @@
         this.searchedMovie = '';
         this.search();
       }
+    },
+    mounted() {
+      this.$bus.$on(FILTERS_UPDATE, (filters) => {
+        if (!filters.hasOwnProperty('$text')) {
+          this.searchedMovie = '';
+        }
+      });
     }
   };
 </script>
