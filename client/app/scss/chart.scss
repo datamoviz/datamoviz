@@ -29,4 +29,8 @@
     stroke: $global-color-background;
     stroke-width: 2;
   }
+
+  .c3-shape.c3-arc {
+    cursor: default !important; // Must use important because cursor pointer is hard coded by C3
+  }
 }

@@ -4,18 +4,27 @@
       <div class="row">
         <div class="col-12">
           <div ref="map" class="map"></div>
-          <small>
-            <span class="badge badge-info">Pro tip</span> Click on a country to filter on movies produced there.
-          </small>
-          <template v-if="paletteScale">
-            <span v-for="b, key in paletteScale.clusters()" :key="key" class="legend">
-              <span :style="{ background: paletteScale.range()[key] }" class="color"></span>
-              <span class="limit">{{ b }}</span>
-            </span>
-            <span class="legend">
-              <span :style="{ background: paletteScale.range()[paletteScale.clusters().length] }" class="color"></span>
-            </span>
-          </template>
+          <div class="row">
+            <div class="col-12 col-md-4">
+              <small>
+                <span class="badge badge-info">Pro tip</span> Click on one or several countries to filter on movies produced there.
+              </small>
+            </div>
+            <div class="col-12 col-md-4 arrow-down">
+              <a href="#" class="go-down"><i class="fa fa-arrow-circle-down"></i></a>
+            </div>
+            <div class="col-12 col-md-4">
+              <template v-if="paletteScale">
+                <span v-for="b, key in paletteScale.clusters()" :key="key" class="legend">
+                  <span :style="{ background: paletteScale.range()[key] }" class="color"></span>
+                  <span class="limit">{{ b }}</span>
+                </span>
+                    <span class="legend">
+                  <span :style="{ background: paletteScale.range()[paletteScale.clusters().length] }" class="color"></span>
+                </span>
+              </template>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -24,6 +33,7 @@
 
 <script>
   import * as d3 from 'd3';
+  import Elevator from 'elevator.js';
   import Datamaps from 'datamaps';
   import IsoConverter from 'i18n-iso-countries';
   import { FILTERS_UPDATE } from '../event-bus';
@@ -37,7 +47,8 @@
       return {
         countries: [],
         allCountries: {},
-        paletteScale: null
+        paletteScale: null,
+        elevator: null
       };
     },
     methods: {
@@ -150,6 +161,11 @@
       this.$bus.$on(FILTERS_UPDATE, (filters) => {
         this.countCountries(filters);
       });
+      this.elevator = new Elevator({
+        element: document.querySelector('.go-down'),
+        targetElement: document.querySelector('.go-down'),
+        duration: 1000
+      });
     }
   };
 
@@ -187,6 +203,23 @@
         font-size: 0.75em;
         width: 50px;
         text-align: center;
+      }
+    }
+
+    small {
+      display: inline-block;
+      line-height: 1.4em;
+    }
+
+    div.arrow-down {
+      text-align: center;
+
+      a {
+        color: white;
+
+        .fa {
+          font-size: 2em;
+        }
       }
     }
   }
