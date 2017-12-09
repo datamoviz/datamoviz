@@ -13,8 +13,7 @@
   },
   "dependencies": {
     "babel-runtime": "latest",
-    "bootstrap-4-grid": "^2.0.0",
-    "bootstrap-reboot": "^0.1.1",
+    "bootstrap": "^4.0.0-beta.2",
     "c3": "^0.4.18",
     "countup.js": "^1.9.3",
     "d3": "^4.12.0",
@@ -42,7 +41,7 @@
     "babel-preset-stage-0": "latest",
     "copy-webpack-plugin": "^4.2.3",
     "css-loader": "^0.26.1",
-    "eslint": "^4.12.1",
+    "eslint": "^4.13.0",
     "eslint-config-airbnb": "latest",
     "eslint-plugin-html": "^3.2.2",
     "eslint-plugin-import": "latest",

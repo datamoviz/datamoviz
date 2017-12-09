@@ -158,11 +158,12 @@
     a {
       position: fixed;
       right: 10px;
-      top: 64px;
+      top: 63px;
       background: white;
       color: $global-color-primary;
       transition: opacity .5s linear .5s;
       opacity: 1;
+      border: 1px solid #009946;
     }
   }
 </style>

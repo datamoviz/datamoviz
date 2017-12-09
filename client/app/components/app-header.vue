@@ -1,8 +1,8 @@
 <template>
   <header>
     <div class="container">
-      <div class="row align-items-center">
-        <div class="col-8 col-md-6 ml-sm-auto">
+      <div class="row justify-content-end align-items-center">
+        <div class="col-8 col-md-6">
           <h1>
             <a href="/">
               <img src="../images/logo.svg" height="50" />
