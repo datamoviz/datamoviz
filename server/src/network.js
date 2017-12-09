@@ -66,7 +66,11 @@ function getActorsLinkMap(credits, actors) {
         return;
       }
 
-      actor.movieGroup = movieCast.id // TODO : multiple movies ?
+      if(actor.movieGroup) {
+        actor.movieGroup = 9999 // multiple movies
+      } else {
+        actor.movieGroup = movieCast.id
+      }
 
       movieCast.cast.forEach(actorObject2 => {
         if(actor.name === actorObject2.name) {

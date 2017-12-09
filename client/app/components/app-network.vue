@@ -105,7 +105,6 @@
               size: 0,
               nodes: []
             });
-
             if (expand[i]) {
               // the node should be directly visible
               nodeMap[n.name] = nodes.length;
@@ -174,6 +173,7 @@
             const node = nodes[k];
             if (node.size) continue;
             const i = index(node);
+            if (i === 9999) continue;
             const l = hulls[i] || (hulls[i] = []);
             l.push([node.x - offset, node.y - offset]);
             l.push([node.x - offset, node.y + offset]);
@@ -213,6 +213,8 @@
             }
           }
         }
+
+        this.expand[9999] = true;
 
         this.network = getNetwork(data, this.network, getGroup, this.expand);
         const ticked = () => {
