@@ -356,6 +356,7 @@
       this.$bus.$on(FILTERS_UPDATE, (filters) => {
         this.loadGraphData(filters).then(() => {
           this.updateGraph();
+          this.updateGraph();
         });
       });
 
