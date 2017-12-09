@@ -5,13 +5,18 @@
         <div class="col">
           <h3>Actors network</h3>
           <svg ref="actorsNetwork"></svg>
-          <small><span class="badge badge-info">Pro tip</span> You can click on a Movie cluster to show its crew.</small>
+          <div class="row">
+            <div class="col col-sm-6">
+              <small><span class="badge badge-info">Pro tip</span> You can click on a movie cluster to show its cast.</small>
+            </div>
+            <div class="col col-sm-6">
+              <input type="checkbox" id="show-movies-name-checkbox" v-model="showMovieName" v-on:change="onMovieNameChangeVisibility">
+              <label for="show-movies-name-checkbox">Show movies name</label>
 
-          <input type="checkbox" id="show-movies-name-checkbox" v-model="showMovieName" v-on:change="onMovieNameChangeVisibility">
-          <label for="show-movies-name-checkbox">Show movies name</label>
-
-          <input type="checkbox" id="show-actor-name-checkbox" v-model="showActorName" v-on:change="onActorNameChangeVisibility">
-          <label for="show-actor-name-checkbox">Show actors name</label>
+              <input type="checkbox" id="show-actor-name-checkbox" v-model="showActorName" v-on:change="onActorNameChangeVisibility">
+              <label for="show-actor-name-checkbox">Show actors name</label>
+            </div>
+          </div>
         </div>
       </div>
     </div>
