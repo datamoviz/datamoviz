@@ -6,6 +6,12 @@
           <h3>Actors network</h3>
           <svg ref="actorsNetwork"></svg>
           <small><span class="badge badge-info">Pro tip</span> You can click on a Movie cluster to show its crew.</small>
+
+          <input type="checkbox" id="show-movies-name-checkbox" v-model="showMovieName" v-on:change="onMovieNameChangeVisibility">
+          <label for="show-movies-name-checkbox">Show movies name</label>
+
+          <input type="checkbox" id="show-actor-name-checkbox" v-model="showActorName" v-on:change="onActorNameChangeVisibility">
+          <label for="show-actor-name-checkbox">Show actors name</label>
         </div>
       </div>
     </div>
@@ -22,6 +28,8 @@
     id: 'app-network',
 
     data: () => ({
+      showMovieName: true,
+      showActorName: true,
       graph: {},
       link: {},
       node: {},
@@ -40,6 +48,16 @@
     }),
 
     methods: {
+      onMovieNameChangeVisibility() {
+        document.querySelectorAll('.text-movie').forEach((text) => {
+          text.style.visibility = this.showMovieName ? 'visible' : 'hidden';
+        });
+      },
+      onActorNameChangeVisibility() {
+        document.querySelectorAll('.text-actor').forEach((text) => {
+          text.style.visibility = this.showActorName ? 'visible' : 'hidden';
+        });
+      },
       loadGraphData(filters) {
         filters = filters || {};
 
@@ -105,7 +123,6 @@
               size: 0,
               nodes: []
             });
-
             if (expand[i]) {
               // the node should be directly visible
               nodeMap[n.name] = nodes.length;
@@ -174,6 +191,7 @@
             const node = nodes[k];
             if (node.size) continue;
             const i = index(node);
+            if (i === 9999) continue;
             const l = hulls[i] || (hulls[i] = []);
             l.push([node.x - offset, node.y - offset]);
             l.push([node.x - offset, node.y + offset]);
@@ -213,6 +231,8 @@
             }
           }
         }
+
+        this.expand[9999] = true;
 
         this.network = getNetwork(data, this.network, getGroup, this.expand);
         const ticked = () => {
@@ -329,6 +349,9 @@
         simulation.nodes(this.network.nodes);
         simulation.force('link').links(this.network.links);
         simulation.alpha(0.1).restart();
+
+        this.onMovieNameChangeVisibility();
+        this.onActorNameChangeVisibility();
       },
       drawGraph(svg) {
         this.fillColor = d3.scaleOrdinal(d3.schemeCategory20);
@@ -350,9 +373,23 @@
 
         this.updateGraph();
         this.updateGraph();
+      },
+
+      updateWindow() {
+        const e = document.documentElement;
+        const g = document.getElementsByTagName('body')[0];
+
+        let width = window.innerWidth || e.clientWidth || g.clientWidth;
+        width *= 0.6;
+
+        this.width = width;
+
+        const svg = d3.select(this.$refs.actorsNetwork);
+        svg.attr('width', width);
+        this.updateGraph();
+        this.updateGraph();
       }
     },
-
     mounted() {
       this.$bus.$on(FILTERS_UPDATE, (filters) => {
         this.loadGraphData(filters).then(() => {
@@ -363,8 +400,11 @@
 
       const svg = d3.select(this.$refs.actorsNetwork).attr('class', 'actors-network');
 
+
       this.loadGraphData().then(() => {
         this.drawGraph(svg);
+        d3.select(window).on('resize.updatesvg', () => { this.updateWindow(); });
+        this.updateWindow();
       });
     }
   };
