@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ 'collapsed': hide, 'edit-mode': edit }" class="filters-menu" @keyup.escape="edit = !edit">
+  <div :class="{ 'collapsed': hide, 'edit-mode': edit }" class="filters-menu" @keyup.escape="edit = false">
     <app-filters></app-filters>
     <div class="filters-list" :class="{ 'hidden': hide }">
       <span class="filter" v-for="genre, key in values.genres" :key="key">
