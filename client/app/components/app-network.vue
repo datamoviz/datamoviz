@@ -373,9 +373,23 @@
 
         this.updateGraph();
         this.updateGraph();
+      },
+
+      updateWindow() {
+        const e = document.documentElement;
+        const g = document.getElementsByTagName('body')[0];
+
+        let width = window.innerWidth || e.clientWidth || g.clientWidth;
+        width *= 0.6;
+
+        this.width = width;
+
+        const svg = d3.select(this.$refs.actorsNetwork);
+        svg.attr('width', width);
+        this.updateGraph();
+        this.updateGraph();
       }
     },
-
     mounted() {
       this.$bus.$on(FILTERS_UPDATE, (filters) => {
         this.loadGraphData(filters).then(() => {
@@ -386,8 +400,11 @@
 
       const svg = d3.select(this.$refs.actorsNetwork).attr('class', 'actors-network');
 
+
       this.loadGraphData().then(() => {
         this.drawGraph(svg);
+        d3.select(window).on('resize.updatesvg', () => { this.updateWindow(); });
+        this.updateWindow();
       });
     }
   };
