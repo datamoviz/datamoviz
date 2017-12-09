@@ -5,7 +5,7 @@
         <div class="col-12">
           <div ref="map" class="map"></div>
           <small>
-            <span class="badge badge-info">Pro tip</span> Click on a country to filter on
+            <span class="badge badge-info">Pro tip</span> Click on a country to filter on movies produced there.
           </small>
           <template v-if="paletteScale">
             <span v-for="b, key in paletteScale.clusters()" :key="key" class="legend">
@@ -51,7 +51,7 @@
 
             if (Object.keys(this.allCountries).length === 0) {
               this.countries.forEach((item) => {
-                this.allCountries[item.iso] = { movies: 0, countryName: item.countryName, fillColor: '#3f4045' };
+                this.allCountries[item.iso] = { value: 0, country: item._id, fillColor: '#3f4045' };
               });
             }
 
@@ -62,8 +62,7 @@
         return countries.map((item) => {
           return {
             iso: this.translateCountryCode(item._id.iso_3166_1),
-            value: item.value,
-            countryName: item._id.name
+            original: item
           }
         });
       },
@@ -75,15 +74,15 @@
         }
 
         this.paletteScale = scaleCluster() // Natural breaks
-          .domain(this.countries.map(c => c.value))
+          .domain(this.countries.map(c => c.original.value))
           .range(['#dee7f3','#becee6','#9db8da','#7aa1cd','#548bc1','#1975b4']);
 
-        const countries = {};
+        const dataMapCountries = {};
         this.countries.forEach((item) => {
-          countries[item.iso] = { movies: item.value, countryName: item.countryName, fillColor: this.paletteScale(item.value) };
+          dataMapCountries[item.iso] = { country: item.original._id, value: item.original.value, fillColor: this.paletteScale(item.original.value) };
         });
 
-        map.updateChoropleth(countries);
+        map.updateChoropleth(dataMapCountries);
       },
       loadMap() {
         map = new Datamaps({
@@ -104,8 +103,13 @@
               if (!data) {
                 return;
               }
-              return `<div class="hoverinfo">${data.countryName}: ${data.movies} movies</div>`;
+              return `<div class="hoverinfo">${data.country.name}: ${data.value} movies</div>`;
             }
+          },
+          done: (datamap) => {
+            datamap.svg.selectAll('.datamaps-subunit').on('click', (geography) => {
+              this.filterCountry(map.options.data[geography.id].country)
+            });
           }
         });
         window.addEventListener('resize', () => { map.resize(); });
@@ -118,6 +122,26 @@
         }
 
         return IsoConverter.alpha2ToAlpha3(code);
+      },
+      filterCountry (country) {
+        const { filters } = this.$bus;
+
+        if (!filters.hasOwnProperty('production_countries')) {
+          filters.production_countries = { $all: [] }
+        }
+
+        const found = filters.production_countries.$all.find(c => c.iso_3166_1 === country.iso_3166_1);
+        if (found !== undefined) {
+          filters.production_countries.$all = filters.production_countries.$all.filter(c => c.iso_3166_1 !== found.iso_3166_1);
+
+          if (filters.production_countries.$all.length === 0) {
+            delete filters.production_countries;
+          }
+        } else {
+          filters.production_countries.$all.push(country);
+        }
+
+        this.$bus.$emit(FILTERS_UPDATE, filters);
       }
     },
     mounted() {
@@ -137,9 +161,16 @@
   section.map {
     padding: 0 0 10px;
 
+    div.map {
+      margin-bottom: 10px;
+
+      svg path {
+        cursor: pointer;
+      }
+    }
+
     .legend {
       font-size: 0.8em;
-      margin: 10px 0 0 0;
       float: right;
       position: relative;
 

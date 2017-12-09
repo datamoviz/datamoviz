@@ -1,6 +1,6 @@
 <template>
   <form action="#" @submit.prevent="search()">
-    <input type="search" placeholder="Filter on specific words..." v-model="searchedMovie" @input="search()" />
+    <input type="search" placeholder="Filter on specific words..." v-model.trim="searchedMovie" @input="search()" />
     <button type="reset" @click="reset()" :class="{ hidden: searchedMovie.length === 0 }"><i class="fa fa-times"></i></button>
   </form>
 </template>
@@ -19,7 +19,6 @@
     methods: {
       search() {
         clearTimeout(this.timeout);
-        console.log('ok')
         this.timeout = setTimeout(() => {
           const { filters } = this.$bus;
 
@@ -58,8 +57,6 @@
       font-size: 18px;
       padding: 2px 10px;
       border-radius: 3px;
-      background: #53545c;
-      color: white;
 
       &:focus {
         outline: none;

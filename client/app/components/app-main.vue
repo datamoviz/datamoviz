@@ -1,7 +1,7 @@
 <template>
-  <main>
+  <main :class="{ 'with-filters': nbFilters > 0 }">
     <app-header></app-header>
-    <app-filters></app-filters>
+    <app-filters-list></app-filters-list>
     <app-map></app-map>
     <app-overview></app-overview>
     <app-stats></app-stats>
@@ -13,7 +13,9 @@
 </template>
 
 <script>
+  import { FILTERS_UPDATE } from '../event-bus';
   import AppHeader from './app-header.vue';
+  import AppFiltersList from './app-filters-list.vue';
   import AppFilters from './app-filters.vue';
   import AppOverview from './app-overview.vue';
   import AppStats from './app-stats.vue';
@@ -23,23 +25,42 @@
   import AppFooter from './app-footer.vue';
   import Scroller from './scroller.vue';
 
-
   export default {
     name: 'app-main',
     components: {
       AppHeader,
+      AppFiltersList,
+      AppFilters,
       AppOverview,
       AppMap,
       AppStats,
-      AppFilters,
       AppNetwork,
       AppMovies,
       AppFooter,
       Scroller
+    },
+    data() {
+      return {
+        nbFilters: 0
+      }
+    },
+    mounted() {
+      this.$bus.$on(FILTERS_UPDATE, (filters) => {
+        this.nbFilters = Object.keys(filters).length;
+      });
     }
   };
 </script>
 
 <style lang="scss" ref="stylesheet/scss">
   @import '../scss/main';
+
+  main {
+    padding-top: 0;
+    transition: padding .5s;
+
+    &.with-filters {
+      padding-top: 40px;
+    }
+  }
 </style>

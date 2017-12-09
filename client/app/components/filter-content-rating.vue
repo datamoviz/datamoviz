@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h3>Content rating</h3>
     <div v-if="contentRatings.length !== 0">
       <multiselect
         placeholder="Choose the content ratings you want to filter on..."
@@ -28,7 +27,6 @@
     },
     data() {
       return {
-        exclude: false,
         contentRatings: [],
         selected: []
       };
@@ -56,3 +54,23 @@
     }
   };
 </script>
+
+<style lang="scss" ref="stylesheet/scss">
+  @import '~vue-multiselect/dist/vue-multiselect.min.css';
+  @import '../scss/vars';
+  .multiselect__option.multiselect__option--highlight,
+  .multiselect__option.multiselect__option--highlight::after,
+  .multiselect__tag {
+    background: $global-color-primary;
+  }
+  .multiselect__tag {
+    overflow-y: hidden;
+  }
+  .multiselect {
+    height: 40px;
+    margin-bottom: 10px;
+  }
+  .failure {
+    color: $global-color-danger;
+  }
+</style>

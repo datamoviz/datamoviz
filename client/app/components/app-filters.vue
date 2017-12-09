@@ -1,26 +1,23 @@
 <template>
-  <section class="highlight">
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <h3>Filters</h3>
-          <search></search>
-          <div class="row">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <search></search>
+        <div class="row">
+          <div class="col-12 col-md-6">
             <genres-filter></genres-filter>
-            <div class="col-12 col-md-6">
-              <countries-filter></countries-filter>
-              <content-rating-filter></content-rating-filter>
-            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <content-rating-filter></content-rating-filter>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
   import GenresFilter from './filter-genres.vue';
-  import CountriesFilter from './filter-countries.vue';
   import ContentRatingFilter from './filter-content-rating.vue';
   import Search from './search.vue'
 
@@ -28,15 +25,8 @@
     name: 'app-filters',
     components: {
       GenresFilter,
-      CountriesFilter,
       ContentRatingFilter,
       Search
     }
   };
 </script>
-
-<style scoped lang="scss" ref="stylesheet/scss">
-  section {
-    min-height: 350px;
-  }
-</style>

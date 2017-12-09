@@ -67,7 +67,7 @@
         const startYear = Math.round(domain[0]);
         const endYear = Math.round(domain[1]);
 
-        if (startYear === this.minYear && endYear === this.maxYear) {
+        if (startYear === this.yearsList[1] && endYear === this.yearsList[this.yearsList.length - 1] + 1) {
           delete filters.release_date;
         } else {
           filters.release_date = {
