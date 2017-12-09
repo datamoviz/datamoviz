@@ -19,7 +19,7 @@
       </span>
       <a href="#" @click.prevent="edit = !edit" class="toggle-edit">
         <template v-if="edit">Close filters</template>
-        <template v-else>Edit filters</template>
+        <template v-else>More filters</template>
       </a>
     </div>
   </div>
