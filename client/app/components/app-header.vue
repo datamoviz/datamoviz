@@ -15,14 +15,8 @@
         </div>
         <div class="col-4 col-md-3 movies-count">
           <i class="fa fa-spinner fa-spin" v-if="loading"></i>
-          <span ref="moviesCount" class="counter">0</span> movie<!--
-          --><span class="title" v-if="currentMovie !== ''"><br />{{ currentMovie }}</span><span v-else>s
-          <br />
-          <span class="filters">
-            <span v-if="nbFilters === 0">No</span>
-            <span v-else>{{ nbFilters }}</span>
-            filter<span v-if="nbFilters !== 1">s</span> enabled
-          </span>
+          <span ref="moviesCount" class="counter">{{ currentTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</span>
+          movie<span class="title" v-if="currentMovie !== ''"><br />{{ currentMovie }}</span><span v-else>s
         </span>
         </div>
       </div>
@@ -42,7 +36,6 @@
         currentTotal: 0,
         currentMovie: '',
         failure: false,
-        nbFilters: 0,
         loading: false
       };
     },
@@ -54,10 +47,9 @@
         return fetch(`${process.env.SERVER_URL}/count/movies?filters=${encodeURI(JSON.stringify(filters))}`)
           .then(response => response.json())
           .then((total) => {
-            this.nbFilters = Object.keys(filters).length;
             this.currentMovie = '';
             this.loading = false;
-            return this.updateTotal(total)
+            this.updateTotal(total)
           })
           .catch(() => {
             this.failure = true;
@@ -66,11 +58,10 @@
       },
       updateTotal(total) {
         const counter = this.$refs.moviesCount;
-        return new CountUp(counter, this.currentTotal, total).start(() => {
-          counter.style.animation = 'none';
-          setTimeout(() => { counter.style.animation = ''; }, 10);
-          this.currentTotal = total;
-        });
+        new CountUp(counter, this.currentTotal, total).start();
+        counter.style.animation = 'none';
+        setTimeout(() => { counter.style.animation = ''; }, 10);
+        this.currentTotal = total;
       }
     },
     mounted() {
@@ -79,7 +70,7 @@
       this.$bus.$on(FILTERS_UPDATE, this.countMovies);
       this.$bus.$on(MOVIE_SELECTED, (movie) => {
         this.currentMovie = movie.title;
-        return this.updateTotal(1);
+        this.updateTotal(1);
       });
     }
   };
