@@ -18,8 +18,8 @@
         <i class="fa fa-child"></i> {{ rating }} <a href="#" @click.prevent="removeFilter('ratings', key)"><i class="fa fa-times"></i></a>
       </span>
       <a href="#" @click.prevent="edit = !edit" class="toggle-edit">
-        <template v-if="edit">Close filters</template>
-        <template v-else>More filters</template>
+        <template v-if="edit"><i class="fa fa-bars"></i> Close filters</template>
+        <template v-else><i class="fa fa-bars"></i> More filters</template>
       </a>
     </div>
   </div>
