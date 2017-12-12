@@ -307,7 +307,7 @@
         this.node.enter().append('circle')
           .attr('class', d => `node${d.size ? '' : ' leaf'}`)
           .attr('r', d => (d.size ? d.size + dr : dr + 1))
-          .style('fill', d => this.fillColor(d.movieGroup))
+          .style('fill', d => (d.group ? this.fillColor(d.group) : this.fillColor(d.movieGroup)))
           .on('click', (d) => {
             this.expand[d.movieGroup] = !this.expand[d.movieGroup];
             this.updateGraph();
