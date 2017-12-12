@@ -12,9 +12,26 @@
             <div class="col col-sm-6 network-choices">
               <input type="checkbox" id="show-movies-name-checkbox" v-model="showMovieName" v-on:change="onMovieNameChangeVisibility">
               <label for="show-movies-name-checkbox">Show movies name</label>
+              <br/>
 
               <input type="checkbox" id="show-actor-name-checkbox" v-model="showActorName" v-on:change="onActorNameChangeVisibility">
               <label for="show-actor-name-checkbox">Show actors name</label>
+              <br/>
+
+              <input type="range" min="1" max="20" step="1" v-model="actorCount" v-on:change="onChangeReloadGraph">
+              <input type="number" min="1" max="20" v-model="actorCount" v-on:change="onChangeReloadGraph"/>
+              <label>Actors count</label>
+              <br/>
+
+              <input type="range" min="1" max="10" step="1" v-model="crewCount" v-on:change="onChangeReloadGraph">
+              <input type="number" min="1" max="10" v-model="crewCount" v-on:change="onChangeReloadGraph"/>
+              <label>Crew count</label>
+              <br/>
+
+              <input type="range" min="1" max="100" step="1" v-model="movieCount" v-on:change="onChangeReloadGraph">
+              <input type="number" min="1" max="100" v-model="movieCount" v-on:change="onChangeReloadGraph"/>
+              <label>Movie count</label>
+              <br/>
             </div>
           </div>
         </div>
@@ -48,9 +65,18 @@
       expand: {},
       network: null,
       fillColor: null,
-      height: 400
+      height: 400,
+      actorCount: 5,
+      crewCount: 1,
+      movieCount: 30
     }),
     methods: {
+      onChangeReloadGraph() {
+        this.loadGraphData(this.filters).then(() => {
+          this.updateGraph();
+          this.updateGraph();
+        });
+      },
       onMovieNameChangeVisibility() {
         document.querySelectorAll('.text-movie').forEach((text) => {
           text.style.visibility = this.showMovieName ? 'visible' : 'hidden';
@@ -64,7 +90,8 @@
       loadGraphData(filters) {
         filters = filters || {};
 
-        return fetch(`${process.env.SERVER_URL}/network?filters=${encodeURI(JSON.stringify(filters))}`)
+        return fetch(`${process.env.SERVER_URL}/network?filters=${encodeURI(JSON.stringify(filters))}&movieCount=${this.movieCount}
+                                                                        &actorCount=${this.actorCount}&crewCount=${this.crewCount}`)
           .then(response => response.json())
           .then((json) => {
             this.graph = json;
@@ -395,7 +422,8 @@
     },
     mounted() {
       this.$bus.$on(FILTERS_UPDATE, (filters) => {
-        this.loadGraphData(filters).then(() => {
+        this.filters = filters;
+        this.loadGraphData(this.filters).then(() => {
           this.updateGraph();
           this.updateGraph();
         });

@@ -1,8 +1,8 @@
 const parse = require('./parser');
 
-const MAIN_ACTORS_COUNT = 5;
-const CREW_COUNT = 1;
-const MOVIE_COUNT = 30;
+let MAIN_ACTORS_COUNT = 5;
+let CREW_COUNT = 1;
+let MOVIE_COUNT = 30;
 
 const ACTOR_GROUP = 1;
 const DIRECTOR_GROUP = 2;
@@ -10,6 +10,9 @@ const DIRECTOR_GROUP = 2;
 module.exports = function (app, router) {
   router.get('/network', async (req, res) => {
     const filters = parse(req.query.filters);
+    MAIN_ACTORS_COUNT = req.query.actorCount ? parseInt(req.query.actorCount) : 5
+    CREW_COUNT = req.query.crewCount ? parseInt(req.query.crewCount) : 1
+    MOVIE_COUNT = req.query.movieCount ? parseInt(req.query.movieCount) : 30
 
     const db = await app.get('mongoClient');
     const moviesIds = await db.collection('movies').find(filters, {id:1, _id:0, original_title:1}).sort({imdb_nb_reviews:-1}).limit(MOVIE_COUNT).map(x => x.id).toArray();
