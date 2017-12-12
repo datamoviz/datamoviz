@@ -180,7 +180,8 @@
               }
               l.nodes.push(n);
             }
-            // always count movieGroup size as we also use it to tweak the force graph strengths/distances
+            // always count movieGroup size as we also use it
+            // to tweak the force graph strengths/distances
             l.size += 1;
             n.movieGroup_data = l;
           }
@@ -296,12 +297,12 @@
               return 30 +
                 Math.min(
                   20 * Math.min(
-                    (n1.size || (n1.movieGroup != n2.movieGroup ? n1.movieGroup_data.size : 0)),
-                    (n2.size || (n1.movieGroup != n2.movieGroup ? n2.movieGroup_data.size : 0))
+                    (n1.size || (n1.movieGroup !== n2.movieGroup ? n1.movieGroup_data.size : 0)),
+                    (n2.size || (n1.movieGroup !== n2.movieGroup ? n2.movieGroup_data.size : 0))
                   ), -30 +
                   30 * Math.min(
-                    (n1.link_count || (n1.movieGroup != n2.movieGroup ? n1.movieGroup_data.link_count : 0)),
-                    (n2.link_count || (n1.movieGroup != n2.movieGroup ? n2.movieGroup_data.link_count : 0))
+                    (n1.link_count || (n1.movieGroup !== n2.movieGroup ? n1.movieGroup_data.link_count : 0)),
+                    (n2.link_count || (n1.movieGroup !== n2.movieGroup ? n2.movieGroup_data.link_count : 0))
                   ),
                   100
                 );
@@ -464,6 +465,7 @@
       fill: lightsteelblue;
       stroke: #555;
       stroke-width: 3px;
+      cursor: pointer;
     }
     circle.leaf {
       stroke: #fff;
