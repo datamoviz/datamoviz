@@ -12,6 +12,7 @@
     "deploy": "NODE_ENV=production webpack --config webpack.production.config.js"
   },
   "dependencies": {
+    "aos": "^2.2.0",
     "babel-runtime": "latest",
     "bootstrap": "^4.0.0-beta.2",
     "c3": "^0.4.18",

@@ -1,6 +1,6 @@
 <template>
   <section class="map">
-    <div class="container">
+    <div class="container" data-aos="fade">
       <div class="row">
         <div class="col">
           <h3>Actors network</h3>

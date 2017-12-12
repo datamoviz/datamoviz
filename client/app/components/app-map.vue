@@ -1,5 +1,5 @@
 <template>
-  <section class="map">
+  <section class="map" data-aos="fade">
     <div class="container">
       <div class="row">
         <div class="col-12">

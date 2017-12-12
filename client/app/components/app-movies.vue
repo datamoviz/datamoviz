@@ -10,7 +10,7 @@
     </div>
     <div class="results-container" :class="{ presenter: presenter }" data-simplebar>
       <div class="results" v-if="movies.length !== 0">
-        <thumbnail v-for="(movie, key) in movies" :key="movie.imdb_id" :movie="movie" :total="movies.length" :popularity="maxPopularity"></thumbnail>
+        <thumbnail v-for="movie in movies" :key="movie.imdb_id" :movie="movie" :total="movies.length" :popularity="maxPopularity"></thumbnail>
       </div>
       <div class="no-result" v-else-if="!failure">
         No result found...

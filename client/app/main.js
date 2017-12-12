@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueFilter from 'vue-filter';
 import 'simplebar/dist/simplebar';
+import AOS from 'aos';
 
 import AppMain from './components/app-main.vue';
 import { EventBus } from './event-bus';
@@ -16,3 +17,5 @@ Object.defineProperties(Vue.prototype, {
 });
 
 new Vue(AppMain).$mount('#app-main');
+
+AOS.init();
