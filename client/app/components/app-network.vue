@@ -48,10 +48,8 @@
       expand: {},
       network: null,
       fillColor: null,
-      width: 960,
       height: 400
     }),
-
     methods: {
       onMovieNameChangeVisibility() {
         document.querySelectorAll('.text-movie').forEach((text) => {
@@ -389,8 +387,6 @@
 
         const svg = d3.select(this.$refs.actorsNetwork);
         svg.attr('width', width);
-        this.updateGraph();
-        this.updateGraph();
       }
     },
     mounted() {
@@ -403,11 +399,14 @@
 
       const svg = d3.select(this.$refs.actorsNetwork).attr('class', 'actors-network');
 
-
       this.loadGraphData().then(() => {
-        this.drawGraph(svg);
         this.updateWindow();
-        d3.select(window).on('resize.updatesvg', () => { this.updateWindow(); });
+        this.drawGraph(svg);
+        d3.select(window).on('resize.updatesvg', () => {
+          this.updateWindow();
+          this.updateGraph();
+          this.updateGraph();
+        });
       });
     }
   };
