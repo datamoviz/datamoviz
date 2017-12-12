@@ -2,7 +2,7 @@
   <header>
     <div class="container">
       <div class="row justify-content-end align-items-center">
-        <div class="col-8 col-md-6">
+        <div class="col-9 col-md-6">
           <h1>
             <a href="/">
               <img src="../images/logo.svg" height="50" />
@@ -13,7 +13,7 @@
             </small>
           </h1>
         </div>
-        <div class="col-4 col-md-3 movies-count">
+        <div class="col-3 col-md-3 movies-count">
           <i class="fa fa-spinner fa-spin" v-if="loading"></i>
           <span ref="moviesCount" class="counter">{{ currentTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</span>
           movie<span class="title" v-if="currentMovie !== ''"><br />{{ currentMovie }}</span><span v-else>s
@@ -104,11 +104,13 @@
       font-size: 2.7em;
 
       img {
-        vertical-align: sub;
-        display: none;
+        vertical-align: text-bottom;
+        width: 40px;
 
         @media screen and (min-width: 500px) {
           display: inline-block;
+          width: auto;
+          vertical-align: bottom;
         }
       }
 
