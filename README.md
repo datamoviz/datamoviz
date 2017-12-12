@@ -2,7 +2,9 @@
 
 Deep into the movie scene: https://datamoviz.dldl.io
 
-![Mockup](https://github.com/datamoviz/datamoviz/raw/master/docs/mockup.png "Datamoviz")
+<a href="https://datamoviz.dldl.io">
+    <img src="https://github.com/datamoviz/datamoviz/raw/master/docs/mockup.png" alt="" />
+</a>
 
 Image generated with [MockUpPhone](https://mockuphone.com/).
 
