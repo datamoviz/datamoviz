@@ -86,6 +86,16 @@
     width: 100%;
     z-index: 10000;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.30);
+    font-size: 0.8em;
+    height: 65px;
+
+    @media screen and (min-width: 500px) {
+      font-size: 1em;
+    }
+
+    .row {
+      height: 65px;
+    }
 
     h1 {
       text-align: center;
@@ -95,6 +105,11 @@
 
       img {
         vertical-align: sub;
+        display: none;
+
+        @media screen and (min-width: 500px) {
+          display: inline-block;
+        }
       }
 
       a {
@@ -121,8 +136,12 @@
     .movies-count {
       font-family: Pacifico, sans-serif;
       font-size: 1.5em;
-      text-align: right;
+      text-align: center;
       line-height: 0.8em;
+
+      @media screen and (min-width: 500px) {
+        text-align: right;
+      }
 
       .fa-spinner {
         font-size: 0.7em;
