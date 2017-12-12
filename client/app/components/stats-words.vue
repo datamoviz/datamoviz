@@ -1,5 +1,5 @@
 <template>
-  <div class="col col-md-4">
+  <div class="col-12 col-lg-4">
     <h3>Most used words in titles</h3>
     <svg ref="chart" class="bubble" width="330" height="330"></svg>
     <small><span class="badge badge-info">Pro tip</span> Keep your mouse on a bubble to see the number of occurrences.</small>
@@ -108,10 +108,15 @@
 <style lang="scss" ref="stylesheet/scss">
   @import '../scss/_vars.scss';
 
-  svg.bubble text {
-    text-anchor: middle;
-    font: 11px sans-serif;
-    padding-top: 0.3em;
-    fill: white;
+  svg.bubble {
+    margin: 0 auto;
+    display: block;
+
+    text {
+      text-anchor: middle;
+      font: 11px sans-serif;
+      padding-top: 0.3em;
+      fill: white;
+    }
   }
 </style>

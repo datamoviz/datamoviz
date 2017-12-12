@@ -4,10 +4,10 @@
       <div class="col-12">
         <search></search>
         <div class="row">
-          <div class="col-12 col-md-6">
+          <div class="col-6">
             <genres-filter></genres-filter>
           </div>
-          <div class="col-12 col-md-6">
+          <div class="col-6">
             <content-rating-filter></content-rating-filter>
           </div>
         </div>

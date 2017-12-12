@@ -1,5 +1,5 @@
 <template>
-  <div class="col col-sm-6 col-md-6">
+  <div class="col-12 col-md-6 col-lg-4">
     <h3>Colors distribution</h3>
     <div ref="colorsChart" class="colors-chart"></div>
   </div>
@@ -43,8 +43,7 @@
             }
           },
           size: {
-            height: 340,
-            width: 300
+            height: 340
           }
         });
       }

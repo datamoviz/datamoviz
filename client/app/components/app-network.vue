@@ -406,8 +406,8 @@
 
       this.loadGraphData().then(() => {
         this.drawGraph(svg);
-        d3.select(window).on('resize.updatesvg', () => { this.updateWindow(); });
         this.updateWindow();
+        d3.select(window).on('resize.updatesvg', () => { this.updateWindow(); });
       });
     }
   };
@@ -415,6 +415,9 @@
 
 <style lang="scss" ref="stylesheet/scss">
   svg.actors-network {
+    display: block;
+    margin: 0 auto;
+
     .text-actor {
       font: 8px sans-serif;
       fill: white;

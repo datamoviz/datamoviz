@@ -1,5 +1,5 @@
 <template>
-  <div class="col col-sm-6 col-md-6">
+  <div class="col-12 col-md-6 col-lg-4">
     <h3>Genres distribution</h3>
     <div ref="genresChart" class="genres-chart"></div>
   </div>
@@ -67,8 +67,7 @@
             }
           },
           size: {
-            height: 350,
-            width: 300
+            height: 350
           },
           grid: {
             y: {

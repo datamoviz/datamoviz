@@ -2,12 +2,8 @@
   <section>
     <div class="container">
       <div class="row">
-        <div class="col col-md-8">
-          <div class="row">
-            <stats-genres></stats-genres>
-            <stats-colors></stats-colors>
-          </div>
-        </div>
+        <stats-genres></stats-genres>
+        <stats-colors></stats-colors>
         <stats-words></stats-words>
       </div>
     </div>
