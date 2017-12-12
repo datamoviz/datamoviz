@@ -4,6 +4,8 @@ Deep into the movie scene: https://datamoviz.dldl.io
 
 ![Mockup](https://github.com/datamoviz/datamoviz/raw/master/docs/mockup.png "Datamoviz")
 
+Generated with [MockUpPhone](https://mockuphone.com/).
+
 ## Installation
 
 ```bash
