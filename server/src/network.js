@@ -1,6 +1,7 @@
 const parse = require('./parser');
 
 const MAIN_ACTORS_COUNT = 5;
+const CREW_COUNT = 1;
 const MOVIE_COUNT = 30;
 
 const ACTOR_GROUP = 1;
@@ -55,7 +56,8 @@ function getActorsNetworkLink(credits) {
   let actorsObjects = [];
   credits.forEach(movieCast => {
 
-    const cast = movieCast.cast.slice(0, MAIN_ACTORS_COUNT);
+    let cast = movieCast.cast.slice(0, MAIN_ACTORS_COUNT);
+    cast = cast.concat(movieCast.crew.slice(0, CREW_COUNT));
 
     cast.forEach(actorObject1 => {
       const existingMovieArray = actorsMoviesMap.get(actorObject1.name);
@@ -68,7 +70,7 @@ function getActorsNetworkLink(credits) {
 
       actorsObjects.push({
         name: actorObject1.name + '_' + movieCast.id,
-        group: ACTOR_GROUP, // TODO: check for director
+        group: actorObject1.job ? DIRECTOR_GROUP : ACTOR_GROUP,
         movieGroup: movieCast.id
       })
 
