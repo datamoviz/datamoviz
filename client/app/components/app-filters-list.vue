@@ -164,7 +164,7 @@
       color: $global-color-primary;
       transition: opacity .5s linear .5s;
       opacity: 1;
-      border: 1px solid #009946;
+      border: 1px solid $global-color-primary;
     }
   }
 </style>

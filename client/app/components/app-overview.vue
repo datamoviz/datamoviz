@@ -1,8 +1,10 @@
 <template>
   <section class="highlight">
-    <div class="container">
+    <div class="container" data-aos="fade">
       <div class="row">
         <div class="col-12">
+          <h3>Number of movies per year</h3>
+          <p>This chart describes the number of movies which were produced each year.</p>
           <div ref="overviewChart"></div>
           <small><span class="badge badge-info">Pro tip</span> You can drag your mouse on the above subgraph to select a time period.</small>
         </div>
@@ -87,9 +89,9 @@
             columns: [],
             type: 'bar',
             colors: {
-              years: '#009946',
+              years: '#1d92dd',
               b_and_w: '#989898',
-              color: '#1d92dd'
+              color: '#dd618c'
             },
             hide: ['b_and_w', 'color'],
             names: {

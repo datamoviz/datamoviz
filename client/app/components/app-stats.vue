@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div class="container">
+    <div class="container" data-aos="fade">
       <div class="row">
         <stats-genres></stats-genres>
         <stats-colors></stats-colors>

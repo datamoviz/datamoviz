@@ -1,9 +1,27 @@
 <template>
-  <section class="map">
-    <div class="container">
+  <section class="highlight">
+    <div class="container" data-aos="fade">
       <div class="row">
         <div class="col">
           <h3>Actors network</h3>
+          <p>This network shows how many common actors movies shares.</p>
+          <div class="row">
+            <div class="col-12 col-md-4">
+              <label for="network-actor-filter">Actors count</label>
+              <input type="range" min="1" max="20" step="1" v-model="actorCount" v-on:change="onChangeReloadGraph" id="network-actor-filter" class="slider" />
+              <input type="number" min="1" max="20" v-model="actorCount" v-on:change="onChangeReloadGraph"/>
+            </div>
+            <div class="col-12 col-md-4">
+              <label for="network-crew-filter">Crew count</label>
+              <input type="range" min="1" max="10" step="1" v-model="crewCount" v-on:change="onChangeReloadGraph" id="network-crew-filter" class="slider">
+              <input type="number" min="1" max="10" v-model="crewCount" v-on:change="onChangeReloadGraph"/>
+            </div>
+            <div class="col-12 col-md-4">
+              <label for="network-movie-filter">Movie count</label>
+              <input type="range" min="1" max="100" step="1" v-model="movieCount" v-on:change="onChangeReloadGraph" id="network-movie-filter" class="slider">
+              <input type="number" min="1" max="100" v-model="movieCount" v-on:change="onChangeReloadGraph"/>
+            </div>
+          </div>
           <svg ref="actorsNetwork"></svg>
           <div class="row">
             <div class="col col-sm-6">
@@ -48,9 +66,18 @@
       expand: {},
       network: null,
       fillColor: null,
-      height: 400
+      height: 500,
+      actorCount: 5,
+      crewCount: 1,
+      movieCount: 30
     }),
     methods: {
+      onChangeReloadGraph() {
+        this.loadGraphData(this.filters).then(() => {
+          this.updateGraph();
+          this.updateGraph();
+        });
+      },
       onMovieNameChangeVisibility() {
         document.querySelectorAll('.text-movie').forEach((text) => {
           text.style.visibility = this.showMovieName ? 'visible' : 'hidden';
@@ -64,7 +91,8 @@
       loadGraphData(filters) {
         filters = filters || {};
 
-        return fetch(`${process.env.SERVER_URL}/network?filters=${encodeURI(JSON.stringify(filters))}`)
+        return fetch(`${process.env.SERVER_URL}/network?filters=${encodeURI(JSON.stringify(filters))}&movieCount=${this.movieCount}
+                                                                        &actorCount=${this.actorCount}&crewCount=${this.crewCount}`)
           .then(response => response.json())
           .then((json) => {
             this.graph = json;
@@ -152,7 +180,8 @@
               }
               l.nodes.push(n);
             }
-            // always count movieGroup size as we also use it to tweak the force graph strengths/distances
+            // always count movieGroup size as we also use it
+            // to tweak the force graph strengths/distances
             l.size += 1;
             n.movieGroup_data = l;
           }
@@ -268,12 +297,12 @@
               return 30 +
                 Math.min(
                   20 * Math.min(
-                    (n1.size || (n1.movieGroup != n2.movieGroup ? n1.movieGroup_data.size : 0)),
-                    (n2.size || (n1.movieGroup != n2.movieGroup ? n2.movieGroup_data.size : 0))
+                    (n1.size || (n1.movieGroup !== n2.movieGroup ? n1.movieGroup_data.size : 0)),
+                    (n2.size || (n1.movieGroup !== n2.movieGroup ? n2.movieGroup_data.size : 0))
                   ), -30 +
                   30 * Math.min(
-                    (n1.link_count || (n1.movieGroup != n2.movieGroup ? n1.movieGroup_data.link_count : 0)),
-                    (n2.link_count || (n1.movieGroup != n2.movieGroup ? n2.movieGroup_data.link_count : 0))
+                    (n1.link_count || (n1.movieGroup !== n2.movieGroup ? n1.movieGroup_data.link_count : 0)),
+                    (n2.link_count || (n1.movieGroup !== n2.movieGroup ? n2.movieGroup_data.link_count : 0))
                   ),
                   100
                 );
@@ -395,7 +424,8 @@
     },
     mounted() {
       this.$bus.$on(FILTERS_UPDATE, (filters) => {
-        this.loadGraphData(filters).then(() => {
+        this.filters = filters;
+        this.loadGraphData(this.filters).then(() => {
           this.updateGraph();
           this.updateGraph();
         });
@@ -417,6 +447,8 @@
 </script>
 
 <style lang="scss" ref="stylesheet/scss">
+  @import '../scss/vars';
+
   svg.actors-network {
     display: block;
     margin: 0 auto;
@@ -433,6 +465,7 @@
       fill: lightsteelblue;
       stroke: #555;
       stroke-width: 3px;
+      cursor: pointer;
     }
     circle.leaf {
       stroke: #fff;
@@ -446,6 +479,15 @@
       stroke-opacity: 0.5;
       pointer-events: none;
     }
+  }
+
+  input[type=number] {
+    background: lighten($global-color-background, 2);
+    border: none;
+    border-radius: 2px;
+    color: white;
+    padding: 2px 3px;
+    width: 50px;
   }
 
   .network-choices {

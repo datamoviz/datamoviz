@@ -27,7 +27,7 @@
             max: this.max
           },
           color: {
-            pattern: ['#de3e38', '#c19518', '#009946'],
+            pattern: ['#de3e38', '#c19518', '#1d92dd'],
             threshold: {
               values: this.thresholds
             }

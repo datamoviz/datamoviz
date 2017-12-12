@@ -1,13 +1,15 @@
 <template>
-  <section class="map">
+  <section class="map" data-aos="fade">
     <div class="container">
       <div class="row">
         <div class="col-12">
+          <h3 class="get-started">Production<br />countries</h3>
           <div ref="map" class="map"></div>
           <div class="row">
             <div class="col-12 col-md-4">
               <small>
-                <span class="badge badge-info">Pro tip</span> Click on one or several countries to filter on movies produced there.
+                <span class="badge badge-info">Pro tip</span>
+                Click on several countries to get movies produced there. Click again to unselect.
               </small>
             </div>
             <div class="col-12 col-md-4 arrow-down">
@@ -19,7 +21,7 @@
                   <span :style="{ background: paletteScale.range()[key] }" class="color"></span>
                   <span class="limit">{{ b }}</span>
                 </span>
-                    <span class="legend">
+                <span class="legend">
                   <span :style="{ background: paletteScale.range()[paletteScale.clusters().length] }" class="color"></span>
                 </span>
               </template>
@@ -176,6 +178,20 @@
 
   section.map {
     padding: 0 0 10px;
+
+    h3.get-started {
+      display: none;
+      position: absolute;
+      top: 25px;
+      left: 15px;
+      line-height: 1.2em;
+      z-index: 1000;
+      text-shadow: -2px 0 $global-color-background, 0 2px $global-color-background, 2px 0 $global-color-background, 0 -2px $global-color-background;
+
+      @media screen and (min-width: 500px) {
+        display: inline;
+      }
+    }
 
     div.map {
       margin-bottom: 10px;
