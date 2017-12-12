@@ -86,6 +86,10 @@
           return node.movieGroup;
         }
 
+        function removeMovieIdFromActorName(name) {
+          return name ? name.split('_')[0] : null;
+        }
+
         // constructs the network to visualize
         function getNetwork(data, prev, index, expand) {
           expand = expand || {};
@@ -334,7 +338,7 @@
           .on('drag', dragged)
           .on('end', dragended));
 
-        this.node.append('title').text(d => d.name || this.graph.moviesTitleMap[d.movieGroup]);
+        this.node.append('title').text(d => removeMovieIdFromActorName(d.name) || this.graph.moviesTitleMap[d.movieGroup]);
         this.node.merge(this.node);
 
         this.textg.selectAll('*').remove(); // Small fix TODO: fix the correct way
@@ -344,7 +348,7 @@
           .attr('class', d => (d.size ? 'text-movie' : 'text-actor'))
           .attr('x', 8)
           .attr('y', '.31em')
-          .text(d => d.name || this.graph.moviesTitleMap[d.movieGroup])
+          .text(d => removeMovieIdFromActorName(d.name) || this.graph.moviesTitleMap[d.movieGroup])
           .merge(this.text);
 
         simulation.nodes(this.network.nodes);
