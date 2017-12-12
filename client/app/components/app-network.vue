@@ -164,7 +164,7 @@
             const e = data.links[k];
             let u = index(e.source);
             let v = index(e.target);
-            if (u != v) {
+            if (u !== v) {
               movieGroupMap[u].link_count++;
               movieGroupMap[v].link_count++;
             }
