@@ -19,7 +19,7 @@
                   <span :style="{ background: paletteScale.range()[key] }" class="color"></span>
                   <span class="limit">{{ b }}</span>
                 </span>
-                    <span class="legend">
+                <span class="legend">
                   <span :style="{ background: paletteScale.range()[paletteScale.clusters().length] }" class="color"></span>
                 </span>
               </template>

@@ -77,11 +77,10 @@ module.exports = function (app, router) {
           },
           {
             $sort: {
-              value: -1
+              value:  1
             }
           }
-        ]).toArray()
-          .then(data => res.json(data));
+        ]).toArray().then(data => res.json(data));
     });
   });
 };
