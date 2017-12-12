@@ -1,9 +1,27 @@
 <template>
-  <section class="map">
+  <section class="highlight">
     <div class="container" data-aos="fade">
       <div class="row">
         <div class="col">
           <h3>Actors network</h3>
+          <p>This network shows how many common actors movies shares.</p>
+          <div class="row">
+            <div class="col-12 col-md-4">
+              <label for="network-actor-filter">Actors count</label>
+              <input type="range" min="1" max="20" step="1" v-model="actorCount" v-on:change="onChangeReloadGraph" id="network-actor-filter" class="slider" />
+              <input type="number" min="1" max="20" v-model="actorCount" v-on:change="onChangeReloadGraph"/>
+            </div>
+            <div class="col-12 col-md-4">
+              <label for="network-crew-filter">Crew count</label>
+              <input type="range" min="1" max="10" step="1" v-model="crewCount" v-on:change="onChangeReloadGraph" id="network-crew-filter" class="slider">
+              <input type="number" min="1" max="10" v-model="crewCount" v-on:change="onChangeReloadGraph"/>
+            </div>
+            <div class="col-12 col-md-4">
+              <label for="network-movie-filter">Movie count</label>
+              <input type="range" min="1" max="100" step="1" v-model="movieCount" v-on:change="onChangeReloadGraph" id="network-movie-filter" class="slider">
+              <input type="number" min="1" max="100" v-model="movieCount" v-on:change="onChangeReloadGraph"/>
+            </div>
+          </div>
           <svg ref="actorsNetwork"></svg>
           <div class="row">
             <div class="col col-sm-6">
@@ -12,26 +30,9 @@
             <div class="col col-sm-6 network-choices">
               <input type="checkbox" id="show-movies-name-checkbox" v-model="showMovieName" v-on:change="onMovieNameChangeVisibility">
               <label for="show-movies-name-checkbox">Show movies name</label>
-              <br/>
 
               <input type="checkbox" id="show-actor-name-checkbox" v-model="showActorName" v-on:change="onActorNameChangeVisibility">
               <label for="show-actor-name-checkbox">Show actors name</label>
-              <br/>
-
-              <input type="range" min="1" max="20" step="1" v-model="actorCount" v-on:change="onChangeReloadGraph">
-              <input type="number" min="1" max="20" v-model="actorCount" v-on:change="onChangeReloadGraph"/>
-              <label>Actors count</label>
-              <br/>
-
-              <input type="range" min="1" max="10" step="1" v-model="crewCount" v-on:change="onChangeReloadGraph">
-              <input type="number" min="1" max="10" v-model="crewCount" v-on:change="onChangeReloadGraph"/>
-              <label>Crew count</label>
-              <br/>
-
-              <input type="range" min="1" max="100" step="1" v-model="movieCount" v-on:change="onChangeReloadGraph">
-              <input type="number" min="1" max="100" v-model="movieCount" v-on:change="onChangeReloadGraph"/>
-              <label>Movie count</label>
-              <br/>
             </div>
           </div>
         </div>
@@ -65,7 +66,7 @@
       expand: {},
       network: null,
       fillColor: null,
-      height: 400,
+      height: 500,
       actorCount: 5,
       crewCount: 1,
       movieCount: 30
@@ -445,6 +446,8 @@
 </script>
 
 <style lang="scss" ref="stylesheet/scss">
+  @import '../scss/vars';
+
   svg.actors-network {
     display: block;
     margin: 0 auto;
@@ -474,6 +477,15 @@
       stroke-opacity: 0.5;
       pointer-events: none;
     }
+  }
+
+  input[type=number] {
+    background: lighten($global-color-background, 2);
+    border: none;
+    border-radius: 2px;
+    color: white;
+    padding: 2px 3px;
+    width: 50px;
   }
 
   .network-choices {

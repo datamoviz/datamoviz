@@ -12,7 +12,7 @@
     props: ['budget', 'revenue', 'imdb'],
     methods: {
       loadChart() {
-        const colors = ['#2f76b5', '#009946'];
+        const colors = ['#2f76b5', '#dd618c'];
 
         c3.generate({
           bindto: this.$refs.chart,

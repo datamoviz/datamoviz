@@ -34,7 +34,7 @@
               :value="movie.imdb_nb_reviews"
               :max="popularity" :size="100"
               :title="'Popularity'"
-              :thresholds="[1, 40]"
+              :thresholds="[popularity/8, popularity/2]"
               :imdb="movie.imdb_id"></gauge-chart>
       <profitability-chart
               v-if="movie.budget !== 0 && movie.revenue !== undefined"
@@ -42,8 +42,7 @@
               :revenue="movie.revenue"
               :imdb="movie.imdb_id"></profitability-chart>
       <p><span v-for="genre, key in movie.genres" :key="key"><span class="badge">{{ genre }}</span>&nbsp;</span>
-        <small v-if="movie.homepage"><a :href="movie.homepage" title="Go to movie official website">{{ movie.homepage }}</a></small>
-        <br />&nbsp;</p>
+        <small v-if="movie.homepage"><a :href="movie.homepage" title="Go to movie official website">{{ movie.homepage }}</a></small></p>
       <small><span class="badge badge-info">Pro tip</span> Press <span class="badge">esc</span> to deselect the movie.</small>
   </div>
   </div>
@@ -167,12 +166,9 @@
         vertical-align: initial;
       }
 
-      p {
+      p.overview {
         text-align: justify;
-
-        &.overview {
-          margin-bottom: 10px;
-        }
+        margin-bottom: 10px;
       }
     }
 
