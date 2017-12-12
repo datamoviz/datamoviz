@@ -24,27 +24,26 @@ module.exports = function (app, router) {
 
     const credits = await db.collection('credits').find({ id: { $in:moviesIds } }, { crew:1, cast: 1, id: 1 }).toArray();
 
-    // let actors = await db.collection('credits').distinct('cast.name', { id: { $in:moviesIds }});
-    let actors = await db.collection('credits').aggregate([
-      { "$match": { "id": {"$in":moviesIds} } },
-      { "$unwind": "$cast" },
-       { "$match": { "cast.order": {"$lt":MAIN_ACTORS_COUNT} } }, // Get only main actors
-       { "$project": {"cast.name":1} },
-       { "$group": { "_id": "$cast.name" }}
-     ]).map(x => { return {name: x._id, group: ACTOR_GROUP}}).toArray()
+    // let actors = await db.collection('credits').aggregate([
+    //   { "$match": { "id": {"$in":moviesIds} } },
+    //   { "$unwind": "$cast" },
+    //    { "$match": { "cast.order": {"$lt":MAIN_ACTORS_COUNT} } }, // Get only main actors
+    //    { "$project": {"cast.name":1} },
+    //    { "$group": { "_id": "$cast.name" }}
+    //  ]).map(x => { return {name: x._id, group: ACTOR_GROUP}}).toArray()
+    //
+    //
+    // let directors = await db.collection('credits').aggregate([
+    //   { "$match": { "id": {"$in":moviesIds} } },
+    //   { "$unwind": "$crew" },
+    //    { "$match": { "crew.job": {"$in":["Director"]} } },
+    //    { "$project": {"crew":1} },
+    //    { "$group": { "_id": "$crew.name" }}
+    //  ]).map(x => { return {name: x._id, job:'Director', group:DIRECTOR_GROUP}}).toArray()
+    //
+    // let people = actors.concat(directors);
 
-
-    let directors = await db.collection('credits').aggregate([
-      { "$match": { "id": {"$in":moviesIds} } },
-      { "$unwind": "$crew" },
-       { "$match": { "crew.job": {"$in":["Director"]} } },
-       { "$project": {"crew":1} },
-       { "$group": { "_id": "$crew.name" }}
-     ]).map(x => { return {name: x._id, job:'Director', group:DIRECTOR_GROUP}}).toArray()
-
-    let people = actors.concat(directors);
-
-    let actorsLinks = getActorsNetworkLink(credits, people);
+    let actorsLinks = getActorsNetworkLink(credits);
     actors = actorsLinks.actors
     links = actorsLinks.links
 
