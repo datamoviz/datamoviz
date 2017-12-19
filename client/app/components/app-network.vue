@@ -375,7 +375,7 @@
           .on('drag', dragged)
           .on('end', dragended));
 
-        this.node.append('title').text(d => removeMovieIdFromActorName(d.name) || this.graph.moviesTitleMap[d.movieGroup].title);
+        this.node.append('title').text(d => removeMovieIdFromActorName(d.name) || `${this.graph.moviesTitleMap[d.movieGroup].title} (${this.graph.moviesTitleMap[d.movieGroup].genre})`);
         this.node.merge(this.node);
 
         this.textg.selectAll('*').remove(); // Small fix TODO: fix the correct way
