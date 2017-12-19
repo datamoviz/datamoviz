@@ -25,7 +25,7 @@
           <svg ref="actorsNetwork"></svg>
           <div class="row">
             <div class="col col-sm-6">
-              <small><span class="badge badge-info">Pro tip</span> You can click on a movie cluster to show its cast.</small>
+              <small><span class="badge badge-info">Pro tip</span> You can click on a movie cluster to show its cast. Movies are colored by genre and crew members by role.</small>
             </div>
             <div class="col col-sm-6 network-choices">
               <input type="checkbox" id="show-movies-name-checkbox" v-model="showMovieName" v-on:change="onMovieNameChangeVisibility">
@@ -338,7 +338,7 @@
         this.node.enter().append('circle')
           .attr('class', d => `node${d.size ? '' : ' leaf'}`)
           .attr('r', d => (d.size ? d.size + dr : dr + 1))
-          .style('fill', d => (d.group ? this.fillColor(d.group) : this.fillColor(d.movieGroup)))
+          .style('fill', d => (d.group ? this.fillColor(d.group) : this.fillColor(this.graph.moviesTitleMap[d.movieGroup].genre)))
           .on('click', (d) => {
             this.expand[d.movieGroup] = !this.expand[d.movieGroup];
             this.updateGraph();
