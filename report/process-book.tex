@@ -34,7 +34,7 @@
 Overview, motivation, target audience
 + Questions: What am I trying to show this my viz?
 
-DataMoviz is a web application, that aims at involving the user in a unique experience to discover all the movies from The Movie Database in a very interactive way. This project allows to get impressive insights on the filmmaking scence scince the beginnings.
+DataMoviz is a web application, that aims at involving the user in a unique experience to discover all the movies from The Movie DB in a very interactive way. This project allows to get impressive insights on the filmmaking scence scince the beginnings.
 What motivates us the most is the opportunity that we have to deliver fascinating observations from raw data through data visualization.
 There is no restrictions in term of prerequisites for our target audience. Anyone who has interest in movies is heartly welcomed to visit DataMoviz!
 
@@ -49,9 +49,30 @@ Related work and inspiration
 Presentation of the dataset.
 Dataset: where does it come from, what are you processing steps?
 
-\subsection{Data previsualization}
+The dataset comes from The Movie DB (TMDB). Data was imported
+using a list of all IMDB movie IDs by querying the dedicated API provided by TMDB.
+From this data, we built a MongoDB database. Usage of a NoSQL database was extremely
+useful as it allows to write very permissive queries and allows data to be into
+an inconsistent state (if some data is missing).
+
+We exposed this database through an API we wrote using ExpressJS. We created dedicated
+endpoint for all concerned components requiring to query the data in a specific way.
+From the subset of filters sent by the frontend application, the backend creates
+query to get, aggregate or count data, and returns the result.
+
+\subsection{Data preview}
 
 Exploratory data analysis: What viz have you used to gain insights on the data?
+
+\subsubsection{Existing visualizations}
+
+- IMDB itself
+- The movie db
+- Other graphs
+
+\subsubsection{Data previsualization}
+
+Tableau (screens + explanations).
 
 \section{Solution's build-up}
 
@@ -59,6 +80,35 @@ Exploratory data analysis: What viz have you used to gain insights on the data?
 
 Designs: What are the different visualizations you considered? Justify the design decisions you made using the perceptual and design principles.
 Did you deviate from your initial proposal?
+
+\subsubsection{Initial ideas}
+
+The current implementation of the website is already very close to the initial idea.
+We wanted to build an application which allows to see how the movies production
+system (e.g. Hollywood) has evolved over time. To do so, we wanted to import and
+use movies data to show, for instance, which actors are the biggest influencers of
+the movie scene. We wanted to focus on a map and graph display to outline evolution
+and repartition of movies accross countries and over time, and show the relationship between
+them.
+
+We eventually discovered that the data itself brings a lot of different insights
+about movies repartition and evolution over time. We started to build a lot of different
+visualizations and decided to shift our project to a filter-oriented application
+in which you can (re-)discover the movie scene based on the filters you choosed.
+This allows to learn a lot from specific genres, time periods or countries, ...
+Thanks to all these filters, users can filter data to thousand of different
+ways and make easy comparisons. We decided consequently to change from a single
+view to a more modular and decoupled application with a lot of different components
+displaying one specific subset of the movie scene.
+
+We improved our dataset by calculating the more used words in movie titles, and
+added a movie slider so users can see which popular movies are matching the entered
+criteria. This allows to learn how movie distribution evolved over time, but also
+to discover new movies.
+
+\subsubsection{Incremental improvements}
+
+TBD
 
 \subsection{Implementation}
 
