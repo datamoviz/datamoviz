@@ -126,6 +126,13 @@
           return name ? name.split('_')[0] : null;
         }
 
+        function getCrewTitle(d) {
+          if (d.name) {
+            return `${removeMovieIdFromActorName(d.name)} (${d.job || d.character})`;
+          }
+          return null;
+        }
+
         // constructs the network to visualize
         function getNetwork(data, prev, index, expand) {
           expand = expand || {};
@@ -375,7 +382,7 @@
           .on('drag', dragged)
           .on('end', dragended));
 
-        this.node.append('title').text(d => removeMovieIdFromActorName(d.name) || `${this.graph.moviesTitleMap[d.movieGroup].title} (${this.graph.moviesTitleMap[d.movieGroup].genre})`);
+        this.node.append('title').text(d => getCrewTitle(d) || `${this.graph.moviesTitleMap[d.movieGroup].title} (${this.graph.moviesTitleMap[d.movieGroup].genre})`);
         this.node.merge(this.node);
 
         this.textg.selectAll('*').remove(); // Small fix TODO: fix the correct way

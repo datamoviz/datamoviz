@@ -69,9 +69,10 @@ function getActorsNetworkLink(credits) {
       } else {
         actorsMoviesMap.set(actorObject1.name, [movieCast.id]);
       }
-
       actorsObjects.push({
         name: actorObject1.name + '_' + movieCast.id,
+        character: actorObject1.character,
+        job: actorObject1.job,
         group: actorObject1.job ? DIRECTOR_GROUP : ACTOR_GROUP,
         movieGroup: movieCast.id
       })
