@@ -2,7 +2,11 @@
 \usepackage[utf8]{inputenc}
 \usepackage{fullpage}
 \usepackage[T1]{fontenc}
+%\usepackage[hidelinks]{hyperref}
 \usepackage{graphicx}
+
+\setlength{\parskip}{0.4\baselineskip}
+\setlength{\parindent}{0cm}
 
 \begin{document}
 \title{Process book: DataMoviz}
@@ -10,7 +14,17 @@
 
 \maketitle
 
+\begin{figure}[ht]
+   \centering
+   \includegraphics[width=1\linewidth]{../docs/mockup.png}
+  \caption{Datamoviz mockup}
+\end{figure}
+
+\setlength{\parskip}{0.1\baselineskip}
+
 \tableofcontents
+
+\setlength{\parskip}{0.4\baselineskip}
 
 \newpage
 
@@ -20,8 +34,8 @@
 Overview, motivation, target audience
 + Questions: What am I trying to show this my viz?
 \subsubsection*{Overview,motivation, target audience}
-DataMoviz is a web application, that aims at involving the user in a unique experience to discover all the movies from The Movie Database in a very interactive way. This project allows to get impressive insights on the filmmaking scence scince the beginnings.\\
-What motivates us the most is the opportunity that we have to deliver fascinating observations from raw data through data visualization.\\
+DataMoviz is a web application, that aims at involving the user in a unique experience to discover all the movies from The Movie Database in a very interactive way. This project allows to get impressive insights on the filmmaking scence scince the beginnings.
+What motivates us the most is the opportunity that we have to deliver fascinating observations from raw data through data visualization.
 There is no restrictions in term of prerequisites for our target audience. Anyone who has interest in movies is heartly welcomed to visit DataMoviz!
 \subsection{Related work and inspiration}
 
@@ -49,6 +63,87 @@ Did you deviate from your initial proposal?
 
 Implementation: Describe the intent and functionality of the interactive visualizations you implemented. Provide clear and well-referenced images showing the key design and interaction elements.
 
+\subsubsection{Presentation of the visualizations}
+
+In the section, we will present each visualizations and the insights it brings about
+the data.
+
+\paragraph{The interactive map} The interactive map is the first visible visualization
+when going into the DataMoviz website. This visualization allows to understand which
+countries are more involved into producing movies, considering all the applied filters
+by other application components (see section \ref{sec:filtering-system} for more details).
+When the user selects a country, the maps colors changes smoothly to let the user understand
+the transition between the two states (unfiltered to filtered state). The figure \ref{fig:country-selection}
+shows what happened after selecting a country (here, we click on France).
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=1\linewidth]{images/screens/country-selection.png}
+  \caption{Initial draft of the filtering system} \label{fig:country-selection}
+\end{figure}
+
+As we can see, all colors intensity decreases. We still have a lot of colored countries
+because all of them participated into the production of some movies together with
+french production companies. The color intensity allows the user to understand which
+countries were more involved in movie production based on current filters, but also
+which countries co-producted movies with France the most (here: Italy and Germany).
+
+\paragraph{The time evolution}
+
+The second visualization is a time evolution display and selector. It allows to
+see how the number of produced movies evolved over time, considering the selected
+filters. Users can interact with this visualization by selecting a time range in the
+subchart. This will create a new filter and restrict all gathered data for a specific
+time range. All the other visualizations will be updated consequently.
+
+\subsubsection{The filtering system} \label{sec:filtering-system}
+
+The filtering system is one of the most important features of this visualization.
+It allows to interact with the page and asserts all graphs are in the same, coherent
+state. Without this system, we would not have been able to provide an visually interactve web application.
+It was built by creating a single shared state between all components. Each
+time a component needs to update the filters, it triggers an event which is relayed
+to the other components. The following draft (fig. \ref{fig:draft-filtering}) describes how the system works. It
+was designed before implementation.
+
+\begin{figure}[ht]
+   \centering
+   \includegraphics[width=0.6\linewidth]{images/drafts/filtering-system.jpg}
+  \caption{Initial draft of the filtering system} \label{fig:draft-filtering}
+\end{figure}
+
+When the user interacts with the page (for instance by clicking on a country of the
+map visualization (1)), a filters update event is triggered into an event bus (2). This
+event contains all the filters that are currently applied to get the data for each
+component of the application, with a small addition or deletion (the example shows
+a constraint in which the user wants to filter to get only movies produced in France).
+The event bus redirects this filter to all the subscribed components (3). Based on
+the new filters, they may query the API (4) to get refreshed data, and can update
+the visualization consequently (5).
+
+This system was designed following simple computational thinking concepts, by reducing
+the filtering complexity into a single, atomic and context-independant (stateless) set of filters which can be directly
+passed to MongoDB to filter data. We also take leverage of HTTP cache to allow
+the browser to cache all previous requests, so we potentially avoid overhelming processing
+on the server.
+
+The final implementation is presented in the figure \ref{fig:screen-filtering}.
+This event happened after clicking on France country. We can see in the event
+payload that an object is stored. This object describes a MongoDB filtering subquery
+which may be used by the server to restrict which data should be used during data
+selection, aggregation or counting.
+
+\begin{figure}[ht]
+   \centering
+   \includegraphics[width=1\linewidth]{images/screens/filtering-example.png}
+  \caption{An emitted event when selecting a country} \label{fig:screen-filtering}
+\end{figure}
+
+This system is extremely flexible as it allows to add new components without impacting
+other parts of the application. Each new component should only define two behaviors (if required):
+filters update triggering after user interaction, and filters update handling when
+another component udpates the filters.
+
 \subsection{Evaluation}
 
 Evaluation: What did you learn about the data by using your visualizations? How did you answer your questions? How well does your visualization work, and how could you further improve it?
@@ -61,5 +156,9 @@ Evaluation: What did you learn about the data by using your visualizations? How 
   \item Respect for others’ ideas – did they encourage others to contribute their ideas?
   \item Flexibility – were they flexible when disagreements occurred?
 \end{itemize}
+
+\setlength{\parskip}{0.1\baselineskip}
+
+\listoffigures
 
 \end{document}
