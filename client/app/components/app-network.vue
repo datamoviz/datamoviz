@@ -399,11 +399,25 @@
         this.nodeg = svg.append('g');
         this.textg = svg.append('g').attr('class', 'texts');
 
-
         svg.attr('opacity', 1e-6)
           .transition()
           .duration(1000)
           .attr('opacity', 1);
+
+        function zoomed() {
+          this.hullg.attr('transform', d3.event.transform);
+          this.linkg.attr('transform', d3.event.transform);
+          this.nodeg.attr('transform', d3.event.transform);
+          this.textg.attr('transform', d3.event.transform);
+        }
+
+        const zoom = d3.zoom()
+          .scaleExtent([1, 40])
+          .translateExtent([[-100, -100], [this.width + 90, this.height + 100]])
+          .on('zoom', zoomed.bind(this));
+
+        svg.call(zoom);
+
 
         this.updateGraph();
         this.updateGraph();
