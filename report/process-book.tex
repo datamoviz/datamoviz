@@ -170,6 +170,50 @@ In figure \ref{fig:time-selection}, we can see that black and white movies were
 also selected. This allows to see how black and white movie distribution evolved
 for the time range.
 
+
+
+\paragraph{The actors network}
+The actor network is a vizualization that shows how the movies are related.
+The relation is based on the shared crew members. Each movie and actor are represented as
+a node in the graph. The color of this one indicates its genre or role respectively.
+A edge is defined between two movies if and only if there is at least one actor who
+plays in both of them. Its width is correlated to the number of actor in common.
+By default, the graph only shows the movies : to show the crew who plays for one,
+we can just click on the corresponding node.
+
+\begin{figure}[ht]
+   \centering
+   \includegraphics[width=0.6\linewidth]{images/screens/network-movies.png}
+  \caption{The network} \label{fig:screen-network-movies}
+\end{figure}
+
+\begin{figure}[ht]
+   \centering
+   \includegraphics[width=0.6\linewidth]{images/screens/network-movies-shutter-island.png}
+  \caption{The network with Shutter Island actors} \label{fig:screen-network-movies-shutter-island}
+\end{figure}
+
+The network is highly interactive and customizable. We can change the number of actors,
+crew members and movies to show thanks to some sliders. SHOW PICTURE.
+This vizualization offers a way to navigate freely through the network : it supports panning,
+and zooming. If the user got lost, he can reset easily to default zoom by pressing a button, no
+need to reload the page. Moreover, if we are not interested to having the movies name and actors name shown,
+we can turn it off. Anyway, a hover on a node shows this information in addition to
+indicating the role or genre respectively for actors and movies.
+
+\begin{figure}[ht]
+   \centering
+   \includegraphics[width=0.6\linewidth]{images/screens/network-movies-checkboxes.png}
+  \caption{The checkboxes} \label{fig:screen-network-movies-checkboxes}
+\end{figure}
+
+\begin{figure}[ht]
+   \centering
+   \includegraphics[width=0.6\linewidth]{images/screens/network-movies-sliders.png}
+  \caption{The sliders} \label{fig:screen-network-movies-sliders}
+\end{figure}
+
+
 \subsubsection{The filtering system} \label{sec:filtering-system}
 
 The filtering system is one of the most important features of this visualization.
