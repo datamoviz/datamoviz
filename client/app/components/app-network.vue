@@ -34,7 +34,7 @@
               <input type="checkbox" id="show-actor-name-checkbox" v-model="showActorName" v-on:change="onActorNameChangeVisibility">
               <label for="show-actor-name-checkbox">Show actors name</label>
 
-              <button v-on:click="resetZoom">Reset zoom</button>
+              <a id="reset-zoom-buton" href="#" @click.prevent="resetZoom"><i class="fa fa-search-minus"></i></a>
             </div>
           </div>
         </div>
@@ -531,5 +531,9 @@
 
   .network-choices {
     text-align: right;
+  }
+
+  #reset-zoom-buton {
+    color: $global-color-primary
   }
 </style>
