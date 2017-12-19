@@ -2,8 +2,7 @@
 .DS_Store
 build/
 node_modules/
-report
+report/process-book.*
 !report/process-book.tex
 !report/process-book.pdf
-!report/images
 .idea/

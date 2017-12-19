@@ -2,7 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{fullpage}
 \usepackage[T1]{fontenc}
-%\usepackage[hidelinks]{hyperref}
+\usepackage[hidelinks]{hyperref}
 \usepackage{graphicx}
 
 \setlength{\parskip}{0.4\baselineskip}
@@ -33,10 +33,11 @@
 \subsection{Overview, motivation and target audience}
 Overview, motivation, target audience
 + Questions: What am I trying to show this my viz?
-\subsubsection*{Overview,motivation, target audience}
+
 DataMoviz is a web application, that aims at involving the user in a unique experience to discover all the movies from The Movie Database in a very interactive way. This project allows to get impressive insights on the filmmaking scence scince the beginnings.
 What motivates us the most is the opportunity that we have to deliver fascinating observations from raw data through data visualization.
 There is no restrictions in term of prerequisites for our target audience. Anyone who has interest in movies is heartly welcomed to visit DataMoviz!
+
 \subsection{Related work and inspiration}
 
 Related work and inspiration
@@ -68,6 +69,19 @@ Implementation: Describe the intent and functionality of the interactive visuali
 In the section, we will present each visualizations and the insights it brings about
 the data.
 
+\paragraph{The filters bar and panel} The filter panel allows user to see which filters are
+currently applied on page's data (fig. \ref{fig:filters-bar}). It permits to give an explicit explanation about
+page current's sate. Users are allowed to remove a filter by clicking on the small
+cross near the filter description. They can also click on \textit{more filters} to
+have access to three more page filters: filtering by keywords in movie titles,
+by genre and by content rating.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=1\linewidth]{images/screens/filters-bar-example.png}
+  \caption{The filters bar with applied filters} \label{fig:filters-bar}
+\end{figure}
+
 \paragraph{The interactive map} The interactive map is the first visible visualization
 when going into the DataMoviz website. This visualization allows to understand which
 countries are more involved into producing movies, considering all the applied filters
@@ -93,14 +107,24 @@ which countries co-producted movies with France the most (here: Italy and German
 The second visualization is a time evolution display and selector. It allows to
 see how the number of produced movies evolved over time, considering the selected
 filters. Users can interact with this visualization by selecting a time range in the
-subchart. This will create a new filter and restrict all gathered data for a specific
+subchart (fig. \ref{fig:time-selection}). This will create a new filter and restrict all gathered data for a specific
 time range. All the other visualizations will be updated consequently.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=1\linewidth]{images/screens/time-selection.png}
+  \caption{The time evolution with 1970-1985 period selected} \label{fig:time-selection}
+\end{figure}
+
+In figure \ref{fig:time-selection}, we can see that black and white movies were
+also selected. This allows to see how black and white movie distribution evolved
+for the time range.
 
 \subsubsection{The filtering system} \label{sec:filtering-system}
 
 The filtering system is one of the most important features of this visualization.
 It allows to interact with the page and asserts all graphs are in the same, coherent
-state. Without this system, we would not have been able to provide an visually interactve web application.
+state. Without this system, we would not have been able to provide an visually interactive web application.
 It was built by creating a single shared state between all components. Each
 time a component needs to update the filters, it triggers an event which is relayed
 to the other components. The following draft (fig. \ref{fig:draft-filtering}) describes how the system works. It
@@ -122,9 +146,9 @@ the new filters, they may query the API (4) to get refreshed data, and can updat
 the visualization consequently (5).
 
 This system was designed following simple computational thinking concepts, by reducing
-the filtering complexity into a single, atomic and context-independant (stateless) set of filters which can be directly
+the filtering complexity into a single, atomic and context-independent (stateless) set of filters which can be directly
 passed to MongoDB to filter data. We also take leverage of HTTP cache to allow
-the browser to cache all previous requests, so we potentially avoid overhelming processing
+the browser to cache all previous requests, so we potentially avoid overwhelming processing
 on the server.
 
 The final implementation is presented in the figure \ref{fig:screen-filtering}.
@@ -158,6 +182,8 @@ Evaluation: What did you learn about the data by using your visualizations? How 
 \end{itemize}
 
 \setlength{\parskip}{0.1\baselineskip}
+
+\newpage
 
 \listoffigures
 
