@@ -15,11 +15,11 @@ module.exports = function (app, router) {
     MOVIE_COUNT = req.query.movieCount ? parseInt(req.query.movieCount) : 30
 
     const db = await app.get('mongoClient');
-    const moviesIds = await db.collection('movies').find(filters, {id:1, _id:0, original_title:1}).sort({imdb_nb_reviews:-1}).limit(MOVIE_COUNT).map(x => x.id).toArray();
-    const moviesTitles = await db.collection('movies').find(filters, {id:1, _id:0, original_title:1}).sort({imdb_nb_reviews:-1}).limit(MOVIE_COUNT).toArray()
+    const moviesIds = await db.collection('movies').find(filters, {id:1, _id:0, title:1}).sort({imdb_nb_reviews:-1}).limit(MOVIE_COUNT).map(x => x.id).toArray();
+    const moviesTitles = await db.collection('movies').find(filters, {id:1, _id:0, title:1, genres:1}).sort({imdb_nb_reviews:-1}).limit(MOVIE_COUNT).toArray()
     const moviesTitleMap = {}
     moviesTitles.forEach(movie => {
-      moviesTitleMap[movie.id] = movie.original_title
+      moviesTitleMap[movie.id] = {title: movie.title, genre: movie.genres[0]}
     })
 
     const credits = await db.collection('credits').find({ id: { $in:moviesIds } }, { crew:1, cast: 1, id: 1 }).toArray();

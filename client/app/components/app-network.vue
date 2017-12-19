@@ -25,7 +25,7 @@
           <svg ref="actorsNetwork"></svg>
           <div class="row">
             <div class="col col-sm-6">
-              <small><span class="badge badge-info">Pro tip</span> You can click on a movie cluster to show its cast.</small>
+              <small><span class="badge badge-info">Pro tip</span> You can click on a movie cluster to show its cast. Movies are colored by genre and crew members by role.</small>
             </div>
             <div class="col col-sm-6 network-choices">
               <input type="checkbox" id="show-movies-name-checkbox" v-model="showMovieName" v-on:change="onMovieNameChangeVisibility">
@@ -338,7 +338,7 @@
         this.node.enter().append('circle')
           .attr('class', d => `node${d.size ? '' : ' leaf'}`)
           .attr('r', d => (d.size ? d.size + dr : dr + 1))
-          .style('fill', d => (d.group ? this.fillColor(d.group) : this.fillColor(d.movieGroup)))
+          .style('fill', d => (d.group ? this.fillColor(d.group) : this.fillColor(this.graph.moviesTitleMap[d.movieGroup].genre)))
           .on('click', (d) => {
             this.expand[d.movieGroup] = !this.expand[d.movieGroup];
             this.updateGraph();
@@ -367,7 +367,7 @@
           .on('drag', dragged)
           .on('end', dragended));
 
-        this.node.append('title').text(d => removeMovieIdFromActorName(d.name) || this.graph.moviesTitleMap[d.movieGroup]);
+        this.node.append('title').text(d => removeMovieIdFromActorName(d.name) || this.graph.moviesTitleMap[d.movieGroup].title);
         this.node.merge(this.node);
 
         this.textg.selectAll('*').remove(); // Small fix TODO: fix the correct way
@@ -377,7 +377,7 @@
           .attr('class', d => (d.size ? 'text-movie' : 'text-actor'))
           .attr('x', 8)
           .attr('y', '.31em')
-          .text(d => removeMovieIdFromActorName(d.name) || this.graph.moviesTitleMap[d.movieGroup])
+          .text(d => removeMovieIdFromActorName(d.name) || this.graph.moviesTitleMap[d.movieGroup].title)
           .merge(this.text);
 
         simulation.nodes(this.network.nodes);
@@ -399,11 +399,25 @@
         this.nodeg = svg.append('g');
         this.textg = svg.append('g').attr('class', 'texts');
 
-
         svg.attr('opacity', 1e-6)
           .transition()
           .duration(1000)
           .attr('opacity', 1);
+
+        function zoomed() {
+          this.hullg.attr('transform', d3.event.transform);
+          this.linkg.attr('transform', d3.event.transform);
+          this.nodeg.attr('transform', d3.event.transform);
+          this.textg.attr('transform', d3.event.transform);
+        }
+
+        const zoom = d3.zoom()
+          .scaleExtent([1, 40])
+          .translateExtent([[-100, -100], [this.width + 90, this.height + 100]])
+          .on('zoom', zoomed.bind(this));
+
+        svg.call(zoom);
+
 
         this.updateGraph();
         this.updateGraph();
