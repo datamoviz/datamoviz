@@ -4,6 +4,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[hidelinks]{hyperref}
 \usepackage{graphicx}
+\usepackage{subcaption}
 
 \setlength{\parskip}{0.4\baselineskip}
 \setlength{\parindent}{0cm}
@@ -16,7 +17,7 @@
 
 \begin{figure}[ht]
    \centering
-   \includegraphics[width=1\linewidth]{../docs/mockup.png}
+   \includegraphics[width=0.7\linewidth]{../docs/mockup.png}
   \caption{Datamoviz mockup}
 \end{figure}
 
@@ -27,6 +28,8 @@
 \setlength{\parskip}{0.4\baselineskip}
 
 \newpage
+
+\textit{You may zoom on all figures using your pdf reader.}
 
 \section{Presentation of DataMoviz}
 
@@ -99,7 +102,22 @@ This allows to learn a lot from specific genres, time periods or countries, ...
 Thanks to all these filters, users can filter data to thousand of different
 ways and make easy comparisons. We decided consequently to change from a single
 view to a more modular and decoupled application with a lot of different components
-displaying one specific subset of the movie scene.
+displaying one specific subset of the movie scene. The main idea is to bring an
+overview and allow the user to deep into the data to get more details about movies (fig. \label{fig:draft-overview}).
+
+\begin{figure}[ht]
+ \begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[height=0.78\linewidth]{images/drafts/overview-1.jpg}
+  \caption{First page with movies overview}
+ \end{subfigure}\hfill
+ \begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[height=0.78\linewidth]{images/drafts/overview-2.jpg}
+  \caption{Second page with movie details}
+ \end{subfigure}
+ \caption{A first draft of the application} \label{fig:draft-overview}
+\end{figure}
 
 We improved our dataset by calculating the more used words in movie titles, and
 added a movie slider so users can see which popular movies are matching the entered
