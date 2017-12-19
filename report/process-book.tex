@@ -197,7 +197,10 @@ a node in the graph. The color of this one indicates its genre or role respectiv
 A edge is defined between two movies if and only if there is at least one actor who
 plays in both of them. Its width is correlated to the number of actor in common.
 By default, the graph only shows the movies : to show the crew who plays for one,
-we can just click on the corresponding node.
+we can just click on the corresponding node. For example in figure \ref{fig:screen-network-movies-shutter-island},
+we clicked on the "Shutter Island" node to make its actors visible. These latters are fully connected
+because they plays on the same movies. There is edge too from actor to movie which indicated that he also
+plays on linked movie.
 
 \begin{figure}[ht]
    \centering
@@ -212,23 +215,23 @@ we can just click on the corresponding node.
 \end{figure}
 
 The network is highly interactive and customizable. We can change the number of actors,
-crew members and movies to show thanks to some sliders. SHOW PICTURE.
+crew members and movies to show thanks to some sliders (see figure \ref{fig:screen-network-movies-sliders}).
 This vizualization offers a way to navigate freely through the network : it supports panning,
 and zooming. If the user got lost, he can reset easily to default zoom by pressing a button, no
 need to reload the page. Moreover, if we are not interested to having the movies name and actors name shown,
-we can turn it off. Anyway, a hover on a node shows this information in addition to
+we can turn it off (figure \ref{fig:screen-network-movies-checkboxes}). Anyway, a hover on a node shows this information in addition to
 indicating the role or genre respectively for actors and movies.
-
-\begin{figure}[ht]
-   \centering
-   \includegraphics[width=0.6\linewidth]{images/screens/network-movies-checkboxes.png}
-  \caption{The checkboxes} \label{fig:screen-network-movies-checkboxes}
-\end{figure}
 
 \begin{figure}[ht]
    \centering
    \includegraphics[width=0.6\linewidth]{images/screens/network-movies-sliders.png}
   \caption{The sliders} \label{fig:screen-network-movies-sliders}
+\end{figure}
+
+\begin{figure}[ht]
+   \centering
+   \includegraphics[width=0.6\linewidth]{images/screens/network-movies-checkboxes.png}
+  \caption{The checkboxes} \label{fig:screen-network-movies-checkboxes}
 \end{figure}
 
 
