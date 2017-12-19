@@ -130,7 +130,7 @@
 
         function getCrewTitle(d) {
           if (d.name) {
-            return `${removeMovieIdFromActorName(d.name)} (${d.job || d.character || ''})`;
+            return `${removeMovieIdFromActorName(d.name)} ${(d.job || d.character) ? `as ${d.job || d.character}` : ''}`;
           }
           return null;
         }
