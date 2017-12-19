@@ -28,6 +28,8 @@
               <small><span class="badge badge-info">Pro tip</span> You can click on a movie cluster to show its cast. Movies are colored by genre and crew members by role.</small>
             </div>
             <div class="col col-sm-6 network-choices">
+              <span v-if="loading"><i class="fa fa-spinner fa-spin fa-fw"></i> Loading </span>
+
               <input type="checkbox" id="show-movies-name-checkbox" v-model="showMovieName" v-on:change="onMovieNameChangeVisibility">
               <label for="show-movies-name-checkbox">Show movies name</label>
 
@@ -74,7 +76,8 @@
       actorCount: 5,
       crewCount: 1,
       movieCount: 30,
-      zoom: null
+      zoom: null,
+      loading: true
     }),
     methods: {
       resetZoom() {
@@ -99,12 +102,14 @@
         });
       },
       loadGraphData(filters) {
+        this.loading = true;
         filters = filters || {};
 
         return fetch(`${process.env.SERVER_URL}/network?filters=${encodeURI(JSON.stringify(filters))}&movieCount=${this.movieCount}
                                                                         &actorCount=${this.actorCount}&crewCount=${this.crewCount}`)
           .then(response => response.json())
           .then((json) => {
+            this.loading = false;
             this.graph = json;
           });
       },
