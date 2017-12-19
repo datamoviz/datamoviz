@@ -367,7 +367,7 @@
           .on('drag', dragged)
           .on('end', dragended));
 
-        this.node.append('title').text(d => removeMovieIdFromActorName(d.name) || this.graph.moviesTitleMap[d.movieGroup]);
+        this.node.append('title').text(d => removeMovieIdFromActorName(d.name) || this.graph.moviesTitleMap[d.movieGroup].title);
         this.node.merge(this.node);
 
         this.textg.selectAll('*').remove(); // Small fix TODO: fix the correct way
@@ -377,7 +377,7 @@
           .attr('class', d => (d.size ? 'text-movie' : 'text-actor'))
           .attr('x', 8)
           .attr('y', '.31em')
-          .text(d => removeMovieIdFromActorName(d.name) || this.graph.moviesTitleMap[d.movieGroup])
+          .text(d => removeMovieIdFromActorName(d.name) || this.graph.moviesTitleMap[d.movieGroup].title)
           .merge(this.text);
 
         simulation.nodes(this.network.nodes);
