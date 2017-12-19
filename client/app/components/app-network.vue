@@ -33,6 +33,8 @@
 
               <input type="checkbox" id="show-actor-name-checkbox" v-model="showActorName" v-on:change="onActorNameChangeVisibility">
               <label for="show-actor-name-checkbox">Show actors name</label>
+
+              <button v-on:click="resetZoom">Reset zoom</button>
             </div>
           </div>
         </div>
@@ -42,6 +44,7 @@
 </template>
 
 <script>
+  // Collapsible node adapted from : http://bl.ocks.org/GerHobbelt/3071239
   import * as d3 from 'd3';
   import {
     FILTERS_UPDATE
@@ -65,13 +68,20 @@
       textg: {},
       expand: {},
       network: null,
-      fillColor: null,
+      fillColorMovie: null,
+      fillColorActor: null,
       height: 500,
       actorCount: 5,
       crewCount: 1,
-      movieCount: 30
+      movieCount: 30,
+      zoom: null
     }),
     methods: {
+      resetZoom() {
+        d3.select(this.$refs.actorsNetwork).transition()
+          .duration(750)
+          .call(this.zoom.transform, d3.zoomIdentity);
+      },
       onChangeReloadGraph() {
         this.loadGraphData(this.filters).then(() => {
           this.updateGraph();
@@ -116,6 +126,13 @@
 
         function removeMovieIdFromActorName(name) {
           return name ? name.split('_')[0] : null;
+        }
+
+        function getCrewTitle(d) {
+          if (d.name) {
+            return `${removeMovieIdFromActorName(d.name)} (${d.job || d.character || ''})`;
+          }
+          return null;
         }
 
         // constructs the network to visualize
@@ -294,6 +311,15 @@
             .distance((link) => {
               const n1 = link.source;
               const n2 = link.target;
+              // larger distance for bigger groups:
+              // both between single nodes and _other_ groups (where size of own node group still counts),
+              // and between two group nodes.
+              //
+              // reduce distance for groups with very few outer links,
+              // again both in expanded and grouped form, i.e. between individual nodes of a group and
+              // nodes of another group or other group node or between two group nodes.
+              //
+              // The latter was done to keep the single-link groups ('blue', rose, ...) close.
               return 30 +
                 Math.min(
                   20 * Math.min(
@@ -307,7 +333,7 @@
                   100
                 );
             }))
-          .force('charge', d3.forceManyBody().strength(-300))
+          .force('charge', d3.forceManyBody().strength(-600))
           .force('center', d3.forceCenter(this.width / 2, this.height / 2))
           .force('y', d3.forceY())
           .force('x', d3.forceX())
@@ -319,7 +345,7 @@
           .enter().append('path')
           .attr('class', 'hull')
           .attr('d', drawCluster)
-          .style('fill', d => this.fillColor(d.movieGroup))
+          .style('fill', d => this.fillColorMovie(this.graph.moviesTitleMap[d.movieGroup].genre))
           .on('click', (d) => {
             this.expand[d.movieGroup] = false;
             this.updateGraph();
@@ -338,7 +364,7 @@
         this.node.enter().append('circle')
           .attr('class', d => `node${d.size ? '' : ' leaf'}`)
           .attr('r', d => (d.size ? d.size + dr : dr + 1))
-          .style('fill', d => (d.group ? this.fillColor(d.group) : this.fillColor(this.graph.moviesTitleMap[d.movieGroup].genre)))
+          .style('fill', d => (d.group ? this.fillColorActor(d.group) : this.fillColorMovie(this.graph.moviesTitleMap[d.movieGroup].genre)))
           .on('click', (d) => {
             this.expand[d.movieGroup] = !this.expand[d.movieGroup];
             this.updateGraph();
@@ -367,7 +393,7 @@
           .on('drag', dragged)
           .on('end', dragended));
 
-        this.node.append('title').text(d => removeMovieIdFromActorName(d.name) || this.graph.moviesTitleMap[d.movieGroup].title);
+        this.node.append('title').text(d => getCrewTitle(d) || `${this.graph.moviesTitleMap[d.movieGroup].title} (${this.graph.moviesTitleMap[d.movieGroup].genre})`);
         this.node.merge(this.node);
 
         this.textg.selectAll('*').remove(); // Small fix TODO: fix the correct way
@@ -388,14 +414,15 @@
         this.onActorNameChangeVisibility();
       },
       drawGraph(svg) {
-        this.fillColor = d3.scaleOrdinal(d3.schemeCategory20);
+        this.fillColorMovie = d3.scaleOrdinal(d3.schemeCategory20);
+        this.fillColorActor = d3.scaleOrdinal(d3.schemeCategory20);
 
         svg
           .attr('width', this.width)
           .attr('height', this.height);
 
         this.hullg = svg.append('g');
-        this.linkg = svg.append('g').attr('stroke', 'white');
+        this.linkg = svg.append('g').attr('stroke', '#d6d6d6');
         this.nodeg = svg.append('g');
         this.textg = svg.append('g').attr('class', 'texts');
 
@@ -411,18 +438,16 @@
           this.textg.attr('transform', d3.event.transform);
         }
 
-        const zoom = d3.zoom()
+        this.zoom = d3.zoom()
           .scaleExtent([1, 40])
           .translateExtent([[-100, -100], [this.width + 90, this.height + 100]])
           .on('zoom', zoomed.bind(this));
 
-        svg.call(zoom);
-
+        svg.call(this.zoom);
 
         this.updateGraph();
         this.updateGraph();
       },
-
       updateWindow() {
         const e = document.documentElement;
         const g = document.getElementsByTagName('body')[0];
