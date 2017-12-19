@@ -33,6 +33,8 @@
 
               <input type="checkbox" id="show-actor-name-checkbox" v-model="showActorName" v-on:change="onActorNameChangeVisibility">
               <label for="show-actor-name-checkbox">Show actors name</label>
+
+              <button v-on:click="resetZoom">Reset zoom</button>
             </div>
           </div>
         </div>
@@ -69,9 +71,15 @@
       height: 500,
       actorCount: 5,
       crewCount: 1,
-      movieCount: 30
+      movieCount: 30,
+      zoom: null
     }),
     methods: {
+      resetZoom() {
+        d3.select(this.$refs.actorsNetwork).transition()
+          .duration(750)
+          .call(this.zoom.transform, d3.zoomIdentity);
+      },
       onChangeReloadGraph() {
         this.loadGraphData(this.filters).then(() => {
           this.updateGraph();
@@ -411,18 +419,16 @@
           this.textg.attr('transform', d3.event.transform);
         }
 
-        const zoom = d3.zoom()
+        this.zoom = d3.zoom()
           .scaleExtent([1, 40])
           .translateExtent([[-100, -100], [this.width + 90, this.height + 100]])
           .on('zoom', zoomed.bind(this));
 
-        svg.call(zoom);
-
+        svg.call(this.zoom);
 
         this.updateGraph();
         this.updateGraph();
       },
-
       updateWindow() {
         const e = document.documentElement;
         const g = document.getElementsByTagName('body')[0];
