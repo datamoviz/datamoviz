@@ -17,7 +17,7 @@
 
 \begin{figure}[ht]
    \centering
-   \includegraphics[width=0.7\linewidth]{../docs/mockup.png}
+   \includegraphics[width=0.8\linewidth]{../docs/mockup.png}
   \caption{Datamoviz mockup}
 \end{figure}
 
@@ -103,7 +103,7 @@ Thanks to all these filters, users can filter data to thousand of different
 ways and make easy comparisons. We decided consequently to change from a single
 view to a more modular and decoupled application with a lot of different components
 displaying one specific subset of the movie scene. The main idea is to bring an
-overview and allow the user to deep into the data to get more details about movies (fig. \label{fig:draft-overview}).
+overview and allow the user to deep into the data to get more details about movies (fig. \ref{fig:draft-overview}).
 
 \begin{figure}[ht]
  \begin{subfigure}{.5\textwidth}
@@ -150,6 +150,9 @@ by genre and by content rating.
   \caption{The filters bar with applied filters} \label{fig:filters-bar}
 \end{figure}
 
+This panel also supports keyboard shortcuts such as \textit{esc} to empty the search
+field and to close the filters section.
+
 \paragraph{The interactive map} The interactive map is the first visible visualization
 when going into the DataMoviz website. This visualization allows to understand which
 countries are more involved into producing movies, considering all the applied filters
@@ -188,30 +191,33 @@ In figure \ref{fig:time-selection}, we can see that black and white movies were
 also selected. This allows to see how black and white movie distribution evolved
 for the time range.
 
+\paragraph{The movies statistics}
 
-
-\paragraph{The actors network}
-The actor network is a vizualization that shows how the movies are related.
+\paragraph{The actors network} The actor network is a vizualization that shows how the movies are related (fig. \ref{fig:screen-network-movies}).
 The relation is based on the shared crew members. Each movie and actor are represented as
 a node in the graph. The color of this one indicates its genre or role respectively.
 A edge is defined between two movies if and only if there is at least one actor who
 plays in both of them. Its width is correlated to the number of actor in common.
 By default, the graph only shows the movies : to show the crew who plays for one,
 we can just click on the corresponding node. For example in figure \ref{fig:screen-network-movies-shutter-island},
-we clicked on the "Shutter Island" node to make its actors visible. These latters are fully connected
+we clicked on the \textit{Shutter Island} node to make its actors visible. These latters are fully connected
 because they plays on the same movies. There is edge too from actor to movie which indicated that he also
 plays on linked movie.
 
-\begin{figure}[ht]
-   \centering
-   \includegraphics[width=0.6\linewidth]{images/screens/network-movies.png}
-  \caption{The network} \label{fig:screen-network-movies}
-\end{figure}
+\paragraph{The movies details}
 
 \begin{figure}[ht]
-   \centering
-   \includegraphics[width=0.6\linewidth]{images/screens/network-movies-shutter-island.png}
-  \caption{The network with Shutter Island actors} \label{fig:screen-network-movies-shutter-island}
+ \begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[height=0.55\linewidth]{images/screens/network-movies.png}
+  \caption{The initial network} \label{fig:screen-network-movies}
+ \end{subfigure}\hfill
+ \begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[height=0.55\linewidth]{images/screens/network-movies-shutter-island.png}
+  \caption{The network after clicking on Shutter Island movie} \label{fig:screen-network-movies-shutter-island}
+ \end{subfigure}
+ \caption{Two views of the network}
 \end{figure}
 
 The network is highly interactive and customizable. We can change the number of actors,
@@ -223,17 +229,16 @@ we can turn it off (figure \ref{fig:screen-network-movies-checkboxes}). Anyway, 
 indicating the role or genre respectively for actors and movies.
 
 \begin{figure}[ht]
-   \centering
-   \includegraphics[width=0.6\linewidth]{images/screens/network-movies-sliders.png}
-  \caption{The sliders} \label{fig:screen-network-movies-sliders}
+  \centering
+  \includegraphics[height=0.04\linewidth]{images/screens/network-movies-sliders.png}
+  \caption{Sliders allowing to change the quantity of displayed data} \label{fig:screen-network-movies-sliders}
 \end{figure}
 
 \begin{figure}[ht]
-   \centering
-   \includegraphics[width=0.6\linewidth]{images/screens/network-movies-checkboxes.png}
-  \caption{The checkboxes} \label{fig:screen-network-movies-checkboxes}
+  \centering
+  \includegraphics[height=0.04\linewidth]{images/screens/network-movies-checkboxes.png}
+  \caption{Checkboxes allowing to tweak the display} \label{fig:screen-network-movies-checkboxes}
 \end{figure}
-
 
 \subsubsection{The filtering system} \label{sec:filtering-system}
 
@@ -281,11 +286,39 @@ selection, aggregation or counting.
 This system is extremely flexible as it allows to add new components without impacting
 other parts of the application. Each new component should only define two behaviors (if required):
 filters update triggering after user interaction, and filters update handling when
-another component udpates the filters.
+another component updates the filters.
 
 \subsection{Evaluation}
 
 Evaluation: What did you learn about the data by using your visualizations? How did you answer your questions? How well does your visualization work, and how could you further improve it?
+
+We discovered a lot of insights about movies when working on the visualization. The
+first interesting fact was about the most used words in movie titles. It was interesting
+to see which words are more used in titles, and how it evolved over time. We also
+discovered how each decade of the twentieth century influenced the movie genres,
+such as westerns during the 40's or porn movies during the 70's. Our visualization
+also brought some interesting informations about outliers, such as the four movies
+from Greenland.
+
+Our questions was to better understand how movies distribution and the movie scene
+in general evolved over time. Thanks to the plenty of implemented filters, we were
+able to understand how countries were involved in producing movies over time or by
+comparing time ranges, and the graph permitted to outline some unexpected relationships
+between movies through its casting.
+
+The final visualization works as expected. Some further improvements could be to
+improve the overall performances, by implementing a requests aggretator in charge
+to delay and aggregate the requests to the server into an unique one. This would
+reduce data traffic between the page and the server, and would improve overall performances.
+
+The application was built using mobile-first methodology. This allowed us to bring
+a fully responsive and working application on mobile phones. Expected performances
+are however high and some smarthpones may have some difficulties to render the full
+page. This may be improved by limiting the number of queries to the server as stated
+in the previous paragraph, or limiting SVG usage (which would require some important changes).
+Finally, some minor improvements could be done to enhance compatibility with other browsers.
+On the visualization side, more visualization could be added, and more features such
+as movies suggestions, random filters selections and more interactions with the charts.
 
 \section{Peer assessment}
 
