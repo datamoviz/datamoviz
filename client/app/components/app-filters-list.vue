@@ -79,6 +79,7 @@
           if (filters.hasOwnProperty(key1)) {
             const key2 = this.filters[key][1];
             if (Array.isArray(key2)) {
+              this.values[key] = []
               key2.forEach(subKey => {
                 this.values[key].push(filters[key1][subKey]);
               })

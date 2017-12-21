@@ -444,7 +444,7 @@
         }
 
         this.zoom = d3.zoom()
-          .scaleExtent([1, 40])
+          .scaleExtent([1, 2])
           .translateExtent([[-100, -100], [this.width + 90, this.height + 100]])
           .on('zoom', zoomed.bind(this));
 
@@ -541,5 +541,10 @@
   a .fa.fa-search-minus {
     color: $global-color-primary;
     margin-left: 5px;
+  }
+
+  small {
+    line-height: 1.4em;
+    display: inline-block;
   }
 </style>

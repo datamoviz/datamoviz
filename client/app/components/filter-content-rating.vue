@@ -60,8 +60,13 @@
   @import '../scss/vars';
   .multiselect__option.multiselect__option--highlight,
   .multiselect__option.multiselect__option--highlight::after,
-  .multiselect__tag {
+  .multiselect__tag,
+  .multiselect__tag-icon:focus,
+  .multiselect__tag-icon:hover {
     background: $global-color-primary;
+  }
+  .multiselect__tag-icon::after {
+    color: darken($global-color-primary, 10);
   }
   .multiselect__tag {
     overflow-y: hidden;
