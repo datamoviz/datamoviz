@@ -2,8 +2,8 @@
 
 Deep into the movie scene:
 - Website: https://datamoviz.dldl.io
-- Process Book: https://github.com/datamoviz/datamoviz/raw/master/report/process-book.pdf
-- Screencast: TBD
+- Process Book: https://github.com/datamoviz/datamoviz/raw/master/report/process_book.pdf
+- Screencast: https://youtu.be/Rmye0OENRP4
 - Data: https://github.com/datamoviz/datamoviz-data
 
 <a href="https://datamoviz.dldl.io">
