@@ -7,7 +7,7 @@ const router = express.Router();
 
 app.use(cors());
 
-app.set('mongoClient', MongoClient.connect(${DATABASE_CONNECTION_STRING}));
+app.set('mongoClient', MongoClient.connect(process.env.DATABASE_CONNECTION_STRING));
 
 app.use(function(req, res, next) {
   res.setHeader('Cache-Control', 'max-age=86400');
