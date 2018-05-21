@@ -6,3 +6,5 @@ report/process-book.*
 !report/process-book.tex
 !report/process-book.pdf
 .idea/
+app.yaml
+dispatch.yaml

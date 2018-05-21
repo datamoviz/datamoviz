@@ -7,7 +7,7 @@ const router = express.Router();
 
 app.use(cors());
 
-app.set('mongoClient', MongoClient.connect('mongodb://localhost:27017/datamoviz-api'));
+app.set('mongoClient', MongoClient.connect(${DATABASE_CONNECTION_STRING}));
 
 app.use(function(req, res, next) {
   res.setHeader('Cache-Control', 'max-age=86400');
@@ -23,4 +23,5 @@ require('./network')(app, router);
 
 app.use('/api', router);
 
-app.listen(3030, () => console.log('Server listening on port 3030!'));
+const port = process.env.PORT || 3030;
+app.listen(port, () => console.log(`Server listening on port ${port}`));
